@@ -35,6 +35,13 @@ namespace AirportSimulationSystem
                 grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
                 grid.RowStyles.Add(new RowStyle(SizeType.Percent, 50f));
             }
+
+            richTextBox1.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox2.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox3.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox4.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox5.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox6.SelectionAlignment = HorizontalAlignment.Center;
         }
 
         private void LoadTopologyButton_Click(object sender, EventArgs e)
