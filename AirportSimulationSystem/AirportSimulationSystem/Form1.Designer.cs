@@ -52,6 +52,7 @@
             this.backToTopologyPage = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.FlightNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsArrival = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RegistrationDeskNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -340,6 +341,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FlightNumber,
+            this.Title,
             this.IsArrival,
             this.Time,
             this.RegistrationDeskNumber,
@@ -369,6 +371,12 @@
             this.FlightNumber.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.FlightNumber.Width = 90;
             // 
+            // Title
+            // 
+            this.Title.HeaderText = "Название";
+            this.Title.Name = "Title";
+            this.Title.Width = 120;
+            // 
             // IsArrival
             // 
             this.IsArrival.HeaderText = "Прибытие / Отбытие";
@@ -391,23 +399,18 @@
             this.RegistrationDeskNumber.MinimumWidth = 100;
             this.RegistrationDeskNumber.Name = "RegistrationDeskNumber";
             this.RegistrationDeskNumber.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.RegistrationDeskNumber.Width = 180;
+            this.RegistrationDeskNumber.Width = 170;
             // 
             // City
             // 
+            this.City.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.City.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.City.HeaderText = "Город";
-            this.City.Items.AddRange(new object[] {
-            "Москва",
-            "Санкт-Петербург",
-            "Магадан",
-            "Воронеж",
-            "Таганрог"});
             this.City.MinimumWidth = 100;
             this.City.Name = "City";
             this.City.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.City.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.City.Width = 150;
+            this.City.Width = 120;
             // 
             // Airplane
             // 
@@ -422,15 +425,15 @@
             this.Airplane.Name = "Airplane";
             this.Airplane.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Airplane.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Airplane.Width = 150;
+            this.Airplane.Width = 120;
             // 
             // SoldTicketsAmount
             // 
-            this.SoldTicketsAmount.HeaderText = "Количество проданных билетов";
+            this.SoldTicketsAmount.HeaderText = "Кол-во проданных билетов";
             this.SoldTicketsAmount.MinimumWidth = 150;
             this.SoldTicketsAmount.Name = "SoldTicketsAmount";
             this.SoldTicketsAmount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.SoldTicketsAmount.Width = 250;
+            this.SoldTicketsAmount.Width = 200;
             // 
             // SimulationPage
             // 
@@ -462,7 +465,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.65979F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 186F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 156F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 166F));
             this.tableLayoutPanel1.Location = new System.Drawing.Point(20, 430);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -561,6 +564,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ASS 1.0 - Airport Simulation System";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.MainPage.ResumeLayout(false);
@@ -594,13 +598,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button backToMainPageButton;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FlightNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IsArrival;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Time;
-        private System.Windows.Forms.DataGridViewTextBoxColumn RegistrationDeskNumber;
-        private System.Windows.Forms.DataGridViewComboBoxColumn City;
-        private System.Windows.Forms.DataGridViewComboBoxColumn Airplane;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SoldTicketsAmount;
         private System.Windows.Forms.Button goToScheduleButton;
         private System.Windows.Forms.Button backToTopologyPage;
         private System.Windows.Forms.Button goToSimulationPagebutton;
@@ -616,5 +613,13 @@
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FlightNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IsArrival;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RegistrationDeskNumber;
+        private System.Windows.Forms.DataGridViewComboBoxColumn City;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Airplane;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SoldTicketsAmount;
     }
 }
