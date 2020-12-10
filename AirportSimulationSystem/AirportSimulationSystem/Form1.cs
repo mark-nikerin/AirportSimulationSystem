@@ -26,6 +26,15 @@ namespace AirportSimulationSystem
                 FileName = "Выберите файл с топологией",
                 Filter = "Файлы JSON (*.json)|*.json"
             };
+
+            grid.RowCount = 10;
+            grid.ColumnCount = 10;
+
+            for(int i = 0; i < 10; i++)
+            {
+                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
+                grid.RowStyles.Add(new RowStyle(SizeType.Percent, 50f));
+            }
         }
 
         private void LoadTopologyButton_Click(object sender, EventArgs e)
@@ -54,37 +63,73 @@ namespace AirportSimulationSystem
         private void BackButton_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedIndex--;
-        } 
+        }
 
 
+        private void grid_MouseClick(object sender, MouseEventArgs e)
+        {
+            int[] widths = grid.GetColumnWidths();
+            int[] heights = grid.GetRowHeights();
+
+            int col = -1;
+            int left = e.X;
+            for (int i = 0; i < widths.Length; i++)
+            {
+                if (left < widths[i])
+                {
+                    col = i;
+
+                    break;
+                }
+                else
+                    left -= widths[i];
+            }
+
+            int row = -1;
+            int top = e.Y;
+            for (int i = 0; i < heights.Length; i++)
+            {
+                if (top < heights[i])
+                {
+                    row = i;
+                    break;
+                }
+                else
+                    top -= heights[i];
+            }
+            PictureBox pb = new PictureBox();
+            pb.BackColor = Color.Red;
+            grid.Controls.Add(pb, col, row);
+
+        }
 
 
         /*private Rectangle _rec = new Rectangle(0, 0, 50, 50);
 
-        protected override void OnPaint(PaintEventArgs e) {
-            e.Graphics.FillRectangle(Brushes.Aquamarine, _rec);
-        }
-        protected override void OnMouseDown(MouseEventArgs e) {
-            if (e.Button != MouseButtons.Left && IsInsideWindow(e)) return;
-            _rec = new Rectangle(e.X, e.Y, 50, 50);
-            Invalidate();
-        }
-        protected override void OnMouseMove(MouseEventArgs e) {
-            if (e.Button != MouseButtons.Left && IsInsideWindow(e)) return;
-            _rec = new Rectangle(e.X - _rec.Width / 2, e.Y - _rec.Height / 2, 50, 50);
-            Invalidate();
-        }
+    //    protected override void OnPaint(PaintEventArgs e) {
+    //        e.Graphics.FillRectangle(Brushes.Aquamarine, _rec);
+    //    }
+    //    protected override void OnMouseDown(MouseEventArgs e) {
+    //        if (e.Button != MouseButtons.Left && IsInsideWindow(e)) return;
+    //        _rec = new Rectangle(e.X, e.Y, 50, 50);
+    //        Invalidate();
+    //    }
+    //    protected override void OnMouseMove(MouseEventArgs e) {
+    //        if (e.Button != MouseButtons.Left && IsInsideWindow(e)) return;
+    //        _rec = new Rectangle(e.X - _rec.Width / 2, e.Y - _rec.Height / 2, 50, 50);
+    //        Invalidate();
+    //    }
 
-        private bool IsInsideWindow(MouseEventArgs e)
-        {
-            var cursor = new Tuple<int,int>(e.X, e.Y);
+    //    private bool IsInsideWindow(MouseEventArgs e)
+    //    {
+    //        var cursor = new Tuple<int,int>(e.X, e.Y);
 
-            return cursor switch
-            {
-                var (x, y) when x <= Width && y <= Height => true,
-                var (x, y) when x >= 0 && y >= 0 => true,
-                var (_, _) => false 
-            };
-        }*/
+    //        return cursor switch
+    //        {
+    //            var (x, y) when x <= Width && y <= Height => true,
+    //            var (x, y) when x >= 0 && y >= 0 => true,
+    //            var (_, _) => false 
+    //        };
+    //    }*/
     }
 }
