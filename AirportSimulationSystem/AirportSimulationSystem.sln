@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportSimulationSystem", "AirportSimulationSystem\AirportSimulationSystem.csproj", "{87CE44CC-4CFD-4BE0-8F54-2F3D87FE65B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportSimulationSystem", "AirportSimulationSystem\AirportSimulationSystem.csproj", "{73532522-3500-4289-8767-5D340F901C9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +8,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{87CE44CC-4CFD-4BE0-8F54-2F3D87FE65B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87CE44CC-4CFD-4BE0-8F54-2F3D87FE65B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87CE44CC-4CFD-4BE0-8F54-2F3D87FE65B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87CE44CC-4CFD-4BE0-8F54-2F3D87FE65B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73532522-3500-4289-8767-5D340F901C9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73532522-3500-4289-8767-5D340F901C9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73532522-3500-4289-8767-5D340F901C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73532522-3500-4289-8767-5D340F901C9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
