@@ -39,6 +39,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.MainPage = new System.Windows.Forms.TabPage();
             this.TopologyPage = new System.Windows.Forms.TabPage();
+            this.grid = new System.Windows.Forms.TableLayoutPanel();
             this.topologyName = new System.Windows.Forms.Label();
             this.goToScheduleButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -69,11 +70,18 @@
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.backToScheduleButton = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox5 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox6 = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.MainPage.SuspendLayout();
             this.TopologyPage.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SchedulePage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SimulationPage.SuspendLayout();
@@ -81,9 +89,9 @@
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // label1
-            // 
+            //
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label1.Location = new System.Drawing.Point(365, 366);
@@ -92,9 +100,9 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Создайте топологию аэропорта с нуля \nили загрузите готовый файл";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+            //
             // goToTopologyButton
-            // 
+            //
             this.goToTopologyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.goToTopologyButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.goToTopologyButton.FlatAppearance.BorderSize = 0;
@@ -108,9 +116,9 @@
             this.goToTopologyButton.Text = "Создать";
             this.goToTopologyButton.UseVisualStyleBackColor = false;
             this.goToTopologyButton.Click += new System.EventHandler(this.NextButton_Click);
-            // 
+            //
             // LoadTopologyButton
-            // 
+            //
             this.LoadTopologyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.LoadTopologyButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LoadTopologyButton.FlatAppearance.BorderSize = 0;
@@ -124,18 +132,18 @@
             this.LoadTopologyButton.Text = "Загрузить";
             this.LoadTopologyButton.UseVisualStyleBackColor = false;
             this.LoadTopologyButton.Click += new System.EventHandler(this.LoadTopologyButton_Click);
-            // 
+            //
             // pictureBox1
-            // 
+            //
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(521, 186);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(184, 149);
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
-            // 
+            //
             // tabControl1
-            // 
+            //
             this.tabControl1.Controls.Add(this.MainPage);
             this.tabControl1.Controls.Add(this.TopologyPage);
             this.tabControl1.Controls.Add(this.SchedulePage);
@@ -147,9 +155,9 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1263, 688);
             this.tabControl1.TabIndex = 4;
-            // 
+            //
             // MainPage
-            // 
+            //
             this.MainPage.BackColor = System.Drawing.Color.White;
             this.MainPage.Controls.Add(this.LoadTopologyButton);
             this.MainPage.Controls.Add(this.pictureBox1);
@@ -162,10 +170,11 @@
             this.MainPage.Size = new System.Drawing.Size(1255, 660);
             this.MainPage.TabIndex = 0;
             this.MainPage.Text = "Главная";
-            // 
+            //
             // TopologyPage
-            // 
+            //
             this.TopologyPage.BackColor = System.Drawing.Color.White;
+            this.TopologyPage.Controls.Add(this.grid);
             this.TopologyPage.Controls.Add(this.topologyName);
             this.TopologyPage.Controls.Add(this.goToScheduleButton);
             this.TopologyPage.Controls.Add(this.panel1);
@@ -174,9 +183,47 @@
             this.TopologyPage.Size = new System.Drawing.Size(1255, 660);
             this.TopologyPage.TabIndex = 3;
             this.TopologyPage.Text = "Топология";
-            // 
+            //
+            // grid
+            //
+            this.grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grid.AutoSize = true;
+            this.grid.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.grid.BackColor = System.Drawing.Color.White;
+            this.grid.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.grid.ColumnCount = 10;
+            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.746836F));
+            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.25316F));
+            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.grid.Location = new System.Drawing.Point(450, 57);
+            this.grid.Name = "grid";
+            this.grid.RowCount = 10;
+            this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.Size = new System.Drawing.Size(760, 541);
+            this.grid.TabIndex = 5;
+            this.grid.MouseClick += new System.Windows.Forms.MouseEventHandler(this.grid_MouseClick);
+            //
             // topologyName
-            // 
+            //
             this.topologyName.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.topologyName.Location = new System.Drawing.Point(450, 24);
             this.topologyName.Name = "topologyName";
@@ -184,9 +231,9 @@
             this.topologyName.TabIndex = 4;
             this.topologyName.Text = "Название топологии";
             this.topologyName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+            //
             // goToScheduleButton
-            // 
+            //
             this.goToScheduleButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.goToScheduleButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.goToScheduleButton.FlatAppearance.BorderSize = 0;
@@ -200,9 +247,9 @@
             this.goToScheduleButton.Text = "Далее";
             this.goToScheduleButton.UseVisualStyleBackColor = false;
             this.goToScheduleButton.Click += new System.EventHandler(this.NextButton_Click);
-            // 
+            //
             // panel1
-            // 
+            //
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.panel1.Controls.Add(this.backToMainPageButton);
             this.panel1.Controls.Add(this.label2);
@@ -211,9 +258,9 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(444, 657);
             this.panel1.TabIndex = 1;
-            // 
+            //
             // backToMainPageButton
-            // 
+            //
             this.backToMainPageButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.backToMainPageButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.backToMainPageButton.FlatAppearance.BorderSize = 0;
@@ -227,9 +274,9 @@
             this.backToMainPageButton.Text = "Назад";
             this.backToMainPageButton.UseVisualStyleBackColor = false;
             this.backToMainPageButton.Click += new System.EventHandler(this.BackButton_Click);
-            // 
+            //
             // label2
-            // 
+            //
             this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label2.Location = new System.Drawing.Point(53, 24);
@@ -238,9 +285,15 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Расположите объекты на \r\nсетке топологии аэропорта";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+            //
             // groupBox1
-            // 
+            //
+            this.groupBox1.Controls.Add(this.richTextBox6);
+            this.groupBox1.Controls.Add(this.richTextBox5);
+            this.groupBox1.Controls.Add(this.richTextBox4);
+            this.groupBox1.Controls.Add(this.richTextBox3);
+            this.groupBox1.Controls.Add(this.richTextBox2);
+            this.groupBox1.Controls.Add(this.richTextBox1);
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox1.Location = new System.Drawing.Point(8, 98);
@@ -249,9 +302,9 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Элементы топологии";
-            // 
+            //
             // SchedulePage
-            // 
+            //
             this.SchedulePage.BackColor = System.Drawing.Color.White;
             this.SchedulePage.Controls.Add(this.comboBox1);
             this.SchedulePage.Controls.Add(this.textBox1);
@@ -264,9 +317,9 @@
             this.SchedulePage.Size = new System.Drawing.Size(1255, 660);
             this.SchedulePage.TabIndex = 1;
             this.SchedulePage.Text = "Расписание";
-            // 
+            //
             // comboBox1
-            // 
+            //
             this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
@@ -279,9 +332,9 @@
             this.comboBox1.TabIndex = 6;
             this.comboBox1.Text = "   Город";
             this.comboBox1.UseWaitCursor = true;
-            // 
+            //
             // textBox1
-            // 
+            //
             this.textBox1.BackColor = System.Drawing.SystemColors.Window;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -291,9 +344,9 @@
             this.textBox1.PlaceholderText = "   Начните печатать для поиска";
             this.textBox1.Size = new System.Drawing.Size(995, 25);
             this.textBox1.TabIndex = 5;
-            // 
+            //
             // goToSimulationPagebutton
-            // 
+            //
             this.goToSimulationPagebutton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.goToSimulationPagebutton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.goToSimulationPagebutton.FlatAppearance.BorderSize = 0;
@@ -307,9 +360,9 @@
             this.goToSimulationPagebutton.Text = "Далее";
             this.goToSimulationPagebutton.UseVisualStyleBackColor = false;
             this.goToSimulationPagebutton.Click += new System.EventHandler(this.NextButton_Click);
-            // 
+            //
             // backToTopologyPage
-            // 
+            //
             this.backToTopologyPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.backToTopologyPage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.backToTopologyPage.FlatAppearance.BorderSize = 0;
@@ -323,9 +376,9 @@
             this.backToTopologyPage.Text = "Назад";
             this.backToTopologyPage.UseVisualStyleBackColor = false;
             this.backToTopologyPage.Click += new System.EventHandler(this.BackButton_Click);
-            // 
+            //
             // dataGridView1
-            // 
+            //
             this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -362,47 +415,47 @@
             this.dataGridView1.RowTemplate.Height = 25;
             this.dataGridView1.Size = new System.Drawing.Size(1102, 459);
             this.dataGridView1.TabIndex = 0;
-            // 
+            //
             // FlightNumber
-            // 
+            //
             this.FlightNumber.HeaderText = "№ Рейса";
             this.FlightNumber.MinimumWidth = 20;
             this.FlightNumber.Name = "FlightNumber";
             this.FlightNumber.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.FlightNumber.Width = 90;
-            // 
+            //
             // Title
-            // 
+            //
             this.Title.HeaderText = "Название";
             this.Title.Name = "Title";
             this.Title.Width = 120;
-            // 
+            //
             // IsArrival
-            // 
+            //
             this.IsArrival.HeaderText = "Прибытие / Отбытие";
             this.IsArrival.MinimumWidth = 100;
             this.IsArrival.Name = "IsArrival";
             this.IsArrival.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.IsArrival.Width = 160;
-            // 
+            //
             // Time
-            // 
+            //
             this.Time.HeaderText = "Время";
             this.Time.MinimumWidth = 20;
             this.Time.Name = "Time";
             this.Time.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Time.Width = 80;
-            // 
+            //
             // RegistrationDeskNumber
-            // 
+            //
             this.RegistrationDeskNumber.HeaderText = "№ Стойки регистрации";
             this.RegistrationDeskNumber.MinimumWidth = 100;
             this.RegistrationDeskNumber.Name = "RegistrationDeskNumber";
             this.RegistrationDeskNumber.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.RegistrationDeskNumber.Width = 170;
-            // 
+            //
             // City
-            // 
+            //
             this.City.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.City.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.City.HeaderText = "Город";
@@ -411,9 +464,9 @@
             this.City.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.City.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.City.Width = 120;
-            // 
+            //
             // Airplane
-            // 
+            //
             this.Airplane.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.Airplane.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Airplane.HeaderText = "Самолёт";
@@ -426,17 +479,17 @@
             this.Airplane.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Airplane.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Airplane.Width = 120;
-            // 
+            //
             // SoldTicketsAmount
-            // 
+            //
             this.SoldTicketsAmount.HeaderText = "Кол-во проданных билетов";
             this.SoldTicketsAmount.MinimumWidth = 150;
             this.SoldTicketsAmount.Name = "SoldTicketsAmount";
             this.SoldTicketsAmount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.SoldTicketsAmount.Width = 200;
-            // 
+            //
             // SimulationPage
-            // 
+            //
             this.SimulationPage.BackColor = System.Drawing.Color.White;
             this.SimulationPage.Controls.Add(this.groupBox2);
             this.SimulationPage.Controls.Add(this.backToScheduleButton);
@@ -445,9 +498,9 @@
             this.SimulationPage.Size = new System.Drawing.Size(1255, 660);
             this.SimulationPage.TabIndex = 2;
             this.SimulationPage.Text = "Моделирование";
-            // 
+            //
             // groupBox2
-            // 
+            //
             this.groupBox2.Controls.Add(this.tableLayoutPanel1);
             this.groupBox2.Controls.Add(this.panel2);
             this.groupBox2.Location = new System.Drawing.Point(197, 24);
@@ -456,9 +509,9 @@
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Моделирование";
-            // 
+            //
             // tableLayoutPanel1
-            // 
+            //
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 5;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.34021F));
@@ -473,9 +526,9 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(827, 49);
             this.tableLayoutPanel1.TabIndex = 1;
-            // 
+            //
             // panel2
-            // 
+            //
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.label3);
@@ -486,9 +539,9 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(866, 68);
             this.panel2.TabIndex = 0;
-            // 
+            //
             // button1
-            // 
+            //
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.FlatAppearance.BorderSize = 0;
@@ -501,9 +554,9 @@
             this.button1.TabIndex = 6;
             this.button1.Text = "СТАРТ";
             this.button1.UseVisualStyleBackColor = false;
-            // 
+            //
             // label3
-            // 
+            //
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label3.Location = new System.Drawing.Point(515, 14);
@@ -511,34 +564,34 @@
             this.label3.Size = new System.Drawing.Size(51, 30);
             this.label3.TabIndex = 3;
             this.label3.Text = "1,0X";
-            // 
+            //
             // trackBar1
-            // 
+            //
             this.trackBar1.Location = new System.Drawing.Point(88, 19);
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(422, 45);
             this.trackBar1.TabIndex = 2;
             this.trackBar1.Value = 3;
-            // 
+            //
             // dateTimePicker2
-            // 
+            //
             this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dateTimePicker2.Location = new System.Drawing.Point(773, 19);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.ShowUpDown = true;
             this.dateTimePicker2.Size = new System.Drawing.Size(74, 25);
             this.dateTimePicker2.TabIndex = 1;
-            // 
+            //
             // dateTimePicker1
-            // 
+            //
             this.dateTimePicker1.Location = new System.Drawing.Point(600, 19);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.ShowUpDown = true;
             this.dateTimePicker1.Size = new System.Drawing.Size(147, 25);
             this.dateTimePicker1.TabIndex = 0;
-            // 
+            //
             // backToScheduleButton
-            // 
+            //
             this.backToScheduleButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.backToScheduleButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.backToScheduleButton.FlatAppearance.BorderSize = 0;
@@ -552,9 +605,79 @@
             this.backToScheduleButton.Text = "Назад";
             this.backToScheduleButton.UseVisualStyleBackColor = false;
             this.backToScheduleButton.Click += new System.EventHandler(this.BackButton_Click);
-            // 
+            //
+            // richTextBox1
+            //
+            this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(196)))), ((int)(((byte)(196)))));
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.richTextBox1.ForeColor = System.Drawing.Color.White;
+            this.richTextBox1.Location = new System.Drawing.Point(75, 32);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(250, 45);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "ВПП";
+            //
+            // richTextBox2
+            //
+            this.richTextBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
+            this.richTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox2.ForeColor = System.Drawing.Color.White;
+            this.richTextBox2.Location = new System.Drawing.Point(75, 99);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.Size = new System.Drawing.Size(130, 85);
+            this.richTextBox2.TabIndex = 1;
+            this.richTextBox2.Text = "Аэровокзал";
+            //
+            // richTextBox3
+            //
+            this.richTextBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.richTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox3.ForeColor = System.Drawing.Color.White;
+            this.richTextBox3.Location = new System.Drawing.Point(75, 209);
+            this.richTextBox3.Name = "richTextBox3";
+            this.richTextBox3.Size = new System.Drawing.Size(85, 40);
+            this.richTextBox3.TabIndex = 2;
+            this.richTextBox3.Text = "Гараж";
+            //
+            // richTextBox4
+            //
+            this.richTextBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(190)))), ((int)(((byte)(139)))));
+            this.richTextBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox4.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.richTextBox4.ForeColor = System.Drawing.Color.White;
+            this.richTextBox4.Location = new System.Drawing.Point(75, 266);
+            this.richTextBox4.Name = "richTextBox4";
+            this.richTextBox4.Size = new System.Drawing.Size(85, 40);
+            this.richTextBox4.TabIndex = 3;
+            this.richTextBox4.Text = "Ангар";
+            //
+            // richTextBox5
+            //
+            this.richTextBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(72)))), ((int)(((byte)(126)))));
+            this.richTextBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox5.Font = new System.Drawing.Font("Segoe UI", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.richTextBox5.ForeColor = System.Drawing.Color.White;
+            this.richTextBox5.Location = new System.Drawing.Point(75, 326);
+            this.richTextBox5.Name = "richTextBox5";
+            this.richTextBox5.Size = new System.Drawing.Size(40, 40);
+            this.richTextBox5.TabIndex = 4;
+            this.richTextBox5.Text = "Терминал";
+            //
+            // richTextBox6
+            //
+            this.richTextBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(72)))), ((int)(((byte)(126)))));
+            this.richTextBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox6.Font = new System.Drawing.Font("Segoe UI", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.richTextBox6.ForeColor = System.Drawing.Color.White;
+            this.richTextBox6.Location = new System.Drawing.Point(75, 384);
+            this.richTextBox6.Name = "richTextBox6";
+            this.richTextBox6.Size = new System.Drawing.Size(40, 40);
+            this.richTextBox6.TabIndex = 5;
+            this.richTextBox6.Text = "Терминал";
+            //
             // Form1
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -569,7 +692,9 @@
             this.tabControl1.ResumeLayout(false);
             this.MainPage.ResumeLayout(false);
             this.TopologyPage.ResumeLayout(false);
+            this.TopologyPage.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.SchedulePage.ResumeLayout(false);
             this.SchedulePage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -621,5 +746,12 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn City;
         private System.Windows.Forms.DataGridViewComboBoxColumn Airplane;
         private System.Windows.Forms.DataGridViewTextBoxColumn SoldTicketsAmount;
+        private System.Windows.Forms.TableLayoutPanel grid;
+        private System.Windows.Forms.RichTextBox richTextBox6;
+        private System.Windows.Forms.RichTextBox richTextBox5;
+        private System.Windows.Forms.RichTextBox richTextBox4;
+        private System.Windows.Forms.RichTextBox richTextBox3;
+        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }

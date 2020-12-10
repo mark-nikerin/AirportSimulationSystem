@@ -23,12 +23,28 @@ namespace AirportSimulationSystem
 
         public Form1() {
             InitializeComponent();
-            DoubleBuffered = true; 
+            DoubleBuffered = true;
             openFileDialog1 = new OpenFileDialog()
             {
                 FileName = "Выберите файл с топологией",
                 Filter = "Файлы JSON (*.json)|*.json"
             };
+
+            grid.RowCount = 10;
+            grid.ColumnCount = 10;
+
+            for(int i = 0; i < 10; i++)
+            {
+                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
+                grid.RowStyles.Add(new RowStyle(SizeType.Percent, 50f));
+            }
+
+            richTextBox1.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox2.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox3.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox4.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox5.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox6.SelectionAlignment = HorizontalAlignment.Center;
         }
 
         private void LoadTopologyButton_Click(object sender, EventArgs e)
@@ -70,7 +86,7 @@ namespace AirportSimulationSystem
                     "Data source=DELL-INSPIRON-5\\SQLEXPRESS;Initial Catalog=AirportDatabase;" +
                     "Integrated Security=True";
 
-                dataAdapter = new SqlDataAdapter(selectCommand, connectionString); 
+                dataAdapter = new SqlDataAdapter(selectCommand, connectionString);
 
                 SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
 
@@ -94,37 +110,74 @@ namespace AirportSimulationSystem
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //dataGridView1.DataSource = bindingSource1; 
+            //dataGridView1.DataSource = bindingSource1;
             //GetData("select FlightNumber '№ Рейса', Title 'Название', Time 'Время', RegistryNumber '№ стойки регистрации', SoldTicketsAmount 'Количество проданных билетов' from Flights");
+        }
+
+        private void grid_MouseClick(object sender, MouseEventArgs e)
+        {
+            int[] widths = grid.GetColumnWidths();
+            int[] heights = grid.GetRowHeights();
+
+            int col = -1;
+            int left = e.X;
+            for (int i = 0; i < widths.Length; i++)
+            {
+                if (left < widths[i])
+                {
+                    col = i;
+
+                    break;
+                }
+                else
+                    left -= widths[i];
+            }
+
+            int row = -1;
+            int top = e.Y;
+            for (int i = 0; i < heights.Length; i++)
+            {
+                if (top < heights[i])
+                {
+                    row = i;
+                    break;
+                }
+                else
+                    top -= heights[i];
+            }
+            PictureBox pb = new PictureBox();
+            pb.BackColor = Color.Red;
+            grid.Controls.Add(pb, col, row);
+
         }
 
 
         /*private Rectangle _rec = new Rectangle(0, 0, 50, 50);
 
-        protected override void OnPaint(PaintEventArgs e) {
-            e.Graphics.FillRectangle(Brushes.Aquamarine, _rec);
-        }
-        protected override void OnMouseDown(MouseEventArgs e) {
-            if (e.Button != MouseButtons.Left && IsInsideWindow(e)) return;
-            _rec = new Rectangle(e.X, e.Y, 50, 50);
-            Invalidate();
-        }
-        protected override void OnMouseMove(MouseEventArgs e) {
-            if (e.Button != MouseButtons.Left && IsInsideWindow(e)) return;
-            _rec = new Rectangle(e.X - _rec.Width / 2, e.Y - _rec.Height / 2, 50, 50);
-            Invalidate();
-        }
+    //    protected override void OnPaint(PaintEventArgs e) {
+    //        e.Graphics.FillRectangle(Brushes.Aquamarine, _rec);
+    //    }
+    //    protected override void OnMouseDown(MouseEventArgs e) {
+    //        if (e.Button != MouseButtons.Left && IsInsideWindow(e)) return;
+    //        _rec = new Rectangle(e.X, e.Y, 50, 50);
+    //        Invalidate();
+    //    }
+    //    protected override void OnMouseMove(MouseEventArgs e) {
+    //        if (e.Button != MouseButtons.Left && IsInsideWindow(e)) return;
+    //        _rec = new Rectangle(e.X - _rec.Width / 2, e.Y - _rec.Height / 2, 50, 50);
+    //        Invalidate();
+    //    }
 
-        private bool IsInsideWindow(MouseEventArgs e)
-        {
-            var cursor = new Tuple<int,int>(e.X, e.Y);
+    //    private bool IsInsideWindow(MouseEventArgs e)
+    //    {
+    //        var cursor = new Tuple<int,int>(e.X, e.Y);
 
-            return cursor switch
-            {
-                var (x, y) when x <= Width && y <= Height => true,
-                var (x, y) when x >= 0 && y >= 0 => true,
-                var (_, _) => false 
-            };
-        }*/
+    //        return cursor switch
+    //        {
+    //            var (x, y) when x <= Width && y <= Height => true,
+    //            var (x, y) when x >= 0 && y >= 0 => true,
+    //            var (_, _) => false
+    //        };
+    //    }*/
     }
 }
