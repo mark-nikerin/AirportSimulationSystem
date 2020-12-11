@@ -21,7 +21,8 @@ namespace AirportSimulationSystem
         private BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
 
-        public Form1() {
+        public Form1()
+        {
             InitializeComponent();
             DoubleBuffered = true;
             openFileDialog1 = new OpenFileDialog()
@@ -33,7 +34,7 @@ namespace AirportSimulationSystem
             grid.RowCount = 10;
             grid.ColumnCount = 10;
 
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
                 grid.RowStyles.Add(new RowStyle(SizeType.Percent, 50f));
@@ -44,7 +45,14 @@ namespace AirportSimulationSystem
             richTextBox3.SelectionAlignment = HorizontalAlignment.Center;
             richTextBox4.SelectionAlignment = HorizontalAlignment.Center;
             richTextBox5.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox6.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox6.SelectionAlignment = HorizontalAlignment.Center; 
+
+            flightsGridView.Visible = true;
+            citiesGridView.Visible = false;
+            airplanesGridView.Visible = false;
+            SetButtonActive(fligthsButton);
+            SetButtonInactive(airplanesButton);
+            SetButtonInactive(citiesButton);
         }
 
         private void LoadTopologyButton_Click(object sender, EventArgs e)
@@ -99,7 +107,7 @@ namespace AirportSimulationSystem
                 bindingSource1.DataSource = table;
 
                 // Resize the DataGridView columns to fit the newly loaded content.
-                dataGridView1.AutoResizeColumns(
+                flightsGridView.AutoResizeColumns(
                     DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
             }
             catch (SqlException e)
@@ -151,6 +159,67 @@ namespace AirportSimulationSystem
 
         }
 
+        private void fligthsButton_Click(object sender, EventArgs e)
+        {
+            if (!flightsGridView.Visible)
+            {
+                comboBox1.SelectedIndex = 1;
+                flightsGridView.Visible = true;
+                citiesGridView.Visible = false;
+                airplanesGridView.Visible = false;
+                SetButtonActive(fligthsButton);
+                SetButtonInactive(airplanesButton);
+                SetButtonInactive(citiesButton);
+            }
+        }
+
+        private void airplanesButton_Click(object sender, EventArgs e)
+        {
+            if (!airplanesGridView.Visible)
+            {
+                comboBox1.SelectedIndex = 2;
+                airplanesGridView.Visible = true;
+                citiesGridView.Visible = false;
+                flightsGridView.Visible = false;
+                SetButtonActive(airplanesButton);
+                SetButtonInactive(fligthsButton);
+                SetButtonInactive(citiesButton);
+            }
+        }
+
+        private void citiesButton_Click(object sender, EventArgs e)
+        {
+            if (!citiesGridView.Visible)
+            {
+                comboBox1.SelectedIndex = 0;
+                citiesGridView.Visible = true;
+                flightsGridView.Visible = false;
+                airplanesGridView.Visible = false;
+                SetButtonActive(citiesButton);
+                SetButtonInactive(airplanesButton);
+                SetButtonInactive(fligthsButton);
+            }
+        }
+
+        private void SetButtonActive(Button button)
+        {
+            button.BackColor = Color.FromArgb(0, 120, 212);
+            button.Cursor = Cursors.Hand;
+            button.FlatAppearance.BorderSize = 0;
+            button.FlatStyle = FlatStyle.Flat;
+            button.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            button.ForeColor = SystemColors.HighlightText;
+        }
+
+        private void SetButtonInactive(Button button)
+        {
+            button.UseVisualStyleBackColor = true;
+            button.BackColor = Color.FromArgb(0, 120, 212);
+            button.Cursor = Cursors.Hand;
+            button.BackColor = Color.WhiteSmoke;
+            button.ForeColor = SystemColors.ControlText;
+        } 
+       
 
         /*private Rectangle _rec = new Rectangle(0, 0, 50, 50);
 
