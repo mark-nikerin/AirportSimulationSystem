@@ -42,6 +42,12 @@ namespace AirportSimulationSystem
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.MainPage = new System.Windows.Forms.TabPage();
             this.TopologyPage = new System.Windows.Forms.TabPage();
+            this.verGridOutput = new System.Windows.Forms.TextBox();
+            this.minusVerBut = new System.Windows.Forms.Button();
+            this.plusVerBut = new System.Windows.Forms.Button();
+            this.horGridOutput = new System.Windows.Forms.TextBox();
+            this.minusHorBut = new System.Windows.Forms.Button();
+            this.plusHorBut = new System.Windows.Forms.Button();
             this.grid = new System.Windows.Forms.TableLayoutPanel();
             this.topologyName = new System.Windows.Forms.Label();
             this.goToScheduleButton = new System.Windows.Forms.Button();
@@ -91,6 +97,7 @@ namespace AirportSimulationSystem
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.backToScheduleButton = new System.Windows.Forms.Button();
+            this.plusHorButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.MainPage.SuspendLayout();
@@ -191,6 +198,12 @@ namespace AirportSimulationSystem
             // TopologyPage
             // 
             this.TopologyPage.BackColor = System.Drawing.Color.White;
+            this.TopologyPage.Controls.Add(this.verGridOutput);
+            this.TopologyPage.Controls.Add(this.minusVerBut);
+            this.TopologyPage.Controls.Add(this.plusVerBut);
+            this.TopologyPage.Controls.Add(this.horGridOutput);
+            this.TopologyPage.Controls.Add(this.minusHorBut);
+            this.TopologyPage.Controls.Add(this.plusHorBut);
             this.TopologyPage.Controls.Add(this.grid);
             this.TopologyPage.Controls.Add(this.topologyName);
             this.TopologyPage.Controls.Add(this.goToScheduleButton);
@@ -201,13 +214,88 @@ namespace AirportSimulationSystem
             this.TopologyPage.TabIndex = 3;
             this.TopologyPage.Text = "Топология";
             // 
+            // verGridOutput
+            // 
+            this.verGridOutput.BackColor = System.Drawing.Color.White;
+            this.verGridOutput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.verGridOutput.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.verGridOutput.Location = new System.Drawing.Point(1141, 297);
+            this.verGridOutput.Name = "verGridOutput";
+            this.verGridOutput.ReadOnly = true;
+            this.verGridOutput.Size = new System.Drawing.Size(47, 36);
+            this.verGridOutput.TabIndex = 11;
+            this.verGridOutput.Text = "10";
+            // 
+            // minusVerBut
+            // 
+            this.minusVerBut.FlatAppearance.BorderSize = 0;
+            this.minusVerBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.minusVerBut.Font = new System.Drawing.Font("Segoe UI", 23F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.minusVerBut.Location = new System.Drawing.Point(1135, 347);
+            this.minusVerBut.Name = "minusVerBut";
+            this.minusVerBut.Size = new System.Drawing.Size(53, 48);
+            this.minusVerBut.TabIndex = 10;
+            this.minusVerBut.Text = "-";
+            this.minusVerBut.UseVisualStyleBackColor = true;
+            this.minusVerBut.Click += new System.EventHandler(this.minusVerBut_Click);
+            // 
+            // plusVerBut
+            // 
+            this.plusVerBut.FlatAppearance.BorderSize = 0;
+            this.plusVerBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.plusVerBut.Font = new System.Drawing.Font("Segoe UI", 23F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.plusVerBut.Location = new System.Drawing.Point(1135, 234);
+            this.plusVerBut.Name = "plusVerBut";
+            this.plusVerBut.Size = new System.Drawing.Size(53, 48);
+            this.plusVerBut.TabIndex = 9;
+            this.plusVerBut.Text = "+";
+            this.plusVerBut.UseVisualStyleBackColor = true;
+            this.plusVerBut.Click += new System.EventHandler(this.plusVerBut_Click);
+            // 
+            // horGridOutput
+            // 
+            this.horGridOutput.BackColor = System.Drawing.Color.White;
+            this.horGridOutput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.horGridOutput.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.horGridOutput.Location = new System.Drawing.Point(841, 605);
+            this.horGridOutput.Name = "horGridOutput";
+            this.horGridOutput.ReadOnly = true;
+            this.horGridOutput.Size = new System.Drawing.Size(35, 36);
+            this.horGridOutput.TabIndex = 8;
+            this.horGridOutput.Text = "10";
+            // 
+            // minusHorBut
+            // 
+            this.minusHorBut.FlatAppearance.BorderSize = 0;
+            this.minusHorBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.minusHorBut.Font = new System.Drawing.Font("Segoe UI", 23F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.minusHorBut.Location = new System.Drawing.Point(782, 598);
+            this.minusHorBut.Name = "minusHorBut";
+            this.minusHorBut.Size = new System.Drawing.Size(53, 48);
+            this.minusHorBut.TabIndex = 7;
+            this.minusHorBut.Text = "-";
+            this.minusHorBut.UseVisualStyleBackColor = true;
+            this.minusHorBut.Click += new System.EventHandler(this.minusHorBut_Click);
+            // 
+            // plusHorBut
+            // 
+            this.plusHorBut.FlatAppearance.BorderSize = 0;
+            this.plusHorBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.plusHorBut.Font = new System.Drawing.Font("Segoe UI", 23F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.plusHorBut.Location = new System.Drawing.Point(882, 598);
+            this.plusHorBut.Name = "plusHorBut";
+            this.plusHorBut.Size = new System.Drawing.Size(53, 48);
+            this.plusHorBut.TabIndex = 6;
+            this.plusHorBut.Text = "+";
+            this.plusHorBut.UseVisualStyleBackColor = true;
+            this.plusHorBut.Click += new System.EventHandler(this.plusHorButton_Click);
+            // 
             // grid
             // 
             this.grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grid.AutoSize = true;
-            this.grid.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.grid.BackColor = System.Drawing.Color.White;
             this.grid.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.grid.ColumnCount = 10;
@@ -216,13 +304,13 @@ namespace AirportSimulationSystem
             this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.746836F));
-            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.25316F));
+            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.grid.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.grid.Location = new System.Drawing.Point(450, 57);
+            this.grid.Location = new System.Drawing.Point(568, 70);
             this.grid.Name = "grid";
             this.grid.RowCount = 10;
             this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
@@ -235,7 +323,7 @@ namespace AirportSimulationSystem
             this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.grid.Size = new System.Drawing.Size(490, 541);
+            this.grid.Size = new System.Drawing.Size(525, 525);
             this.grid.TabIndex = 5;
             this.grid.MouseClick += new System.Windows.Forms.MouseEventHandler(this.grid_MouseClick);
             // 
@@ -734,7 +822,7 @@ namespace AirportSimulationSystem
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.65979F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 186F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 190F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 204F));
             this.tableLayoutPanel1.Location = new System.Drawing.Point(20, 430);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -822,6 +910,18 @@ namespace AirportSimulationSystem
             this.backToScheduleButton.UseVisualStyleBackColor = false;
             this.backToScheduleButton.Click += new System.EventHandler(this.BackButton_Click);
             // 
+            // plusHorButton
+            // 
+            this.plusHorButton.FlatAppearance.BorderSize = 0;
+            this.plusHorButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.plusHorButton.Font = new System.Drawing.Font("Segoe UI", 23F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.plusHorButton.Location = new System.Drawing.Point(792, 597);
+            this.plusHorButton.Name = "plusHorButton";
+            this.plusHorButton.Size = new System.Drawing.Size(53, 48);
+            this.plusHorButton.TabIndex = 6;
+            this.plusHorButton.Text = "+";
+            this.plusHorButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -865,19 +965,12 @@ namespace AirportSimulationSystem
         private TabPage MainPage;
         private TabPage SchedulePage;
         private TabPage SimulationPage;
-        public TabPage TopologyPage;
-        private Panel panel1;
-        private GroupBox groupBox1;
-        private Label label2;
-        private Button backToMainPageButton;
         private DataGridView flightsGridView;
         private DataGridView airplanesGridView;
         private DataGridView citiesGridView;
-        private Button goToScheduleButton;
         private Button backToTopologyPage;
         private Button goToSimulationPagebutton;
         private Button backToScheduleButton;
-        private Label topologyName;
         private ComboBox comboBox1;
         private TextBox textBox1;
         private GroupBox groupBox2;
@@ -888,13 +981,6 @@ namespace AirportSimulationSystem
         private TrackBar trackBar1;
         private DateTimePicker dateTimePicker2;
         private DateTimePicker dateTimePicker1;
-        private TableLayoutPanel grid;
-        private RichTextBox richTextBox6;
-        private RichTextBox richTextBox5;
-        private RichTextBox richTextBox4;
-        private RichTextBox richTextBox3;
-        private RichTextBox richTextBox2;
-        private RichTextBox richTextBox1;
         private Button citiesButton;
         private Button airplanesButton;
         private Button fligthsButton;
@@ -913,5 +999,26 @@ namespace AirportSimulationSystem
         private DataGridViewComboBoxColumn FlightCity;
         private DataGridViewComboBoxColumn FlightAirplane;
         private DataGridViewTextBoxColumn FlightTicketsAmount;
+        public TabPage TopologyPage;
+        private TextBox verGridOutput;
+        private Button minusVerBut;
+        private Button plusVerBut;
+        private TextBox horGridOutput;
+        private Button minusHorBut;
+        private Button plusHorBut;
+        private TableLayoutPanel grid;
+        private Label topologyName;
+        private Button goToScheduleButton;
+        private Panel panel1;
+        private Button backToMainPageButton;
+        private Label label2;
+        private GroupBox groupBox1;
+        private RichTextBox richTextBox6;
+        private RichTextBox richTextBox5;
+        private RichTextBox richTextBox4;
+        private RichTextBox richTextBox3;
+        private RichTextBox richTextBox2;
+        private RichTextBox richTextBox1;
+        private Button plusHorButton;
     }
 }

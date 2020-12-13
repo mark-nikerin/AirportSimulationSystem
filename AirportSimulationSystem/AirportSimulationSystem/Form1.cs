@@ -20,6 +20,7 @@ namespace AirportSimulationSystem
         private DataGridView dataGridView2 = new DataGridView();
         private BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
+        private const int gridSize = 10;
 
         public Form1()
         {
@@ -31,14 +32,7 @@ namespace AirportSimulationSystem
                 Filter = "Файлы JSON (*.json)|*.json"
             };
 
-            grid.RowCount = 10;
-            grid.ColumnCount = 10;
-
-            for (int i = 0; i < 10; i++)
-            {
-                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
-                grid.RowStyles.Add(new RowStyle(SizeType.Percent, 50f));
-            }
+            createGrid(gridSize, gridSize);
 
             richTextBox1.SelectionAlignment = HorizontalAlignment.Center;
             richTextBox2.SelectionAlignment = HorizontalAlignment.Center;
@@ -70,6 +64,20 @@ namespace AirportSimulationSystem
                     MessageBox.Show($"Security error.\n\nError message: {ex.Message}\n\n" +
                     $"Details:\n\n{ex.StackTrace}");
                 }
+            }
+        }
+
+        private void createGrid(int ver, int hor)
+        {
+            horGridOutput.Text = hor.ToString();
+            verGridOutput.Text = ver.ToString();
+            grid.RowCount = ver;
+            grid.ColumnCount = hor;
+
+            for (int i = 0; i < 10; i++)
+            {
+                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / grid.ColumnCount));
+                grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / grid.RowCount));
             }
         }
 
@@ -218,8 +226,34 @@ namespace AirportSimulationSystem
             button.Cursor = Cursors.Hand;
             button.BackColor = Color.WhiteSmoke;
             button.ForeColor = SystemColors.ControlText;
-        } 
-       
+        }
+
+        private void plusHorButton_Click(object sender, EventArgs e)
+        {
+            grid.ColumnCount++;
+            grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / grid.ColumnCount));
+            horGridOutput.Text = grid.ColumnCount.ToString();
+        }
+
+        private void minusHorBut_Click(object sender, EventArgs e)
+        {
+            grid.ColumnCount--;
+            horGridOutput.Text = grid.ColumnCount.ToString();
+        }
+
+        private void plusVerBut_Click(object sender, EventArgs e)
+        {
+            grid.RowCount++;
+            grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / grid.RowCount));
+            verGridOutput.Text = grid.RowCount.ToString();
+        }
+
+        private void minusVerBut_Click(object sender, EventArgs e)
+        {
+            grid.RowCount--;
+            verGridOutput.Text = grid.RowCount.ToString();
+        }
+
 
         /*private Rectangle _rec = new Rectangle(0, 0, 50, 50);
 
