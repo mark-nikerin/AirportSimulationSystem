@@ -230,28 +230,40 @@ namespace AirportSimulationSystem
 
         private void plusHorButton_Click(object sender, EventArgs e)
         {
-            grid.ColumnCount++;
-            grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / grid.ColumnCount));
-            horGridOutput.Text = grid.ColumnCount.ToString();
+            if (grid.ColumnCount < 25)
+            {
+                grid.ColumnCount++;
+                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / grid.ColumnCount));
+                horGridOutput.Text = grid.ColumnCount.ToString();
+            }
         }
 
         private void minusHorBut_Click(object sender, EventArgs e)
         {
-            grid.ColumnCount--;
-            horGridOutput.Text = grid.ColumnCount.ToString();
+            if (grid.ColumnCount > 10)
+            {
+                grid.ColumnCount--;
+                horGridOutput.Text = grid.ColumnCount.ToString();
+            }
         }
 
         private void plusVerBut_Click(object sender, EventArgs e)
         {
-            grid.RowCount++;
-            grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / grid.RowCount));
-            verGridOutput.Text = grid.RowCount.ToString();
+            if (grid.RowCount < 25)
+            {
+                grid.RowCount++;
+                grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / grid.RowCount));
+                verGridOutput.Text = grid.RowCount.ToString();
+            }
         }
 
         private void minusVerBut_Click(object sender, EventArgs e)
         {
-            grid.RowCount--;
-            verGridOutput.Text = grid.RowCount.ToString();
+            if (grid.RowCount > 10)
+            {
+                grid.RowCount--;
+                verGridOutput.Text = grid.RowCount.ToString();
+            }
         }
 
 
