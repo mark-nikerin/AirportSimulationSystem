@@ -34,13 +34,6 @@ namespace AirportSimulationSystem
 
             createGrid(gridSize, gridSize);
 
-            richTextBox1.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox2.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox3.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox4.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox5.SelectionAlignment = HorizontalAlignment.Center;
-            richTextBox6.SelectionAlignment = HorizontalAlignment.Center; 
-
             flightsGridView.Visible = true;
             citiesGridView.Visible = false;
             airplanesGridView.Visible = false;
