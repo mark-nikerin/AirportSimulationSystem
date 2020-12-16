@@ -129,10 +129,10 @@
         gg==
 </value>
   </data>
-  <data name="pictureBox6.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="passengerTerminal.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EAAACxABrSO9dQAAMrlJREFUeF7t3Qm4bnPd//F6NCjKkDGRDCENJCFlylxEqaREg0QkpVkpCaUoiiIk
+        DAAACwwBP0AiyAAAMrlJREFUeF7t3Qm4bnPd//F6NCjKkDGRDCENJCFlylxEqaREg0QkpVkpCaUoiiIk
         DYYopIRSVJKZklDmKYSOpOn//D+f6jydju8+5977Xuu+v9+13q/rel/Xc/U45+y972Gve631+/4eAQAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -351,10 +351,10 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQXY94xP8HrIPqZjFHp/AAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="pictureBox5.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="cargoTerminal.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wAAADsABataJCQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACKDSURBVHhe7d1b
+        vAAADrwBlbxySQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACKDSURBVHhe7d1b
         zH3bWdfxam0LtFVpk6YcvDBBhO6WiMQrjUpBjV4QwECpNwIJAnKonMQ7S0iQKD2lFbzSxBhPJEajAYtQ
         NdUgGDm1RUIhCGIIAsUeEFp20WfavLbs/vb+r2c96zDHWp9P8k122r3HmmvMscY6vPNd79MAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -505,10 +505,10 @@
         wdOe9n8BBFC6VsVdBhAAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="pictureBox4.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="vpp.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        XgAADl4BonhZrgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAoySURBVHhe7dax
+        XAAADlwB3YaaJwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAoySURBVHhe7dax
         rSvUFkXRWwIlEVISJVECZSCREBCTkpL529kTmh/pydFeHkcayQyutaUre309Hg8A4MNkBAC2ZQQAtmUE
         ALZlBAC2ZQQAtmUEALZlBAC2ZQQAtmUEALZlBAC2ZQQAtmUEALZlBAC2ZQQAtmUEALZlBAC2ZQQAtmUE
         ALZlBAC2ZQQAtmUEALZlBAC2ZQQAtmUEALZlBAC2ZQQAtmUEALZlBAC2ZQQAtmUEALZlBAC2ZQQAtmUE
@@ -555,10 +555,10 @@
         sC0jALAtIwCwLSMAsC0jALDs8fU/qs/Tv6qDtmMAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="pictureBox3.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="hangar.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DwAACw8BkvkDpQAAMoZJREFUeF7t3Qn4dWO9//HHPGeWZBbHENJRKYoohdNA6ZREBxEhJYUKleGI6kQp
+        DAAACwwBP0AiyAAAMoZJREFUeF7t3Qn4dWO9//HHPGeWZBbHENJRKYoohdNA6ZREBxEhJYUKleGI6kQp
         RSk6EqWJ0CBTFJWIyJAhQ8g8D/3/nw+e8wy+v+f323vfa637vtf7dV3v6zrnybOftfdew733XutekwAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -777,10 +777,10 @@
         SUVORK5CYII=
 </value>
   </data>
-  <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="garage.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAsQAAALECAYAAAAPVSaDAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DwAACw8BkvkDpQAAQ5xJREFUeF7t3XfUbVtd5nmajCRRsUCQJAiCEZUCoSW0gogZMZaAiqnUMhVYWpag
+        DAAACwwBP0AiyAAAQ5xJREFUeF7t3XfUbVtd5nmajCRRsUCQJAiCEZUCoSW0gogZMZaAiqnUMhVYWpag
         bQJKERUVFbMWJhTFUGADrYIBAS0ELBUwEFUaJEgQq/t5+t47QJz3cs5599wr7M9njO/wj6p7OO9+15r7
         d/Zea67LAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -1075,7 +1075,7 @@
   <data name="airport.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAq8AAAIHCAYAAACxLrUeAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DwAACw8BkvkDpQAAN8VJREFUeF7t3QmYZFddN/4zuVXVM0kmCcguJIjsiLIphD0ssj0oIAFkkR0Msu/i
+        DAAACwwBP0AiyAAAN8VJREFUeF7t3QmYZFddN/4zuVXVM0kmCcguJIjsiLIphD0ssj0oIAFkkR0Msu/i
         AihIZFVANAKCAoqoLAYQTF6Q5QXyhzcqL4ssQQLIHghbYkgy7/93+96xa26f6bndXV11b93P5+H7dEi6
         7nbOPfWtnp6qBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcGiXrL8CAECXrTx2Vxr9v1GaPKf+
         FwAA0EmXiuL6o7K8Ri5M6air1f8eAAC6ZvTEuriuZpQmf1j/BwAA6JYorKdPl9fIx+v/BAAAnbI7yup5
@@ -1350,6 +1350,36 @@
     <value>True</value>
   </metadata>
   <metadata name="FlightTicketsAmount.UserAddedColumn" type="System.Boolean, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>True</value>
+  </metadata>
+  <metadata name="FlightNumber.UserAddedColumn" type="System.Boolean, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>True</value>
+  </metadata>
+  <metadata name="FlightTitle.UserAddedColumn" type="System.Boolean, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>True</value>
+  </metadata>
+  <metadata name="FlightTime.UserAddedColumn" type="System.Boolean, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>True</value>
+  </metadata>
+  <metadata name="FlightRegistryNumber.UserAddedColumn" type="System.Boolean, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>True</value>
+  </metadata>
+  <metadata name="FlightCity.UserAddedColumn" type="System.Boolean, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>True</value>
+  </metadata>
+  <metadata name="FlightAirplane.UserAddedColumn" type="System.Boolean, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>True</value>
+  </metadata>
+  <metadata name="FlightTicketsAmount.UserAddedColumn" type="System.Boolean, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>True</value>
+  </metadata>
+  <metadata name="CityNumber.UserAddedColumn" type="System.Boolean, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>True</value>
+  </metadata>
+  <metadata name="CityName.UserAddedColumn" type="System.Boolean, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>True</value>
+  </metadata>
+  <metadata name="Distance.UserAddedColumn" type="System.Boolean, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
     <value>True</value>
   </metadata>
   <metadata name="CityNumber.UserAddedColumn" type="System.Boolean, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">

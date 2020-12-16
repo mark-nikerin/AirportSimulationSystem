@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace AirportSimulationSystem
 {
@@ -25,6 +26,7 @@ namespace AirportSimulationSystem
         public Form1()
         {
             InitializeComponent();
+
             DoubleBuffered = true;
             openFileDialog1 = new OpenFileDialog()
             {
@@ -40,6 +42,8 @@ namespace AirportSimulationSystem
             SetButtonActive(fligthsButton);
             SetButtonInactive(airplanesButton);
             SetButtonInactive(citiesButton);
+
+            extendedPanel.AllowDrop = true;
         }
 
         private void LoadTopologyButton_Click(object sender, EventArgs e)
@@ -259,33 +263,103 @@ namespace AirportSimulationSystem
             }
         }
 
+        private void extendedPanel_DragDrop(object sender, DragEventArgs e)
+        {
 
-        /*private Rectangle _rec = new Rectangle(0, 0, 50, 50);
+            Point clientPoint = grid.PointToClient(new Point(e.X, e.Y));
+            int[] widths = grid.GetColumnWidths();
+            int[] heights = grid.GetRowHeights();
 
-    //    protected override void OnPaint(PaintEventArgs e) {
-    //        e.Graphics.FillRectangle(Brushes.Aquamarine, _rec);
-    //    }
-    //    protected override void OnMouseDown(MouseEventArgs e) {
-    //        if (e.Button != MouseButtons.Left && IsInsideWindow(e)) return;
-    //        _rec = new Rectangle(e.X, e.Y, 50, 50);
-    //        Invalidate();
-    //    }
-    //    protected override void OnMouseMove(MouseEventArgs e) {
-    //        if (e.Button != MouseButtons.Left && IsInsideWindow(e)) return;
-    //        _rec = new Rectangle(e.X - _rec.Width / 2, e.Y - _rec.Height / 2, 50, 50);
-    //        Invalidate();
-    //    }
+            int col = -1;
+            int left = clientPoint.X;
+            for (int i = 0; i < widths.Length; i++)
+            {
+                if (left < widths[i])
+                {
+                    col = i;
+                    break;
+                }
+                else
+                    left -= widths[i];
+            }
 
-    //    private bool IsInsideWindow(MouseEventArgs e)
-    //    {
-    //        var cursor = new Tuple<int,int>(e.X, e.Y);
+            int row = -1;
+            int top = clientPoint.Y;
+            for (int i = 0; i < heights.Length; i++)
+            {
+                if (top < heights[i])
+                {
+                    row = i;
+                    break;
+                }
+                else
+                    top -= heights[i];
+            }
 
-    //        return cursor switch
-    //        {
-    //            var (x, y) when x <= Width && y <= Height => true,
-    //            var (x, y) when x >= 0 && y >= 0 => true,
-    //            var (_, _) => false
-    //        };
-    //    }*/
+            e.Effect = DragDropEffects.Copy;
+
+            PictureBox pb = new PictureBox();
+
+            int width = grid.GetColumnWidths()[col];
+            int height = grid.GetRowHeights()[row];
+
+            pb.Size = new Size(sizeWidth * width - 1, sizeHeight * height - 1);
+            pb.Location = new Point(col * width + 1, row * height + 1);
+            pb.Image = e.Data.GetData(DataFormats.Bitmap) as Bitmap;
+            if (sizeWidth == 10 && sizeHeight == 2) pb.SizeMode = PictureBoxSizeMode.StretchImage;
+            else pb.SizeMode = PictureBoxSizeMode.Zoom;
+
+            extendedPanel.Controls.Add(pb);
+        }
+
+        int sizeWidth = 1;
+        int sizeHeight = 1;
+
+        private void extendedPanel_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
+
+        private void airport_MouseDown(object sender, MouseEventArgs e)
+        {
+            sizeWidth = 8;
+            sizeHeight = 5;
+            airport.DoDragDrop(airport.Image, DragDropEffects.Copy);
+        }
+
+        private void vpp_MouseDown(object sender, MouseEventArgs e)
+        {
+            sizeWidth = 10;
+            sizeHeight = 2;
+            vpp.DoDragDrop(vpp.Image, DragDropEffects.Copy);
+        }
+
+        private void garage_MouseDown(object sender, MouseEventArgs e)
+        {
+            sizeWidth = 4;
+            sizeHeight = 4;
+            garage.DoDragDrop(garage.Image, DragDropEffects.Copy);
+        }
+
+        private void hangar_MouseDown(object sender, MouseEventArgs e)
+        {
+            sizeWidth = 4;
+            sizeHeight = 4;
+            hangar.DoDragDrop(hangar.Image, DragDropEffects.Copy);
+        }
+
+        private void cargoTerminal_MouseDown(object sender, MouseEventArgs e)
+        {
+            sizeWidth = 2;
+            sizeHeight = 2;
+            cargoTerminal.DoDragDrop(cargoTerminal.Image, DragDropEffects.Copy);
+        }
+
+        private void passengerTerminal_MouseDown(object sender, MouseEventArgs e)
+        {
+            sizeWidth = 2;
+            sizeHeight = 2;
+            passengerTerminal.DoDragDrop(passengerTerminal.Image, DragDropEffects.Copy);
+        }
     }
 }

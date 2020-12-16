@@ -33,8 +33,8 @@ namespace AirportSimulationSystem
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.goToTopologyButton = new System.Windows.Forms.Button();
             this.LoadTopologyButton = new System.Windows.Forms.Button();
@@ -42,6 +42,7 @@ namespace AirportSimulationSystem
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.MainPage = new System.Windows.Forms.TabPage();
             this.TopologyPage = new System.Windows.Forms.TabPage();
+            this.extendedPanel = new AirportSimulationSystem.ExtendedPanel();
             this.verGridOutput = new System.Windows.Forms.TextBox();
             this.minusVerBut = new System.Windows.Forms.Button();
             this.plusVerBut = new System.Windows.Forms.Button();
@@ -67,11 +68,11 @@ namespace AirportSimulationSystem
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.passengerTerminal = new System.Windows.Forms.PictureBox();
+            this.cargoTerminal = new System.Windows.Forms.PictureBox();
+            this.vpp = new System.Windows.Forms.PictureBox();
+            this.hangar = new System.Windows.Forms.PictureBox();
+            this.garage = new System.Windows.Forms.PictureBox();
             this.airport = new System.Windows.Forms.PictureBox();
             this.SchedulePage = new System.Windows.Forms.TabPage();
             this.airplanesGridView = new System.Windows.Forms.DataGridView();
@@ -116,11 +117,11 @@ namespace AirportSimulationSystem
             this.TopologyPage.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.passengerTerminal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cargoTerminal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vpp)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hangar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.garage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.airport)).BeginInit();
             this.SchedulePage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.airplanesGridView)).BeginInit();
@@ -186,6 +187,7 @@ namespace AirportSimulationSystem
             // 
             // tabControl1
             // 
+            this.tabControl1.AllowDrop = true;
             this.tabControl1.Controls.Add(this.MainPage);
             this.tabControl1.Controls.Add(this.TopologyPage);
             this.tabControl1.Controls.Add(this.SchedulePage);
@@ -216,6 +218,7 @@ namespace AirportSimulationSystem
             // TopologyPage
             // 
             this.TopologyPage.BackColor = System.Drawing.Color.White;
+            this.TopologyPage.Controls.Add(this.extendedPanel);
             this.TopologyPage.Controls.Add(this.verGridOutput);
             this.TopologyPage.Controls.Add(this.minusVerBut);
             this.TopologyPage.Controls.Add(this.plusVerBut);
@@ -231,6 +234,15 @@ namespace AirportSimulationSystem
             this.TopologyPage.Size = new System.Drawing.Size(1255, 660);
             this.TopologyPage.TabIndex = 3;
             this.TopologyPage.Text = "Топология";
+            // 
+            // extendedPanel
+            // 
+            this.extendedPanel.Location = new System.Drawing.Point(568, 70);
+            this.extendedPanel.Name = "extendedPanel";
+            this.extendedPanel.Size = new System.Drawing.Size(521, 521);
+            this.extendedPanel.TabIndex = 12;
+            this.extendedPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.extendedPanel_DragDrop);
+            this.extendedPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.extendedPanel_DragEnter);
             // 
             // verGridOutput
             // 
@@ -310,10 +322,12 @@ namespace AirportSimulationSystem
             // 
             // grid
             // 
+            this.grid.AllowDrop = true;
             this.grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grid.AutoSize = true;
+            this.grid.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.grid.BackColor = System.Drawing.Color.White;
             this.grid.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.grid.ColumnCount = 10;
@@ -341,9 +355,8 @@ namespace AirportSimulationSystem
             this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.grid.Size = new System.Drawing.Size(525, 525);
+            this.grid.Size = new System.Drawing.Size(521, 521);
             this.grid.TabIndex = 5;
-            this.grid.MouseClick += new System.Windows.Forms.MouseEventHandler(this.grid_MouseClick);
             // 
             // topologyName
             // 
@@ -423,11 +436,11 @@ namespace AirportSimulationSystem
             this.groupBox1.Controls.Add(this.textBox4);
             this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.pictureBox6);
-            this.groupBox1.Controls.Add(this.pictureBox5);
-            this.groupBox1.Controls.Add(this.pictureBox4);
-            this.groupBox1.Controls.Add(this.pictureBox3);
-            this.groupBox1.Controls.Add(this.pictureBox2);
+            this.groupBox1.Controls.Add(this.passengerTerminal);
+            this.groupBox1.Controls.Add(this.cargoTerminal);
+            this.groupBox1.Controls.Add(this.vpp);
+            this.groupBox1.Controls.Add(this.hangar);
+            this.groupBox1.Controls.Add(this.garage);
             this.groupBox1.Controls.Add(this.airport);
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -570,55 +583,60 @@ namespace AirportSimulationSystem
             this.textBox2.TabIndex = 12;
             this.textBox2.Text = "ВПП";
             // 
-            // pictureBox6
+            // passengerTerminal
             // 
-            this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
-            this.pictureBox6.Location = new System.Drawing.Point(75, 416);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(85, 55);
-            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox6.TabIndex = 11;
-            this.pictureBox6.TabStop = false;
+            this.passengerTerminal.Image = ((System.Drawing.Image)(resources.GetObject("passengerTerminal.Image")));
+            this.passengerTerminal.Location = new System.Drawing.Point(75, 416);
+            this.passengerTerminal.Name = "passengerTerminal";
+            this.passengerTerminal.Size = new System.Drawing.Size(85, 55);
+            this.passengerTerminal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.passengerTerminal.TabIndex = 11;
+            this.passengerTerminal.TabStop = false;
+            this.passengerTerminal.MouseDown += new System.Windows.Forms.MouseEventHandler(this.passengerTerminal_MouseDown);
             // 
-            // pictureBox5
+            // cargoTerminal
             // 
-            this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(75, 355);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(85, 55);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox5.TabIndex = 10;
-            this.pictureBox5.TabStop = false;
+            this.cargoTerminal.Image = ((System.Drawing.Image)(resources.GetObject("cargoTerminal.Image")));
+            this.cargoTerminal.Location = new System.Drawing.Point(75, 355);
+            this.cargoTerminal.Name = "cargoTerminal";
+            this.cargoTerminal.Size = new System.Drawing.Size(85, 55);
+            this.cargoTerminal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.cargoTerminal.TabIndex = 10;
+            this.cargoTerminal.TabStop = false;
+            this.cargoTerminal.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cargoTerminal_MouseDown);
             // 
-            // pictureBox4
+            // vpp
             // 
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(75, 32);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(160, 77);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox4.TabIndex = 9;
-            this.pictureBox4.TabStop = false;
+            this.vpp.Image = ((System.Drawing.Image)(resources.GetObject("vpp.Image")));
+            this.vpp.Location = new System.Drawing.Point(75, 32);
+            this.vpp.Name = "vpp";
+            this.vpp.Size = new System.Drawing.Size(160, 77);
+            this.vpp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.vpp.TabIndex = 9;
+            this.vpp.TabStop = false;
+            this.vpp.MouseDown += new System.Windows.Forms.MouseEventHandler(this.vpp_MouseDown);
             // 
-            // pictureBox3
+            // hangar
             // 
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(75, 288);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(85, 61);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 8;
-            this.pictureBox3.TabStop = false;
+            this.hangar.Image = ((System.Drawing.Image)(resources.GetObject("hangar.Image")));
+            this.hangar.Location = new System.Drawing.Point(75, 288);
+            this.hangar.Name = "hangar";
+            this.hangar.Size = new System.Drawing.Size(85, 61);
+            this.hangar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.hangar.TabIndex = 8;
+            this.hangar.TabStop = false;
+            this.hangar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.hangar_MouseDown);
             // 
-            // pictureBox2
+            // garage
             // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(75, 221);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(85, 61);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 7;
-            this.pictureBox2.TabStop = false;
+            this.garage.Image = ((System.Drawing.Image)(resources.GetObject("garage.Image")));
+            this.garage.Location = new System.Drawing.Point(75, 221);
+            this.garage.Name = "garage";
+            this.garage.Size = new System.Drawing.Size(85, 61);
+            this.garage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.garage.TabIndex = 7;
+            this.garage.TabStop = false;
+            this.garage.MouseDown += new System.Windows.Forms.MouseEventHandler(this.garage_MouseDown);
             // 
             // airport
             // 
@@ -629,6 +647,7 @@ namespace AirportSimulationSystem
             this.airport.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.airport.TabIndex = 6;
             this.airport.TabStop = false;
+            this.airport.MouseDown += new System.Windows.Forms.MouseEventHandler(this.airport_MouseDown);
             // 
             // SchedulePage
             // 
@@ -656,14 +675,14 @@ namespace AirportSimulationSystem
             this.airplanesGridView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.airplanesGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.airplanesGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.airplanesGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.airplanesGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.airplanesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.airplanesGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.AirplaneNumber,
@@ -671,14 +690,14 @@ namespace AirportSimulationSystem
             this.FlightRange,
             this.PassengerCapacity,
             this.LiftingCapacity});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.airplanesGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.airplanesGridView.DefaultCellStyle = dataGridViewCellStyle6;
             this.airplanesGridView.GridColor = System.Drawing.SystemColors.ControlLight;
             this.airplanesGridView.Location = new System.Drawing.Point(75, 110);
             this.airplanesGridView.Name = "airplanesGridView";
@@ -974,7 +993,7 @@ namespace AirportSimulationSystem
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.65979F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 186F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 212F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 266F));
             this.tableLayoutPanel1.Location = new System.Drawing.Point(20, 430);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -1094,11 +1113,11 @@ namespace AirportSimulationSystem
             this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.passengerTerminal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cargoTerminal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.vpp)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hangar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.garage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.airport)).EndInit();
             this.SchedulePage.ResumeLayout(false);
             this.SchedulePage.PerformLayout();
@@ -1173,11 +1192,11 @@ namespace AirportSimulationSystem
         private Label label2;
         private GroupBox groupBox1;
         private Button plusHorButton;
-        private PictureBox pictureBox6;
-        private PictureBox pictureBox5;
-        private PictureBox pictureBox4;
-        private PictureBox pictureBox3;
-        private PictureBox pictureBox2;
+        private PictureBox passengerTerminal;
+        private PictureBox cargoTerminal;
+        private PictureBox vpp;
+        private PictureBox hangar;
+        private PictureBox garage;
         private PictureBox airport;
         private TextBox counterVPP;
         private TextBox textBox7;
@@ -1191,5 +1210,6 @@ namespace AirportSimulationSystem
         private TextBox counterHangar;
         private TextBox counterGarage;
         private TextBox counterAirport;
+        private ExtendedPanel extendedPanel;
     }
 }
