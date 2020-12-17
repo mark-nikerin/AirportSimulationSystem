@@ -1,0 +1,97 @@
+{
+  "name": "12345",
+  "items": [
+    {
+      "type": 16,
+      "size": {
+        "width": 8,
+        "height": 5
+      },
+      "coordinates": {
+        "x": 1,
+        "y": 1
+      }
+    },
+    {
+      "type": 8,
+      "size": {
+        "width": 2,
+        "height": 2
+      },
+      "coordinates": {
+        "x": 1,
+        "y": 1
+      }
+    },
+    {
+      "type": 4,
+      "size": {
+        "width": 2,
+        "height": 2
+      },
+      "coordinates": {
+        "x": 1,
+        "y": 1
+      }
+    },
+    {
+      "type": 1,
+      "size": {
+        "width": 4,
+        "height": 4
+      },
+      "coordinates": {
+        "x": 1,
+        "y": 1
+      }
+    },
+    {
+      "type": 2,
+      "size": {
+        "width": 10,
+        "height": 2
+      },
+      "coordinates": {
+        "x": 1,
+        "y": 1
+      }
+    },
+    {
+      "type": 2,
+      "size": {
+        "width": 10,
+        "height": 2
+      },
+      "coordinates": {
+        "x": 1,
+        "y": 1
+      }
+    },
+    {
+      "type": 1,
+      "size": {
+        "width": 4,
+        "height": 4
+      },
+      "coordinates": {
+        "x": 1,
+        "y": 1
+      }
+    },
+    {
+      "type": 0,
+      "size": {
+        "width": 4,
+        "height": 4
+      },
+      "coordinates": {
+        "x": 1,
+        "y": 1
+      }
+    }
+  ],
+  "size": {
+    "width": 20,
+    "height": 20
+  }
+}

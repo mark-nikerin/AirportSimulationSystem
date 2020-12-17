@@ -1,0 +1,141 @@
+{
+  "name": "\u0422\u043E\u043F\u043E\u043B\u043E\u0433\u0438\u044F 3",
+  "items": [
+    {
+      "type": 2,
+      "size": {
+        "width": 10,
+        "height": 2
+      },
+      "coordinates": {
+        "x": 0,
+        "y": 17
+      }
+    },
+    {
+      "type": 0,
+      "size": {
+        "width": 4,
+        "height": 4
+      },
+      "coordinates": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "type": 1,
+      "size": {
+        "width": 4,
+        "height": 4
+      },
+      "coordinates": {
+        "x": 16,
+        "y": 16
+      }
+    },
+    {
+      "type": 16,
+      "size": {
+        "width": 8,
+        "height": 5
+      },
+      "coordinates": {
+        "x": 12,
+        "y": 0
+      }
+    },
+    {
+      "type": 8,
+      "size": {
+        "width": 2,
+        "height": 2
+      },
+      "coordinates": {
+        "x": 18,
+        "y": 5
+      }
+    },
+    {
+      "type": 4,
+      "size": {
+        "width": 2,
+        "height": 2
+      },
+      "coordinates": {
+        "x": 10,
+        "y": 0
+      }
+    },
+    {
+      "type": 1,
+      "size": {
+        "width": 4,
+        "height": 4
+      },
+      "coordinates": {
+        "x": 16,
+        "y": 12
+      }
+    },
+    {
+      "type": 0,
+      "size": {
+        "width": 4,
+        "height": 4
+      },
+      "coordinates": {
+        "x": 0,
+        "y": 4
+      }
+    },
+    {
+      "type": 8,
+      "size": {
+        "width": 2,
+        "height": 2
+      },
+      "coordinates": {
+        "x": 0,
+        "y": 8
+      }
+    },
+    {
+      "type": 0,
+      "size": {
+        "width": 4,
+        "height": 4
+      },
+      "coordinates": {
+        "x": 8,
+        "y": 9
+      }
+    },
+    {
+      "type": 8,
+      "size": {
+        "width": 2,
+        "height": 2
+      },
+      "coordinates": {
+        "x": 0,
+        "y": 13
+      }
+    },
+    {
+      "type": 4,
+      "size": {
+        "width": 2,
+        "height": 2
+      },
+      "coordinates": {
+        "x": 5,
+        "y": 13
+      }
+    }
+  ],
+  "size": {
+    "width": 20,
+    "height": 20
+  }
+}

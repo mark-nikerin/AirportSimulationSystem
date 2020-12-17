@@ -1,40 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Diagnostics;
+using AirportSimulationSystem.Models;
+using AirportSimulationSystem.Models.Enums;
+using Size = System.Drawing.Size;
+using System.Text.Json;
+using System.IO;
+using System.Collections.Generic;
 
 namespace AirportSimulationSystem
 {
     public partial class Form1 : Form
     {
-        private OpenFileDialog openFileDialog1;
+        private OpenFileDialog openFileDialog;
+        private SaveFileDialog saveFileDialog;
         private DataGridView dataGridView2 = new DataGridView();
         private BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
         private const int gridSize = 10;
+        private static TopologyModel Topology = new TopologyModel(); 
+        private static TopologyItemModel CurrentDraggableItem = new TopologyItemModel();
 
         public Form1()
         {
             InitializeComponent();
 
             DoubleBuffered = true;
-            openFileDialog1 = new OpenFileDialog()
+            openFileDialog = new OpenFileDialog()
             {
-                FileName = "Выберите файл с топологией",
+                Title = "Выберите файл с топологией",
+                Filter = "Файлы JSON (*.json)|*.json"
+            };
+            saveFileDialog = new SaveFileDialog()
+            {
+                AddExtension = true,
+                RestoreDirectory = true,
+                Title = "Сохраните файл с топологией",
+                DefaultExt = ".json",
                 Filter = "Файлы JSON (*.json)|*.json"
             };
 
-            createGrid(gridSize, gridSize);
+            CreateGrid(gridSize, gridSize);
+            Topology.Size.Height = gridSize;
+            Topology.Size.Width = gridSize;
 
             flightsGridView.Visible = true;
             citiesGridView.Visible = false;
@@ -46,46 +58,10 @@ namespace AirportSimulationSystem
             extendedPanel.AllowDrop = true;
         }
 
-        private void LoadTopologyButton_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    //var topologyContent = new StreamReader(openFileDialog1.FileName);
-                    tabControl1.SelectedIndex++;
-                    this.topologyName.Text = openFileDialog1.SafeFileName;
-                }
-                catch (SecurityException ex)
-                {
-                    MessageBox.Show($"Security error.\n\nError message: {ex.Message}\n\n" +
-                    $"Details:\n\n{ex.StackTrace}");
-                }
-            }
-        }
-
-        private void createGrid(int ver, int hor)
-        {
-            horGridOutput.Text = hor.ToString();
-            verGridOutput.Text = ver.ToString();
-            grid.RowCount = ver;
-            grid.ColumnCount = hor;
-
-            for (int i = 0; i < 10; i++)
-            {
-                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / grid.ColumnCount));
-                grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / grid.RowCount));
-            }
-        }
-
-        private void NextButton_Click(object sender, EventArgs e)
-        {
-            tabControl1.SelectedIndex++;
-        }
-
-        private void BackButton_Click(object sender, EventArgs e)
-        {
-            tabControl1.SelectedIndex--;
+            //dataGridView1.DataSource = bindingSource1;
+            //GetData("select FlightNumber '№ Рейса', Title 'Название', Time 'Время', RegistryNumber '№ стойки регистрации', SoldTicketsAmount 'Количество проданных билетов' from Flights");
         }
 
         private void GetData(string selectCommand)
@@ -121,47 +97,18 @@ namespace AirportSimulationSystem
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        #region Navigation
+
+        #region Button Click Events
+
+        private void NextButton_Click(object sender, EventArgs e)
         {
-            //dataGridView1.DataSource = bindingSource1;
-            //GetData("select FlightNumber '№ Рейса', Title 'Название', Time 'Время', RegistryNumber '№ стойки регистрации', SoldTicketsAmount 'Количество проданных билетов' from Flights");
+            tabControl1.SelectedIndex++;
         }
 
-        private void grid_MouseClick(object sender, MouseEventArgs e)
+        private void BackButton_Click(object sender, EventArgs e)
         {
-            int[] widths = grid.GetColumnWidths();
-            int[] heights = grid.GetRowHeights();
-
-            int col = -1;
-            int left = e.X;
-            for (int i = 0; i < widths.Length; i++)
-            {
-                if (left < widths[i])
-                {
-                    col = i;
-
-                    break;
-                }
-                else
-                    left -= widths[i];
-            }
-
-            int row = -1;
-            int top = e.Y;
-            for (int i = 0; i < heights.Length; i++)
-            {
-                if (top < heights[i])
-                {
-                    row = i;
-                    break;
-                }
-                else
-                    top -= heights[i];
-            }
-            PictureBox pb = new PictureBox();
-            pb.BackColor = Color.Red;
-            grid.Controls.Add(pb, col, row);
-
+            tabControl1.SelectedIndex--;
         }
 
         private void fligthsButton_Click(object sender, EventArgs e)
@@ -225,53 +172,75 @@ namespace AirportSimulationSystem
             button.ForeColor = SystemColors.ControlText;
         }
 
-        private void plusHorButton_Click(object sender, EventArgs e)
-        {
-            if (grid.ColumnCount < 25)
-            {
-                grid.ColumnCount++;
-                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / grid.ColumnCount));
-                horGridOutput.Text = grid.ColumnCount.ToString();
-            }
+        #endregion
+
+        #endregion
+
+        #region Topology Builder
+
+        #region Mouse Events 
+
+        private void airport_MouseDown(object sender, MouseEventArgs e)
+        { 
+            CurrentDraggableItem.Type = TopologyItemType.AirportBuilding;
+            CurrentDraggableItem.Size = ItemSizes.AirportBuilding; 
+
+            airport.DoDragDrop(airport.Image, DragDropEffects.Copy);
         }
 
-        private void minusHorBut_Click(object sender, EventArgs e)
+        private void vpp_MouseDown(object sender, MouseEventArgs e)
         {
-            if (grid.ColumnCount > 10)
-            {
-                grid.ColumnCount--;
-                horGridOutput.Text = grid.ColumnCount.ToString();
-            }
+            CurrentDraggableItem.Type = TopologyItemType.Runway;
+            CurrentDraggableItem.Size = ItemSizes.Runway;
+
+            vpp.DoDragDrop(vpp.Image, DragDropEffects.Copy);
+
         }
 
-        private void plusVerBut_Click(object sender, EventArgs e)
+        private void garage_MouseDown(object sender, MouseEventArgs e)
         {
-            if (grid.RowCount < 25)
-            {
-                grid.RowCount++;
-                grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / grid.RowCount));
-                verGridOutput.Text = grid.RowCount.ToString();
-            }
+            CurrentDraggableItem.Type = TopologyItemType.Garage;
+            CurrentDraggableItem.Size = ItemSizes.Garage; 
+
+            garage.DoDragDrop(garage.Image, DragDropEffects.Copy);
         }
 
-        private void minusVerBut_Click(object sender, EventArgs e)
+        private void hangar_MouseDown(object sender, MouseEventArgs e)
         {
-            if (grid.RowCount > 10)
-            {
-                grid.RowCount--;
-                verGridOutput.Text = grid.RowCount.ToString();
-            }
+            CurrentDraggableItem.Type = TopologyItemType.Hangar;
+            CurrentDraggableItem.Size = ItemSizes.Hangar;
+
+            hangar.DoDragDrop(hangar.Image, DragDropEffects.Copy);
         }
+
+        private void cargoTerminal_MouseDown(object sender, MouseEventArgs e)
+        {
+            CurrentDraggableItem.Type = TopologyItemType.CargoTerminal;
+            CurrentDraggableItem.Size = ItemSizes.CargoTerminal;
+
+            cargoTerminal.DoDragDrop(cargoTerminal.Image, DragDropEffects.Copy);
+        }
+
+        private void passengerTerminal_MouseDown(object sender, MouseEventArgs e)
+        {
+            CurrentDraggableItem.Type = TopologyItemType.PassengerTerminal;
+            CurrentDraggableItem.Size = ItemSizes.PassengerTerminal;
+
+            passengerTerminal.DoDragDrop(passengerTerminal.Image, DragDropEffects.Copy);
+        }
+         
+        #endregion
+
+        #region Drag Events
 
         private void extendedPanel_DragDrop(object sender, DragEventArgs e)
-        {
+        { 
+            var clientPoint = grid.PointToClient(new Point(e.X, e.Y));
+            var widths = grid.GetColumnWidths();
+            var heights = grid.GetRowHeights();
 
-            Point clientPoint = grid.PointToClient(new Point(e.X, e.Y));
-            int[] widths = grid.GetColumnWidths();
-            int[] heights = grid.GetRowHeights();
-
-            int col = -1;
-            int left = clientPoint.X;
+            var col = -1;
+            var left = clientPoint.X;
             for (int i = 0; i < widths.Length; i++)
             {
                 if (left < widths[i])
@@ -283,8 +252,8 @@ namespace AirportSimulationSystem
                     left -= widths[i];
             }
 
-            int row = -1;
-            int top = clientPoint.Y;
+            var row = -1;
+            var top = clientPoint.Y;
             for (int i = 0; i < heights.Length; i++)
             {
                 if (top < heights[i])
@@ -296,70 +265,263 @@ namespace AirportSimulationSystem
                     top -= heights[i];
             }
 
+            CurrentDraggableItem.Coordinates.X = col;
+            CurrentDraggableItem.Coordinates.Y = row;
+            AddCurrentItemToTopology();
+
             e.Effect = DragDropEffects.Copy;
 
             PictureBox pb = new PictureBox();
 
-            int width = grid.GetColumnWidths()[col];
-            int height = grid.GetRowHeights()[row];
+            var width = widths[col];
+            var height = heights[row];
 
-            pb.Size = new Size(sizeWidth * width - 1, sizeHeight * height - 1);
+            var itemWidth = CurrentDraggableItem.Size.Width;
+            var itemHeight = CurrentDraggableItem.Size.Height;
+
+            pb.Size = new Size(itemWidth * width - 1, itemHeight * height - 1);
             pb.Location = new Point(col * width + 1, row * height + 1);
             pb.Image = e.Data.GetData(DataFormats.Bitmap) as Bitmap;
-            if (sizeWidth == 10 && sizeHeight == 2) pb.SizeMode = PictureBoxSizeMode.StretchImage;
+            if (CurrentDraggableItem.Type == TopologyItemType.Runway) pb.SizeMode = PictureBoxSizeMode.StretchImage;
             else pb.SizeMode = PictureBoxSizeMode.Zoom;
 
             extendedPanel.Controls.Add(pb);
         }
-
-        int sizeWidth = 1;
-        int sizeHeight = 1;
 
         private void extendedPanel_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
         }
 
-        private void airport_MouseDown(object sender, MouseEventArgs e)
+        #endregion
+
+        #region Button Click Events
+
+        private void plusHorButton_Click(object sender, EventArgs e)
         {
-            sizeWidth = 8;
-            sizeHeight = 5;
-            airport.DoDragDrop(airport.Image, DragDropEffects.Copy);
+            if (grid.ColumnCount < 25)
+            {
+                grid.ColumnCount++;
+                Topology.Size.Width++;
+                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / grid.ColumnCount));
+                horGridOutput.Text = grid.ColumnCount.ToString(); 
+                ApplyTopology();
+            }
         }
 
-        private void vpp_MouseDown(object sender, MouseEventArgs e)
+        private void minusHorBut_Click(object sender, EventArgs e)
         {
-            sizeWidth = 10;
-            sizeHeight = 2;
-            vpp.DoDragDrop(vpp.Image, DragDropEffects.Copy);
+            if (grid.ColumnCount > 10 && extendedPanel.Controls.Count == 0)
+            {
+                grid.ColumnCount--;
+                Topology.Size.Width--;
+                horGridOutput.Text = grid.ColumnCount.ToString();
+            }
         }
 
-        private void garage_MouseDown(object sender, MouseEventArgs e)
+        private void plusVerBut_Click(object sender, EventArgs e)
         {
-            sizeWidth = 4;
-            sizeHeight = 4;
-            garage.DoDragDrop(garage.Image, DragDropEffects.Copy);
+            if (grid.RowCount < 25)
+            {
+                grid.RowCount++;
+                Topology.Size.Height++;
+                grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / grid.RowCount));
+                verGridOutput.Text = grid.RowCount.ToString(); 
+                ApplyTopology();
+            }
         }
 
-        private void hangar_MouseDown(object sender, MouseEventArgs e)
+        private void minusVerBut_Click(object sender, EventArgs e)
         {
-            sizeWidth = 4;
-            sizeHeight = 4;
-            hangar.DoDragDrop(hangar.Image, DragDropEffects.Copy);
+            if (grid.RowCount > 10 && extendedPanel.Controls.Count == 0)
+            {
+                grid.RowCount--;
+                Topology.Size.Height--;
+                verGridOutput.Text = grid.RowCount.ToString();
+            }
         }
 
-        private void cargoTerminal_MouseDown(object sender, MouseEventArgs e)
+        private void CreateTopologyButton_click(object sender, EventArgs e)
         {
-            sizeWidth = 2;
-            sizeHeight = 2;
-            cargoTerminal.DoDragDrop(cargoTerminal.Image, DragDropEffects.Copy);
+            ResetTopology();
+            extendedPanel.Controls.Clear();
+            tabControl1.SelectedIndex++;
         }
 
-        private void passengerTerminal_MouseDown(object sender, MouseEventArgs e)
+        private void LoadTopologyButton_Click(object sender, EventArgs e)
         {
-            sizeWidth = 2;
-            sizeHeight = 2;
-            passengerTerminal.DoDragDrop(passengerTerminal.Image, DragDropEffects.Copy);
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    var streamReader = new StreamReader(openFileDialog.FileName);
+
+                    var topologyJson = streamReader.ReadToEnd();
+
+                    streamReader.Close();
+
+                    Topology = JsonSerializer.Deserialize<TopologyModel>(topologyJson, new JsonSerializerOptions()
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                        WriteIndented = true
+                    }); 
+
+                    ApplyTopology();
+
+                    tabControl1.SelectedIndex++;
+                }
+                catch (SecurityException ex)
+                {
+                    MessageBox.Show($"Security error.\n\nError message: {ex.Message}\n\n" +
+                    $"Details:\n\n{ex.StackTrace}");
+                }
+            }
         }
+
+        private void saveTopology_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Stream fileStream;
+                try
+                {
+                    if ((fileStream = saveFileDialog.OpenFile()) != null)
+                    {
+                        var pathParts = saveFileDialog.FileName.Split('\\');
+                        Topology.Name = pathParts[pathParts.Length - 1].Split('.')[0];
+
+                        var topologyJson = JsonSerializer.Serialize(Topology, new JsonSerializerOptions()
+                        {
+                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                            WriteIndented = true
+                        });
+
+                        topologyName.Text = Topology.Name;
+
+                        var streamWriter = new StreamWriter(fileStream);
+                        streamWriter.Write(topologyJson);
+                        streamWriter.Close();
+                        fileStream.Close();
+                    }
+                }
+                catch (SecurityException ex)
+                {
+                    MessageBox.Show($"Security error.\n\nError message: {ex.Message}\n\n" +
+                    $"Details:\n\n{ex.StackTrace}");
+                }
+            }
+        }
+
+        #endregion
+
+        private void CreateGrid(int ver, int hor)
+        {
+            horGridOutput.Text = hor.ToString();
+            verGridOutput.Text = ver.ToString();
+            grid.RowCount = ver;
+            grid.ColumnCount = hor;
+
+            for (int i = 0; i < gridSize; i++)
+            {
+                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / grid.ColumnCount));
+                grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / grid.RowCount));
+            }
+        }
+
+        private void ApplyTopology()
+        {
+            extendedPanel.Controls.Clear();
+            topologyName.Text = Topology.Name;
+
+            while (grid.ColumnCount != Topology.Size.Width && grid.RowCount != Topology.Size.Height)
+            {
+                if (grid.ColumnCount < Topology.Size.Width)
+                {
+                    grid.ColumnCount++;
+                    grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / grid.ColumnCount));
+                    horGridOutput.Text = grid.ColumnCount.ToString();
+                }
+
+                if (grid.ColumnCount > Topology.Size.Width)
+                {
+                    grid.ColumnCount--;
+                    horGridOutput.Text = grid.ColumnCount.ToString();
+                }
+
+                if (grid.RowCount < Topology.Size.Height)
+                {
+                    grid.RowCount++;
+                    grid.ColumnStyles.Add(new RowStyle(SizeType.Percent, 100 / grid.RowCount));
+                    verGridOutput.Text = grid.RowCount.ToString();
+                }
+
+                if (grid.RowCount > Topology.Size.Height)
+                {
+                    grid.RowCount--;
+                    verGridOutput.Text = grid.RowCount.ToString();
+                }
+            }
+
+            foreach (var item in Topology.Items)
+            {
+                var pictureBox = new PictureBox();
+
+                pictureBox.Image = item.Type switch
+                {
+                    TopologyItemType.AirportBuilding => airport.Image,
+                    TopologyItemType.Garage => garage.Image,
+                    TopologyItemType.Hangar => hangar.Image,
+                    TopologyItemType.Runway => vpp.Image,
+                    TopologyItemType.PassengerTerminal => passengerTerminal.Image,
+                    TopologyItemType.CargoTerminal => cargoTerminal.Image,
+                    _ => null
+                };
+
+                var X = item.Coordinates.X;
+                var Y = item.Coordinates.Y;
+
+                var width = grid.GetColumnWidths()[X];
+                var height = grid.GetRowHeights()[Y];
+
+                pictureBox.Size = new Size(item.Size.Width * width - 1, item.Size.Height * height - 1);
+                pictureBox.Location = new Point(X * width + 1, Y * height + 1);
+
+                if (item.Type == TopologyItemType.Runway)
+                    pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                else pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+
+                extendedPanel.Controls.Add(pictureBox);
+            } 
+        }
+
+        private void ResetTopology()
+        {
+            Topology.Name = "Название топологии";
+            Topology.Items = new List<TopologyItemModel>();
+            Topology.Size.Width = gridSize;
+            Topology.Size.Height = gridSize;
+            ApplyTopology();
+        }
+
+        private void AddCurrentItemToTopology()
+        {
+            Topology.Items.Add(new TopologyItemModel
+            {
+                Type = CurrentDraggableItem.Type,
+                Size = new Models.Size
+                {
+                    Width = CurrentDraggableItem.Size.Width,
+                    Height = CurrentDraggableItem.Size.Height
+                },
+                Coordinates = new Coordinates
+                {
+                    X = CurrentDraggableItem.Coordinates.X,
+                    Y = CurrentDraggableItem.Coordinates.Y
+                },
+            });
+        }
+
+        #endregion
+
     }
 }
