@@ -58,6 +58,7 @@ namespace AirportSimulationSystem
             SetButtonInactive(citiesButton);
 
             extendedPanel.AllowDrop = true;
+            groupBox1.AllowDrop = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -269,7 +270,7 @@ namespace AirportSimulationSystem
             CurrentDraggableItem.Coordinates.X = col;
             CurrentDraggableItem.Coordinates.Y = row;
             AddCurrentItemToTopology();
-
+            
             e.Effect = DragDropEffects.Copy;
 
             PictureBox pb = new PictureBox();
@@ -289,15 +290,23 @@ namespace AirportSimulationSystem
             pb.LostFocus += (o, args) => pb.ResetBackColor();
             pb.MouseClick += (o, args) => pb.Focus();
             pb.AllowDrop = true;
+            pb.MouseDown += (o, args) =>
+            {
+                if (!pb.Focused) return;
+                
+                pb.DoDragDrop(pb.Image, DragDropEffects.Copy);
+                RemoveItemFromTopology(col, row, pb);
+            };
             
             pb.KeyDown += (o, args) =>
             {
-                if (args.KeyCode != Keys.Delete) return;
-
-                ActiveControl = null;
-                RemoveItemFromTopology(col, row, pb);
+                if (args.KeyCode == Keys.Delete && pb.Focused)
+                {
+                    ActiveControl = null;
+                    RemoveItemFromTopology(col, row, pb);
+                }
             };
-            extendedPanel.Controls.Add(pb);
+                extendedPanel.Controls.Add(pb);
         }
 
         private void extendedPanel_DragEnter(object sender, DragEventArgs e)
@@ -314,6 +323,7 @@ namespace AirportSimulationSystem
             if (grid.ColumnCount < 25  && extendedPanel.Controls.Count == 0)
             {
                 grid.ColumnCount++;
+                extendedPanel.Size = grid.Size;
                 Topology.Size.Width++;
                 grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / grid.ColumnCount));
                 horGridOutput.Text = grid.ColumnCount.ToString();
@@ -326,6 +336,7 @@ namespace AirportSimulationSystem
             if (grid.ColumnCount > 10 && extendedPanel.Controls.Count == 0)
             {
                 grid.ColumnCount--;
+                extendedPanel.Size = grid.Size;
                 Topology.Size.Width--;
                 horGridOutput.Text = grid.ColumnCount.ToString();
             }
@@ -336,6 +347,7 @@ namespace AirportSimulationSystem
             if (grid.RowCount < 25 && extendedPanel.Controls.Count == 0)
             {
                 grid.RowCount++;
+                extendedPanel.Size = grid.Size;
                 Topology.Size.Height++;
                 grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / grid.RowCount));
                 verGridOutput.Text = grid.RowCount.ToString();
@@ -348,6 +360,7 @@ namespace AirportSimulationSystem
             if (grid.RowCount > 10 && extendedPanel.Controls.Count == 0)
             {
                 grid.RowCount--;
+                extendedPanel.Size = grid.Size;
                 Topology.Size.Height--;
                 verGridOutput.Text = grid.RowCount.ToString();
             }
@@ -519,7 +532,6 @@ namespace AirportSimulationSystem
             var item = Topology.Items.First(model => model.Coordinates.X == col && model.Coordinates.Y == row);
             Topology.Items.Remove(item);
             extendedPanel.Controls.Remove(pb);
-            pb.Dispose();
             grid.Refresh();
             extendedPanel.Refresh();
         }
@@ -543,5 +555,15 @@ namespace AirportSimulationSystem
         }
 
         #endregion
+
+        private void groupBox1_DragDrop(object sender, DragEventArgs e)
+        {
+
+        }
+
+        private void groupBox1_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
     }
 }
