@@ -42,6 +42,7 @@ namespace AirportSimulationSystem
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.MainPage = new System.Windows.Forms.TabPage();
             this.TopologyPage = new System.Windows.Forms.TabPage();
+            this.saveTopology = new System.Windows.Forms.Button();
             this.extendedPanel = new AirportSimulationSystem.ExtendedPanel();
             this.verGridOutput = new System.Windows.Forms.TextBox();
             this.minusVerBut = new System.Windows.Forms.Button();
@@ -111,7 +112,6 @@ namespace AirportSimulationSystem
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.backToScheduleButton = new System.Windows.Forms.Button();
             this.plusHorButton = new System.Windows.Forms.Button();
-            this.saveTopology = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.MainPage.SuspendLayout();
@@ -145,7 +145,7 @@ namespace AirportSimulationSystem
             this.label1.Text = "Создайте топологию аэропорта с нуля \nили загрузите готовый файл";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // createTopologyButton
+            // CreateTopologyButton
             // 
             this.CreateTopologyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.CreateTopologyButton.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -154,7 +154,7 @@ namespace AirportSimulationSystem
             this.CreateTopologyButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.CreateTopologyButton.ForeColor = System.Drawing.SystemColors.HighlightText;
             this.CreateTopologyButton.Location = new System.Drawing.Point(365, 462);
-            this.CreateTopologyButton.Name = "createTopologyButton";
+            this.CreateTopologyButton.Name = "CreateTopologyButton";
             this.CreateTopologyButton.Size = new System.Drawing.Size(244, 32);
             this.CreateTopologyButton.TabIndex = 1;
             this.CreateTopologyButton.Text = "Создать";
@@ -236,6 +236,22 @@ namespace AirportSimulationSystem
             this.TopologyPage.Size = new System.Drawing.Size(1255, 660);
             this.TopologyPage.TabIndex = 3;
             this.TopologyPage.Text = "Топология";
+            // 
+            // saveTopology
+            // 
+            this.saveTopology.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
+            this.saveTopology.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.saveTopology.FlatAppearance.BorderSize = 0;
+            this.saveTopology.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.saveTopology.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.saveTopology.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.saveTopology.Location = new System.Drawing.Point(497, 613);
+            this.saveTopology.Name = "saveTopology";
+            this.saveTopology.Size = new System.Drawing.Size(134, 32);
+            this.saveTopology.TabIndex = 13;
+            this.saveTopology.Text = "Сохранить";
+            this.saveTopology.UseVisualStyleBackColor = false;
+            this.saveTopology.Click += new System.EventHandler(this.saveTopology_Click);
             // 
             // extendedPanel
             // 
@@ -995,7 +1011,7 @@ namespace AirportSimulationSystem
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.65979F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 186F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 268F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 270F));
             this.tableLayoutPanel1.Location = new System.Drawing.Point(20, 430);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -1094,22 +1110,6 @@ namespace AirportSimulationSystem
             this.plusHorButton.TabIndex = 6;
             this.plusHorButton.Text = "+";
             this.plusHorButton.UseVisualStyleBackColor = true;
-            // 
-            // saveTopology
-            // 
-            this.saveTopology.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
-            this.saveTopology.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.saveTopology.FlatAppearance.BorderSize = 0;
-            this.saveTopology.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.saveTopology.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.saveTopology.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.saveTopology.Location = new System.Drawing.Point(497, 613);
-            this.saveTopology.Name = "saveTopology";
-            this.saveTopology.Size = new System.Drawing.Size(134, 32);
-            this.saveTopology.TabIndex = 13;
-            this.saveTopology.Text = "Сохранить";
-            this.saveTopology.UseVisualStyleBackColor = false;
-            this.saveTopology.Click += new System.EventHandler(this.saveTopology_Click);
             // 
             // Form1
             // 

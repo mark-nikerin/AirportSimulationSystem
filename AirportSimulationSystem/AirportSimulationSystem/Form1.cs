@@ -11,6 +11,8 @@ using Size = System.Drawing.Size;
 using System.Text.Json;
 using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace AirportSimulationSystem
 {
@@ -22,7 +24,7 @@ namespace AirportSimulationSystem
         private BindingSource bindingSource1 = new BindingSource();
         private SqlDataAdapter dataAdapter = new SqlDataAdapter();
         private const int gridSize = 10;
-        private static TopologyModel Topology = new TopologyModel(); 
+        private static TopologyModel Topology = new TopologyModel();
         private static TopologyItemModel CurrentDraggableItem = new TopologyItemModel();
 
         public Form1()
@@ -178,12 +180,12 @@ namespace AirportSimulationSystem
 
         #region Topology Builder
 
-        #region Mouse Events 
+        #region Mouse Events
 
         private void airport_MouseDown(object sender, MouseEventArgs e)
-        { 
+        {
             CurrentDraggableItem.Type = TopologyItemType.AirportBuilding;
-            CurrentDraggableItem.Size = ItemSizes.AirportBuilding; 
+            CurrentDraggableItem.Size = ItemSizes.AirportBuilding;
 
             airport.DoDragDrop(airport.Image, DragDropEffects.Copy);
         }
@@ -194,13 +196,12 @@ namespace AirportSimulationSystem
             CurrentDraggableItem.Size = ItemSizes.Runway;
 
             vpp.DoDragDrop(vpp.Image, DragDropEffects.Copy);
-
         }
 
         private void garage_MouseDown(object sender, MouseEventArgs e)
         {
             CurrentDraggableItem.Type = TopologyItemType.Garage;
-            CurrentDraggableItem.Size = ItemSizes.Garage; 
+            CurrentDraggableItem.Size = ItemSizes.Garage;
 
             garage.DoDragDrop(garage.Image, DragDropEffects.Copy);
         }
@@ -228,13 +229,13 @@ namespace AirportSimulationSystem
 
             passengerTerminal.DoDragDrop(passengerTerminal.Image, DragDropEffects.Copy);
         }
-         
+
         #endregion
 
         #region Drag Events
 
         private void extendedPanel_DragDrop(object sender, DragEventArgs e)
-        { 
+        {
             var clientPoint = grid.PointToClient(new Point(e.X, e.Y));
             var widths = grid.GetColumnWidths();
             var heights = grid.GetRowHeights();
@@ -282,9 +283,20 @@ namespace AirportSimulationSystem
             pb.Size = new Size(itemWidth * width - 1, itemHeight * height - 1);
             pb.Location = new Point(col * width + 1, row * height + 1);
             pb.Image = e.Data.GetData(DataFormats.Bitmap) as Bitmap;
-            if (CurrentDraggableItem.Type == TopologyItemType.Runway) pb.SizeMode = PictureBoxSizeMode.StretchImage;
-            else pb.SizeMode = PictureBoxSizeMode.Zoom;
+            pb.SizeMode = CurrentDraggableItem.Type == TopologyItemType.Runway ? PictureBoxSizeMode.StretchImage : PictureBoxSizeMode.Zoom;
+            
+            pb.GotFocus += (o, args) => pb.BackColor = Color.Aquamarine;
+            pb.LostFocus += (o, args) => pb.ResetBackColor();
+            pb.MouseClick += (o, args) => pb.Focus();
+            pb.AllowDrop = true;
+            
+            pb.KeyDown += (o, args) =>
+            {
+                if (args.KeyCode != Keys.Delete) return;
 
+                ActiveControl = null;
+                RemoveItemFromTopology(col, row, pb);
+            };
             extendedPanel.Controls.Add(pb);
         }
 
@@ -299,12 +311,12 @@ namespace AirportSimulationSystem
 
         private void plusHorButton_Click(object sender, EventArgs e)
         {
-            if (grid.ColumnCount < 25)
+            if (grid.ColumnCount < 25  && extendedPanel.Controls.Count == 0)
             {
                 grid.ColumnCount++;
                 Topology.Size.Width++;
                 grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / grid.ColumnCount));
-                horGridOutput.Text = grid.ColumnCount.ToString(); 
+                horGridOutput.Text = grid.ColumnCount.ToString();
                 ApplyTopology();
             }
         }
@@ -321,12 +333,12 @@ namespace AirportSimulationSystem
 
         private void plusVerBut_Click(object sender, EventArgs e)
         {
-            if (grid.RowCount < 25)
+            if (grid.RowCount < 25 && extendedPanel.Controls.Count == 0)
             {
                 grid.RowCount++;
                 Topology.Size.Height++;
                 grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / grid.RowCount));
-                verGridOutput.Text = grid.RowCount.ToString(); 
+                verGridOutput.Text = grid.RowCount.ToString();
                 ApplyTopology();
             }
         }
@@ -364,7 +376,7 @@ namespace AirportSimulationSystem
                     {
                         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                         WriteIndented = true
-                    }); 
+                    });
 
                     ApplyTopology();
 
@@ -373,7 +385,7 @@ namespace AirportSimulationSystem
                 catch (SecurityException ex)
                 {
                     MessageBox.Show($"Security error.\n\nError message: {ex.Message}\n\n" +
-                    $"Details:\n\n{ex.StackTrace}");
+                                    $"Details:\n\n{ex.StackTrace}");
                 }
             }
         }
@@ -407,7 +419,7 @@ namespace AirportSimulationSystem
                 catch (SecurityException ex)
                 {
                     MessageBox.Show($"Security error.\n\nError message: {ex.Message}\n\n" +
-                    $"Details:\n\n{ex.StackTrace}");
+                                    $"Details:\n\n{ex.StackTrace}");
                 }
             }
         }
@@ -464,17 +476,18 @@ namespace AirportSimulationSystem
 
             foreach (var item in Topology.Items)
             {
-                var pictureBox = new PictureBox();
-
-                pictureBox.Image = item.Type switch
+                var pictureBox = new PictureBox
                 {
-                    TopologyItemType.AirportBuilding => airport.Image,
-                    TopologyItemType.Garage => garage.Image,
-                    TopologyItemType.Hangar => hangar.Image,
-                    TopologyItemType.Runway => vpp.Image,
-                    TopologyItemType.PassengerTerminal => passengerTerminal.Image,
-                    TopologyItemType.CargoTerminal => cargoTerminal.Image,
-                    _ => null
+                    Image = item.Type switch
+                    {
+                        TopologyItemType.AirportBuilding => airport.Image,
+                        TopologyItemType.Garage => garage.Image,
+                        TopologyItemType.Hangar => hangar.Image,
+                        TopologyItemType.Runway => vpp.Image,
+                        TopologyItemType.PassengerTerminal => passengerTerminal.Image,
+                        TopologyItemType.CargoTerminal => cargoTerminal.Image,
+                        _ => null
+                    }
                 };
 
                 var X = item.Coordinates.X;
@@ -486,12 +499,10 @@ namespace AirportSimulationSystem
                 pictureBox.Size = new Size(item.Size.Width * width - 1, item.Size.Height * height - 1);
                 pictureBox.Location = new Point(X * width + 1, Y * height + 1);
 
-                if (item.Type == TopologyItemType.Runway)
-                    pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                else pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+                pictureBox.SizeMode = item.Type == TopologyItemType.Runway ? PictureBoxSizeMode.StretchImage : PictureBoxSizeMode.Zoom;
 
                 extendedPanel.Controls.Add(pictureBox);
-            } 
+            }
         }
 
         private void ResetTopology()
@@ -503,6 +514,16 @@ namespace AirportSimulationSystem
             ApplyTopology();
         }
 
+        private void RemoveItemFromTopology(int col, int row, PictureBox pb)
+        {
+            var item = Topology.Items.First(model => model.Coordinates.X == col && model.Coordinates.Y == row);
+            Topology.Items.Remove(item);
+            extendedPanel.Controls.Remove(pb);
+            pb.Dispose();
+            grid.Refresh();
+            extendedPanel.Refresh();
+        }
+        
         private void AddCurrentItemToTopology()
         {
             Topology.Items.Add(new TopologyItemModel
@@ -522,6 +543,5 @@ namespace AirportSimulationSystem
         }
 
         #endregion
-
     }
 }
