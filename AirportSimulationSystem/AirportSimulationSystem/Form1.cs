@@ -185,6 +185,7 @@ namespace AirportSimulationSystem
 
         private void airport_MouseDown(object sender, MouseEventArgs e)
         {
+            if (ItemCounter.AirportBuilding <= 0) return;
             CurrentDraggableItem.Type = TopologyItemType.AirportBuilding;
             CurrentDraggableItem.Size = ItemSizes.AirportBuilding;
 
@@ -193,6 +194,7 @@ namespace AirportSimulationSystem
 
         private void vpp_MouseDown(object sender, MouseEventArgs e)
         {
+            if (ItemCounter.Runway <= 0) return;
             CurrentDraggableItem.Type = TopologyItemType.Runway;
             CurrentDraggableItem.Size = ItemSizes.Runway;
 
@@ -201,6 +203,7 @@ namespace AirportSimulationSystem
 
         private void garage_MouseDown(object sender, MouseEventArgs e)
         {
+            if (ItemCounter.Garage <= 0) return;
             CurrentDraggableItem.Type = TopologyItemType.Garage;
             CurrentDraggableItem.Size = ItemSizes.Garage;
 
@@ -209,6 +212,7 @@ namespace AirportSimulationSystem
 
         private void hangar_MouseDown(object sender, MouseEventArgs e)
         {
+            if (ItemCounter.Hangar <= 0) return;
             CurrentDraggableItem.Type = TopologyItemType.Hangar;
             CurrentDraggableItem.Size = ItemSizes.Hangar;
 
@@ -217,6 +221,7 @@ namespace AirportSimulationSystem
 
         private void cargoTerminal_MouseDown(object sender, MouseEventArgs e)
         {
+            if (ItemCounter.CargoTerminal <= 0) return;
             CurrentDraggableItem.Type = TopologyItemType.CargoTerminal;
             CurrentDraggableItem.Size = ItemSizes.CargoTerminal;
 
@@ -225,6 +230,7 @@ namespace AirportSimulationSystem
 
         private void passengerTerminal_MouseDown(object sender, MouseEventArgs e)
         {
+            if (ItemCounter.PassengerTerminal <= 0) return;
             CurrentDraggableItem.Type = TopologyItemType.PassengerTerminal;
             CurrentDraggableItem.Size = ItemSizes.PassengerTerminal;
 
@@ -270,7 +276,7 @@ namespace AirportSimulationSystem
             CurrentDraggableItem.Coordinates.X = col;
             CurrentDraggableItem.Coordinates.Y = row;
             AddCurrentItemToTopology();
-            
+
             e.Effect = DragDropEffects.Copy;
 
             PictureBox pb = new PictureBox();
@@ -284,8 +290,10 @@ namespace AirportSimulationSystem
             pb.Size = new Size(itemWidth * width - 1, itemHeight * height - 1);
             pb.Location = new Point(col * width + 1, row * height + 1);
             pb.Image = e.Data.GetData(DataFormats.Bitmap) as Bitmap;
-            pb.SizeMode = CurrentDraggableItem.Type == TopologyItemType.Runway ? PictureBoxSizeMode.StretchImage : PictureBoxSizeMode.Zoom;
-            
+            pb.SizeMode = CurrentDraggableItem.Type == TopologyItemType.Runway
+                ? PictureBoxSizeMode.StretchImage
+                : PictureBoxSizeMode.Zoom;
+
             pb.GotFocus += (o, args) => pb.BackColor = Color.Aquamarine;
             pb.LostFocus += (o, args) => pb.ResetBackColor();
             pb.MouseClick += (o, args) => pb.Focus();
@@ -293,11 +301,11 @@ namespace AirportSimulationSystem
             pb.MouseDown += (o, args) =>
             {
                 if (!pb.Focused) return;
-                
+
                 pb.DoDragDrop(pb.Image, DragDropEffects.Copy);
                 RemoveItemFromTopology(col, row, pb);
             };
-            
+
             pb.KeyDown += (o, args) =>
             {
                 if (args.KeyCode == Keys.Delete && pb.Focused)
@@ -306,7 +314,7 @@ namespace AirportSimulationSystem
                     RemoveItemFromTopology(col, row, pb);
                 }
             };
-                extendedPanel.Controls.Add(pb);
+            extendedPanel.Controls.Add(pb);
         }
 
         private void extendedPanel_DragEnter(object sender, DragEventArgs e)
@@ -320,7 +328,7 @@ namespace AirportSimulationSystem
 
         private void plusHorButton_Click(object sender, EventArgs e)
         {
-            if (grid.ColumnCount < 25  && extendedPanel.Controls.Count == 0)
+            if (grid.ColumnCount < 25 && extendedPanel.Controls.Count == 0)
             {
                 grid.ColumnCount++;
                 extendedPanel.Size = grid.Size;
@@ -512,7 +520,9 @@ namespace AirportSimulationSystem
                 pictureBox.Size = new Size(item.Size.Width * width - 1, item.Size.Height * height - 1);
                 pictureBox.Location = new Point(X * width + 1, Y * height + 1);
 
-                pictureBox.SizeMode = item.Type == TopologyItemType.Runway ? PictureBoxSizeMode.StretchImage : PictureBoxSizeMode.Zoom;
+                pictureBox.SizeMode = item.Type == TopologyItemType.Runway
+                    ? PictureBoxSizeMode.StretchImage
+                    : PictureBoxSizeMode.Zoom;
 
                 extendedPanel.Controls.Add(pictureBox);
             }
@@ -534,10 +544,74 @@ namespace AirportSimulationSystem
             extendedPanel.Controls.Remove(pb);
             grid.Refresh();
             extendedPanel.Refresh();
+            PlusCounter(item.Type);
         }
-        
+
+        private void PlusCounter(TopologyItemType type)
+        {
+            switch (CurrentDraggableItem.Type)
+            {
+                case TopologyItemType.AirportBuilding:
+                    ItemCounter.AirportBuilding++;
+                    counterAirport.Text = "x" + ItemCounter.AirportBuilding;
+                    break;
+                case TopologyItemType.CargoTerminal:
+                    ItemCounter.CargoTerminal++;
+                    counterCargoTerm.Text = "x" + ItemCounter.CargoTerminal;
+                    break;
+                case TopologyItemType.Garage:
+                    ItemCounter.Garage++;
+                    counterGarage.Text = "x" + ItemCounter.Garage;
+                    break;
+                case TopologyItemType.Hangar:
+                    ItemCounter.Hangar++;
+                    counterHangar.Text = "x" + ItemCounter.Hangar;
+                    break;
+                case TopologyItemType.PassengerTerminal:
+                    ItemCounter.PassengerTerminal++;
+                    counterPassTerm.Text = "x" + ItemCounter.PassengerTerminal;
+                    break;
+                case TopologyItemType.Runway:
+                    ItemCounter.Runway++;
+                    counterVPP.Text = "x" + ItemCounter.Runway;
+                    break;
+            }
+        }
+
+        private void MinusCounter(TopologyItemType type)
+        {
+            switch (CurrentDraggableItem.Type)
+            {
+                case TopologyItemType.AirportBuilding:
+                    ItemCounter.AirportBuilding--;
+                    counterAirport.Text = "x" + ItemCounter.AirportBuilding;
+                    break;
+                case TopologyItemType.CargoTerminal:
+                    ItemCounter.CargoTerminal--;
+                    counterCargoTerm.Text = "x" + ItemCounter.CargoTerminal;
+                    break;
+                case TopologyItemType.Garage:
+                    ItemCounter.Garage--;
+                    counterGarage.Text = "x" + ItemCounter.Garage;
+                    break;
+                case TopologyItemType.Hangar:
+                    ItemCounter.Hangar--;
+                    counterHangar.Text = "x" + ItemCounter.Hangar;
+                    break;
+                case TopologyItemType.PassengerTerminal:
+                    ItemCounter.PassengerTerminal--;
+                    counterPassTerm.Text = "x" + ItemCounter.PassengerTerminal;
+                    break;
+                case TopologyItemType.Runway:
+                    ItemCounter.Runway--;
+                    counterVPP.Text = "x" + ItemCounter.Runway;
+                    break;
+            }
+        }
+
         private void AddCurrentItemToTopology()
         {
+            MinusCounter(CurrentDraggableItem.Type);
             Topology.Items.Add(new TopologyItemModel
             {
                 Type = CurrentDraggableItem.Type,
@@ -558,7 +632,6 @@ namespace AirportSimulationSystem
 
         private void groupBox1_DragDrop(object sender, DragEventArgs e)
         {
-
         }
 
         private void groupBox1_DragEnter(object sender, DragEventArgs e)
