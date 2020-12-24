@@ -72,7 +72,7 @@ namespace AirportSimulationSystem
                 // Replace <SQL Server> with the SQL Server for your Northwind sample database.
                 // Replace "Integrated Security=True" with user login information if necessary.
                 String connectionString =
-                    "Data source=DELL-INSPIRON-5\\SQLEXPRESS;Initial Catalog=AirportDatabase;" +
+                    "Data source=.\\SQLEXPRESS;Initial Catalog=AirportDatabase;" +
                     "Integrated Security=True";
 
                 dataAdapter = new SqlDataAdapter(selectCommand, connectionString);
