@@ -18,4 +18,6 @@ namespace AirportSimulationSystem.Models.Enums
 
         public static int Hangar = 3;
     }
+    
+    
 }

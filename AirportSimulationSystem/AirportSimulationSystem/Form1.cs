@@ -281,6 +281,7 @@ namespace AirportSimulationSystem
 
             PictureBox pb = new PictureBox();
 
+            var type = CurrentDraggableItem.Type;
             var width = widths[col];
             var height = heights[row];
 
@@ -288,6 +289,7 @@ namespace AirportSimulationSystem
             var itemHeight = CurrentDraggableItem.Size.Height;
 
             pb.Size = new Size(itemWidth * width - 1, itemHeight * height - 1);
+
             pb.Location = new Point(col * width + 1, row * height + 1);
             pb.Image = e.Data.GetData(DataFormats.Bitmap) as Bitmap;
             pb.SizeMode = CurrentDraggableItem.Type == TopologyItemType.Runway
@@ -296,7 +298,11 @@ namespace AirportSimulationSystem
 
             pb.GotFocus += (o, args) => pb.BackColor = Color.Aquamarine;
             pb.LostFocus += (o, args) => pb.ResetBackColor();
-            pb.MouseClick += (o, args) => pb.Focus();
+            pb.MouseClick += (o, args) =>
+            {
+                pb.Focus();
+                CurrentDraggableItem.Type = type;
+            };
             pb.AllowDrop = true;
             pb.MouseDown += (o, args) =>
             {
@@ -305,7 +311,6 @@ namespace AirportSimulationSystem
                 pb.DoDragDrop(pb.Image, DragDropEffects.Copy);
                 RemoveItemFromTopology(col, row, pb);
             };
-
             pb.KeyDown += (o, args) =>
             {
                 if (args.KeyCode == Keys.Delete && pb.Focused)
@@ -314,6 +319,24 @@ namespace AirportSimulationSystem
                     RemoveItemFromTopology(col, row, pb);
                 }
             };
+            pb.MouseWheel += (o, args) =>
+            {
+                Debug.Write("MouseWheel");
+                if (args.Delta > 0)
+                {
+                    pb.Image = RotateImage(pb.Image, new PointF(pb.Image.Width / 2, pb.Image.Height / 2), 90f);
+                }
+
+                if (args.Delta < 0)
+                {
+                    pb.Image = RotateImage(pb.Image, new PointF(pb.Image.Width / 2, pb.Image.Height / 2), -90f);
+                }
+
+                pb.Size = new Size(pb.Size.Height, pb.Size.Width);
+                grid.Refresh();
+                extendedPanel.Refresh();
+            };
+
             extendedPanel.Controls.Add(pb);
         }
 
@@ -323,6 +346,30 @@ namespace AirportSimulationSystem
         }
 
         #endregion
+
+        private Bitmap RotateImage(Image image, PointF offset, float angle)
+        {
+            //create a new empty bitmap to hold rotated image
+            Bitmap rotatedBmp = new Bitmap(image.Width, image.Height);
+            rotatedBmp.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            //make a graphics object from the empty bitmap
+            Graphics g = Graphics.FromImage(rotatedBmp);
+
+            //Put the rotation point in the center of the image
+            g.TranslateTransform(offset.X, offset.Y);
+
+            //rotate the image
+            g.RotateTransform(angle);
+
+            //move the image back
+            g.TranslateTransform(-offset.X, -offset.Y);
+
+            //draw passed in image onto graphics object
+            g.DrawImage(image, new PointF(0, 0));
+
+            return rotatedBmp;
+        }
 
         #region Button Click Events
 
