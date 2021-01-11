@@ -820,7 +820,7 @@ namespace AirportSimulationSystem
 
         private void ResetCounters()
         {
-            ItemCounter.reset();
+            ItemCounter.Reset();
             counterAirport.Text = "x" + ItemCounter.AirportBuilding;
             counterCargoTerm.Text = "x" + ItemCounter.CargoTerminal;
             counterGarage.Text = "x" + ItemCounter.Garage;
@@ -933,41 +933,60 @@ namespace AirportSimulationSystem
 
         private void AddItemButton_Click(object sender, EventArgs e)
         {
-            //using var addCityForm = new AddCityForm();
+            DialogResult dialogResult;
 
-            //DialogResult result = addCityForm.ShowDialog();
-            //if (result == DialogResult.OK && addCityForm.CityDTO != null)
-            //{
-            //    _cityService.AddCity(addCityForm.CityDTO);
-            //    citiesGridView.DataSource = _cityService.GetCities();
-            //    citiesGridView.Refresh();
-            //}
-
-            using var addAirplaneForm = new AddAirplaneForm();
-
-            DialogResult result = addAirplaneForm.ShowDialog();
-            if (result == DialogResult.OK && addAirplaneForm.AirplaneDTO != null)
+            if (citiesGridView.Visible)
             {
-                _airplaneService.AddAirplane(addAirplaneForm.AirplaneDTO);
-                airplanesGridView.DataSource = _airplaneService.GetAirplanes();
-                airplanesGridView.Refresh();
+                using var addCityForm = new AddCityForm();
+
+                dialogResult = addCityForm.ShowDialog();
+                if (dialogResult == DialogResult.OK && addCityForm.CityDTO != null)
+                {
+                    _cityService.AddCity(addCityForm.CityDTO);
+                    citiesGridView.DataSource = _cityService.GetCities();
+                    citiesGridView.Refresh();
+                }
+            }
+
+            if (airplanesGridView.Visible)
+            {
+                using var addAirplaneForm = new AddAirplaneForm();
+
+                dialogResult = addAirplaneForm.ShowDialog();
+                if (dialogResult == DialogResult.OK && addAirplaneForm.AirplaneDTO != null)
+                {
+                    _airplaneService.AddAirplane(addAirplaneForm.AirplaneDTO);
+                    airplanesGridView.DataSource = _airplaneService.GetAirplanes();
+                    airplanesGridView.Refresh();
+                }
+            }
+
+            if (flightsGridView.Visible)
+            {
+                //TODO Добавить реализацию
             }
         }
 
         private void DeleteItemButton_Click(object sender, EventArgs e)
         {
-            //if (citiesGridView.SelectedCells.Count > 0)
-            //{
-            //    var selectedRowIndex = citiesGridView.SelectedCells[0].RowIndex;
-            //    var selectedRow = citiesGridView.Rows[selectedRowIndex];
-            //    var cityId = int.Parse(Convert.ToString(selectedRow.Cells["Id"].Value));
+            var confirmResult = MessageBox.Show("Вы уверены, что хотите удалить объект?",
+                                     "Подтвеждение удаления",
+                                     MessageBoxButtons.YesNo);
 
-            //    _cityService.RemoveCity(cityId);
-            //    citiesGridView.DataSource = _cityService.GetCities();
-            //    citiesGridView.Refresh();
-            //}
+            if (confirmResult == DialogResult.No) return;
 
-            if (airplanesGridView.SelectedCells.Count > 0)
+            if (citiesGridView.Visible && citiesGridView.SelectedCells.Count > 0 )
+            {
+                var selectedRowIndex = citiesGridView.SelectedCells[0].RowIndex;
+                var selectedRow = citiesGridView.Rows[selectedRowIndex];
+                var cityId = int.Parse(Convert.ToString(selectedRow.Cells["Id"].Value));
+
+                _cityService.RemoveCity(cityId);
+                citiesGridView.DataSource = _cityService.GetCities();
+                citiesGridView.Refresh();
+            }
+
+            if (airplanesGridView.Visible && airplanesGridView.SelectedCells.Count > 0)
             {
                 var selectedRowIndex = airplanesGridView.SelectedCells[0].RowIndex;
                 var selectedRow = airplanesGridView.Rows[selectedRowIndex];

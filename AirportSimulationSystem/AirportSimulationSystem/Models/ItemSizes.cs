@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AirportSimulationSystem.Models
+﻿namespace AirportSimulationSystem.Models
 {
     public static class ItemSizes
     {
         public static Size AirportBuilding = new Size
         {
-            Height = 5,
-            Width = 8
+            Height = 4,
+            Width = 6
         };
 
         public static Size Runway = new Size
@@ -32,14 +28,14 @@ namespace AirportSimulationSystem.Models
 
         public static Size Garage = new Size
         {
-            Height = 4,
-            Width = 4
+            Height = 3,
+            Width = 3
         };
 
         public static Size Hangar = new Size
         {
-            Height = 4,
-            Width = 4
+            Height = 3,
+            Width = 3
         };
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AirportSimulationSystem.Models.Enums
+﻿namespace AirportSimulationSystem.Models.Enums
 {
     public static class ItemCounter
     {
@@ -18,7 +14,7 @@ namespace AirportSimulationSystem.Models.Enums
 
         public static int Hangar = 3;
 
-        public static void reset()
+        public static void Reset()
         {
             AirportBuilding = 1;
             Runway = 1;
