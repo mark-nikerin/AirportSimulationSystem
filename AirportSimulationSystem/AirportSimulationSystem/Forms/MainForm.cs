@@ -80,7 +80,7 @@ namespace AirportSimulationSystem
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            ItemCounter.reset();
+            ResetCounters();
             tabControl1.SelectedIndex--;
         }
 
@@ -154,26 +154,6 @@ namespace AirportSimulationSystem
 
         #region Drag Events
 
-        private bool IsCrossedByCurrentDraggableItem(TopologyItemModel item, int x, int y)
-        {
-            var distanceX = x - item.Coordinates.X;
-            var distanceY = y - item.Coordinates.Y;
-
-            if (distanceX < 0 && distanceX < CurrentDraggableItem.Size.Width)
-                return true;
-
-            if (distanceX > 0 && distanceX < item.Size.Width)
-                return true;
-
-            if (distanceY < 0 && distanceY < CurrentDraggableItem.Size.Height)
-                return true;
-
-            if (distanceY > 0 && distanceY < item.Size.Height)
-                return true;
-
-            return false;
-        }
-
         private void calculateCoordinates(DragEventArgs e)
         {
             var clientPoint = grid.PointToClient(new Point(e.X, e.Y));
@@ -213,7 +193,7 @@ namespace AirportSimulationSystem
 
         private int prevCol;
         private int prevRow;
-
+        private PictureBox prevPB;
         private void dragDropCopy(object sender, DragEventArgs e)
         {
             calculateCoordinates(e);
@@ -232,10 +212,7 @@ namespace AirportSimulationSystem
             var width = widths[col];
             var height = heights[row];
 
-            var itemWidth = CurrentDraggableItem.Size.Width;
-            var itemHeight = CurrentDraggableItem.Size.Height;
-
-            pb.Size = new Size(itemWidth * width - 1, itemHeight * height - 1);
+            pb.Size = new Size(CurrentDraggableItem.Size.Width * width - 1, CurrentDraggableItem.Size.Height * height - 1);
             pb.Location = new Point(col * width + 1, row * height + 1);
             pb.Image = e.Data.GetData(DataFormats.Bitmap) as Bitmap;
             pb.SizeMode = CurrentDraggableItem.Type == TopologyItemType.Runway
@@ -256,13 +233,10 @@ namespace AirportSimulationSystem
             pb.MouseDown += (o, args) =>
             {
                 if (!pb.Focused) return;
-                var newItem = Topology.Items.First(model => model == item);
-                prevCol = newItem.Coordinates.X;
-                prevRow = newItem.Coordinates.Y;
-                CurrentDraggableItem.Size.Height = itemHeight;
-                CurrentDraggableItem.Size.Width = itemWidth;
+                prevPB = pb;
+                //CurrentDraggableItem.Size = item.Size;
                 currentEffect = DragDropEffects.Move;
-                pb.DoDragDrop(pb, DragDropEffects.Move);
+                pb.DoDragDrop(item, DragDropEffects.Move);
             };
             pb.KeyDown += (o, args) =>
             {
@@ -275,10 +249,9 @@ namespace AirportSimulationSystem
             pb.MouseWheel += (o, args) =>
             {
                 if (!pb.Focused) return;
-
-                var c = itemHeight;
-                itemHeight = itemWidth;
-                itemWidth = c;
+                var c = item.Size.Height;
+                item.Size.Height = item.Size.Width;
+                item.Size.Width = c;
                 pb.Size = new Size(pb.Size.Height, pb.Size.Width);
                 if (args.Delta > 0)
                 {
@@ -307,17 +280,17 @@ namespace AirportSimulationSystem
 
             var col = CurrentDraggableItem.Coordinates.X;
             var row = CurrentDraggableItem.Coordinates.Y;
-
-            var item = Topology.Items.First(model => model.Coordinates.X == prevCol && model.Coordinates.Y == prevRow);
-            item.Coordinates.X = col; 
-            item.Coordinates.Y = row;
-
+            
             currentEffect = DragDropEffects.Move;
             e.Effect = DragDropEffects.Move;
 
-            if (e.Data.GetData(typeof(PictureBox)) is PictureBox pb)
+            if (e.Data.GetData(typeof(TopologyItemModel)) is TopologyItemModel item)
             {
-                pb.Location = new Point(col * widths[col] + 1, row * heights[row] + 1);
+                var tmp = item;
+                tmp.Coordinates.X = col;
+                tmp.Coordinates.Y = row;
+                Topology.Items.First(model => model == tmp).Coordinates = item.Coordinates;
+                prevPB.Location = new Point(col * widths[col] + 1, row * heights[row] + 1);
             }
 
             grid.Refresh();
@@ -337,6 +310,7 @@ namespace AirportSimulationSystem
                         topologyItemModel.Size.Width, topologyItemModel.Size.Height)))
                 {
                     key = true;
+                    Debug.Write("ItemCol: " + topologyItemModel.Coordinates.X + ". ItemRow: " + topologyItemModel.Coordinates.Y);
                 }
             }
 
@@ -350,29 +324,60 @@ namespace AirportSimulationSystem
 
         private void extendedPanel_DragDrop(object sender, DragEventArgs e)
         {
+            Debug.WriteLine("----");
+            if (e.Effect == DragDropEffects.Move)
+            {
+                var item = (TopologyItemModel) e.Data.GetData(typeof(TopologyItemModel));
+                prevCol = item.Coordinates.X;
+                prevRow = item.Coordinates.Y;
+                CurrentDraggableItem.Size = item.Size;
+                Debug.WriteLine("PrevCol: " + prevCol + ". PrevRow: " + prevRow);
+            }
+            
             calculateCoordinates(e);
 
             var col = CurrentDraggableItem.Coordinates.X;
             var row = CurrentDraggableItem.Coordinates.Y;
+            Debug.WriteLine(col + CurrentDraggableItem.Size.Width > grid.ColumnCount);
+            Debug.WriteLine(row + CurrentDraggableItem.Size.Height > grid.RowCount);
+            Debug.WriteLine(placeIsNotFree(col, row, CurrentDraggableItem.Size.Height, CurrentDraggableItem.Size.Width));
 
             if (col + CurrentDraggableItem.Size.Width > grid.ColumnCount
-                || row + CurrentDraggableItem.Size.Height > grid.RowCount
-                || placeIsNotFree(col, row, CurrentDraggableItem.Size.Height, CurrentDraggableItem.Size.Width))
+                || row + CurrentDraggableItem.Size.Height > grid.RowCount)
             {
                 const string message = "Объект нельзя расположить в данной области";
-                const string caption = "Ошибка";
-                var result = MessageBox.Show(message, caption,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                    const string caption = "Ошибка";
+                    var result = MessageBox.Show(message, caption,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
 
-                if (e.Effect == DragDropEffects.Copy)
+                    if (e.Effect == DragDropEffects.Copy)
+                    {
+                        PlusCounter();
+                    }
+
+                    return;
+            }
+            else
+            {
+                if (placeIsNotFree(col, row, CurrentDraggableItem.Size.Height, CurrentDraggableItem.Size.Width))
                 {
-                    PlusCounter();
-                }
+                    const string message = "Объект нельзя расположить в данной области";
+                    const string caption = "Ошибка";
+                    var result = MessageBox.Show(message, caption,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
 
-                return;
+                    if (e.Effect == DragDropEffects.Copy)
+                    {
+                        PlusCounter();
+                    }
+
+                    return;
+                }
             }
 
+            ActiveControl = null;
             switch (e.Effect)
             {
                 case DragDropEffects.Copy:
@@ -569,6 +574,7 @@ namespace AirportSimulationSystem
 
         private void CreateGrid(int ver, int hor)
         {
+            ResetCounters();
             horGridOutput.Text = hor.ToString();
             verGridOutput.Text = ver.ToString();
             grid.RowCount = ver;
@@ -708,7 +714,7 @@ namespace AirportSimulationSystem
         }
 
         private void RemoveItemFromTopology(TopologyItemModel item, PictureBox pb)
-        {
+        {                  
             Topology.Items.Remove(item);
             extendedPanel.Controls.Remove(pb);
             grid.Refresh();
@@ -778,6 +784,17 @@ namespace AirportSimulationSystem
             }
         }
 
+        private void ResetCounters()
+        {
+            ItemCounter.reset();
+            counterAirport.Text = "x" + ItemCounter.AirportBuilding;
+            counterCargoTerm.Text = "x" + ItemCounter.CargoTerminal;
+            counterGarage.Text = "x" + ItemCounter.Garage;
+            counterHangar.Text = "x" + ItemCounter.Hangar;
+            counterPassTerm.Text = "x" + ItemCounter.PassengerTerminal;
+            counterVPP.Text = "x" + ItemCounter.Runway;
+        }
+
         private void AddCurrentItemToTopology()
         {
             MinusCounter();
@@ -797,20 +814,15 @@ namespace AirportSimulationSystem
             });
         }
 
-        #endregion
-
-        #endregion
-
         private void groupBox1_DragDrop(object sender, DragEventArgs e)
         {
-            var item = Topology.Items.First(model =>
-                model.Coordinates.X == CurrentDraggableItem.Coordinates.X &&
-                model.Coordinates.Y == CurrentDraggableItem.Coordinates.Y);
-            RemoveItemFromTopology(item, e.Data.GetData(typeof(PictureBox)) as PictureBox);
+           RemoveItemFromTopology((TopologyItemModel)e.Data.GetData(typeof(TopologyItemModel)), prevPB);
         }
 
         private void groupBox1_DragEnter(object sender, DragEventArgs e)
         {
+            e.Effect = currentEffect;
+        }
 
         #endregion
 
@@ -896,7 +908,7 @@ namespace AirportSimulationSystem
             //    citiesGridView.DataSource = _cityService.GetCities();
             //    citiesGridView.Refresh();
             //}
-            
+
             using var addAirplaneForm = new AddAirplaneForm();
 
             DialogResult result = addAirplaneForm.ShowDialog();
@@ -935,8 +947,7 @@ namespace AirportSimulationSystem
 
         #endregion
 
-        #endregion 
+        #endregion
 
-        }
     }
 }
