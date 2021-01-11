@@ -33,8 +33,8 @@ namespace AirportSimulationSystem
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.CreateTopologyButton = new System.Windows.Forms.Button();
             this.LoadTopologyButton = new System.Windows.Forms.Button();
@@ -79,13 +79,6 @@ namespace AirportSimulationSystem
             this.DeleteItemButton = new System.Windows.Forms.Button();
             this.AddItemButton = new System.Windows.Forms.Button();
             this.flightsGridView = new System.Windows.Forms.DataGridView();
-            this.FlightNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FlightTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FlightTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FlightRegistryNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FlightCity = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.FlightAirplane = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.FlightTicketsAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.citiesGridView = new System.Windows.Forms.DataGridView();
             this.citiesButton = new System.Windows.Forms.Button();
             this.airplanesButton = new System.Windows.Forms.Button();
@@ -674,9 +667,9 @@ namespace AirportSimulationSystem
             // SchedulePage
             // 
             this.SchedulePage.BackColor = System.Drawing.Color.White;
+            this.SchedulePage.Controls.Add(this.flightsGridView);
             this.SchedulePage.Controls.Add(this.DeleteItemButton);
             this.SchedulePage.Controls.Add(this.AddItemButton);
-            this.SchedulePage.Controls.Add(this.flightsGridView);
             this.SchedulePage.Controls.Add(this.citiesGridView);
             this.SchedulePage.Controls.Add(this.citiesButton);
             this.SchedulePage.Controls.Add(this.airplanesButton);
@@ -732,14 +725,6 @@ namespace AirportSimulationSystem
             this.flightsGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.flightsGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.flightsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.flightsGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.FlightNumber,
-            this.FlightTitle,
-            this.FlightTime,
-            this.FlightRegistryNumber,
-            this.FlightCity,
-            this.FlightAirplane,
-            this.FlightTicketsAmount});
             this.flightsGridView.GridColor = System.Drawing.SystemColors.ControlLight;
             this.flightsGridView.Location = new System.Drawing.Point(75, 110);
             this.flightsGridView.Name = "flightsGridView";
@@ -747,63 +732,7 @@ namespace AirportSimulationSystem
             this.flightsGridView.RowTemplate.Height = 25;
             this.flightsGridView.Size = new System.Drawing.Size(1102, 382);
             this.flightsGridView.TabIndex = 0;
-            // 
-            // FlightNumber
-            // 
-            this.FlightNumber.HeaderText = "№ Рейса";
-            this.FlightNumber.Name = "FlightNumber";
-            this.FlightNumber.Width = 90;
-            // 
-            // FlightTitle
-            // 
-            this.FlightTitle.HeaderText = "Рейс";
-            this.FlightTitle.Name = "FlightTitle";
-            // 
-            // FlightTime
-            // 
-            this.FlightTime.HeaderText = "Время";
-            this.FlightTime.Name = "FlightTime";
-            // 
-            // FlightRegistryNumber
-            // 
-            this.FlightRegistryNumber.HeaderText = "№ Стойки регистрации";
-            this.FlightRegistryNumber.Name = "FlightRegistryNumber";
-            this.FlightRegistryNumber.Width = 180;
-            // 
-            // FlightCity
-            // 
-            this.FlightCity.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.FlightCity.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.FlightCity.HeaderText = "Город";
-            this.FlightCity.Items.AddRange(new object[] {
-            "Москва",
-            "Санкт-Петербург",
-            "Лондон"});
-            this.FlightCity.Name = "FlightCity";
-            this.FlightCity.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.FlightCity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.FlightCity.Width = 150;
-            // 
-            // FlightAirplane
-            // 
-            this.FlightAirplane.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.FlightAirplane.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.FlightAirplane.HeaderText = "Самолёт";
-            this.FlightAirplane.Items.AddRange(new object[] {
-            "Airbus A320",
-            "Airbus A330",
-            "Boeining 707",
-            "Boening 520"});
-            this.FlightAirplane.Name = "FlightAirplane";
-            this.FlightAirplane.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.FlightAirplane.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.FlightAirplane.Width = 150;
-            // 
-            // FlightTicketsAmount
-            // 
-            this.FlightTicketsAmount.HeaderText = "Кол-во проданных билетов";
-            this.FlightTicketsAmount.Name = "FlightTicketsAmount";
-            this.FlightTicketsAmount.Width = 200;
+            this.flightsGridView.CancelRowEdit += new System.Windows.Forms.QuestionEventHandler(this.flightsGridView_CancelRowEdit);
             // 
             // citiesGridView
             // 
@@ -932,23 +861,23 @@ namespace AirportSimulationSystem
             this.airplanesGridView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.airplanesGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.airplanesGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.airplanesGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.airplanesGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.airplanesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.airplanesGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.airplanesGridView.DefaultCellStyle = dataGridViewCellStyle4;
             this.airplanesGridView.GridColor = System.Drawing.SystemColors.ControlLight;
             this.airplanesGridView.Location = new System.Drawing.Point(75, 110);
             this.airplanesGridView.Name = "airplanesGridView";
@@ -988,7 +917,7 @@ namespace AirportSimulationSystem
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.65979F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 186F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 308F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 312F));
             this.tableLayoutPanel1.Location = new System.Drawing.Point(20, 430);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -1157,14 +1086,7 @@ namespace AirportSimulationSystem
         private DateTimePicker dateTimePicker1;
         private Button citiesButton;
         private Button airplanesButton;
-        private Button fligthsButton;  
-        private DataGridViewTextBoxColumn FlightNumber;
-        private DataGridViewTextBoxColumn FlightTitle;
-        private DataGridViewTextBoxColumn FlightTime;
-        private DataGridViewTextBoxColumn FlightRegistryNumber;
-        private DataGridViewComboBoxColumn FlightCity;
-        private DataGridViewComboBoxColumn FlightAirplane;
-        private DataGridViewTextBoxColumn FlightTicketsAmount;
+        private Button fligthsButton;
         public TabPage TopologyPage;
         private TextBox verGridOutput;
         private Button minusVerBut;

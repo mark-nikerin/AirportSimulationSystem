@@ -17,7 +17,7 @@
         [DisplayName("Пассажировместимость")]
         public int PassengerCapacity { get; set; }
 
-        [DisplayName("Грузоподъёмность")]
+        [DisplayName("Грузоподъёмность, кг")]
         public int LiftingCapacity { get; set; }
 
         public static explicit operator AirplaneDTO(Airplane entity)

@@ -8,7 +8,7 @@ namespace AirportSimulationSystem.Database.Entities
     { 
         public int Id { get; set; }
 
-        public int FlightNumber { get; set; }
+        public string FlightNumber { get; set; }
 
         public string Title { get; set; }
 

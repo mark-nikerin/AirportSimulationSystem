@@ -3,6 +3,8 @@
     using AirportSimulationSystem.Database.Entities;
     using System;
     using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Windows.Forms;
 
     public class FlightDTO
     {
@@ -10,7 +12,7 @@
         public int Id { get; set; }
 
         [DisplayName("Рейс")]
-        public int FlightNumber { get; set; }
+        public string FlightNumber { get; set; }
 
         [DisplayName("Название")]
         public string Title { get; set; }
@@ -19,8 +21,10 @@
         public DateTime Time { get; set; }
 
         [DisplayName("№ стойки регистрации")]
-        public int RegistryNumber { get; set; } 
+        public int RegistryNumber { get; set; }
 
+
+        [Display(Order = 999)]
         [DisplayName("Число проданных билетов")]
         public int SoldTicketsAmount { get; set; }
 
@@ -28,12 +32,12 @@
         {
             return new FlightDTO
             {
-                 Id = entity.Id,
-                 FlightNumber = entity.FlightNumber,
-                 Title = entity.Title,
-                 Time = entity.Time,
-                 RegistryNumber = entity.RegistryNumber,
-                 SoldTicketsAmount = entity.SoldTicketsAmount 
+                Id = entity.Id,
+                FlightNumber = entity.FlightNumber,
+                Title = entity.Title,
+                Time = entity.Time,
+                RegistryNumber = entity.RegistryNumber,
+                SoldTicketsAmount = entity.SoldTicketsAmount
             };
         }
     }

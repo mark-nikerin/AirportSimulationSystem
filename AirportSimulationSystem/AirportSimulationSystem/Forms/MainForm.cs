@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.Windows.Forms;
 using AirportSimulationSystem.Database;
 using AirportSimulationSystem.Models;
+using AirportSimulationSystem.Models.DTOs;
 using AirportSimulationSystem.Models.Enums;
 using AirportSimulationSystem.Services.Interfaces;
 using Size = System.Drawing.Size;
@@ -32,6 +33,45 @@ namespace AirportSimulationSystem
             InitializeComponent();
             DoubleBuffered = true;
 
+            _db = db;
+            _airplaneService = airplaneService;
+            _cityService = cityService;
+            _flightService = flightService;
+            flightsGridView.DataSource = _flightService.GetFlights();
+            citiesGridView.DataSource = _cityService.GetCities();
+            airplanesGridView.DataSource = _airplaneService.GetAirplanes();
+            flightsGridView.Columns.AddRange(new DataGridViewColumn[]
+            {
+                new DataGridViewComboBoxColumn
+                {
+                    HeaderText = "Город",
+                    DataSource = citiesGridView.DataSource,
+                    DataPropertyName = "Name",
+                    DisplayMember = "Name",
+                    ValueType = typeof(int),
+                    ValueMember = "Id",
+                    DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox,
+                    FlatStyle = FlatStyle.Flat,
+                    Resizable = DataGridViewTriState.True,
+                    SortMode = DataGridViewColumnSortMode.Automatic,
+                    Width = 150,
+                },
+                new DataGridViewComboBoxColumn
+                {
+                    HeaderText = "Самолёт",
+                    DataSource = airplanesGridView.DataSource,
+                    DataPropertyName = "Model",
+                    DisplayMember = "Model",
+                    ValueType = typeof(int),
+                    ValueMember = "Id",
+                    DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox,
+                    FlatStyle = FlatStyle.Flat,
+                    Resizable = DataGridViewTriState.True,
+                    SortMode = DataGridViewColumnSortMode.Automatic,
+                    Width = 150
+                },
+            });
+
             CreateGrid(MinGridSize, MinGridSize);
             Topology.Size.Height = MinGridSize;
             Topology.Size.Width = MinGridSize;
@@ -45,12 +85,6 @@ namespace AirportSimulationSystem
 
             extendedPanel.AllowDrop = true;
             groupBox1.AllowDrop = true;
-
-            _db = db;
-            _airplaneService = airplaneService;
-            _cityService = cityService;
-            _flightService = flightService;
-            flightsGridView.DataSource = _db.Flights.ToList();
         }
 
         #region Navigation 
@@ -201,8 +235,7 @@ namespace AirportSimulationSystem
                 : PictureBoxSizeMode.Zoom;
             AddCurrentItemToTopology();
             var item = Topology.Items.First(model => model.Coordinates.X == col && model.Coordinates.Y == row);
-
-            pb.GotFocus += (o, args) => pb.BackColor = Color.Aquamarine;
+            pb.GotFocus += (o, args) => pb.BackColor = Color.FromArgb(110, 191, 255);
             pb.LostFocus += (o, args) => pb.ResetBackColor();
             pb.MouseClick += (o, args) =>
             {
@@ -688,7 +721,7 @@ namespace AirportSimulationSystem
                     ? PictureBoxSizeMode.StretchImage
                     : PictureBoxSizeMode.Zoom;
 
-                pb.GotFocus += (o, args) => pb.BackColor = Color.Aquamarine;
+                pb.GotFocus += (o, args) => pb.BackColor = Color.FromArgb(110, 191, 255);
                 pb.LostFocus += (o, args) => pb.ResetBackColor();
                 pb.MouseClick += (o, args) =>
                 {
@@ -876,7 +909,7 @@ namespace AirportSimulationSystem
                 SetButtonActive(fligthsButton);
                 SetButtonInactive(airplanesButton);
                 SetButtonInactive(citiesButton);
-                flightsGridView.DataSource = _db.Flights.ToList();
+                flightsGridView.DataSource = _flightService.GetFlights();
                 flightsGridView.Refresh();
             }
         }
@@ -1003,5 +1036,9 @@ namespace AirportSimulationSystem
 
         #endregion
 
+        private void flightsGridView_CancelRowEdit(object sender, QuestionEventArgs e)
+        {
+            MessageBox.Show("", "", MessageBoxButtons.OK);
+        }
     }
 }

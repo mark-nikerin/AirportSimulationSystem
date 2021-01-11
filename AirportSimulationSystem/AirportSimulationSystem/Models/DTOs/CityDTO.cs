@@ -9,7 +9,7 @@
         public int Id { get; set; }
         [DisplayName("Название")]
         public string Name { get; set; }
-        [DisplayName("Расстояние до города")]
+        [DisplayName("Расстояние до города, км")]
         public int Distance { get; set; }
 
         public static explicit operator CityDTO(City entity)
