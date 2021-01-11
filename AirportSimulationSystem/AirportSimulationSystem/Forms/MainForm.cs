@@ -17,9 +17,8 @@ namespace AirportSimulationSystem
 {
     public partial class MainForm : Form
     {
-        private OpenFileDialog openFileDialog;
-        private SaveFileDialog saveFileDialog;
-        private const int gridSize = 10;
+        private const int MinGridSize = 10;
+        private const int MaxGridSize = 25;
         private static TopologyModel Topology = new TopologyModel();
         private static TopologyItemModel CurrentDraggableItem = new TopologyItemModel();
 
@@ -31,25 +30,11 @@ namespace AirportSimulationSystem
         public MainForm(AirportContext db, IAirplaneService airplaneService, ICityService cityService, IFlightService flightService)
         {
             InitializeComponent();
-
             DoubleBuffered = true;
-            openFileDialog = new OpenFileDialog
-            {
-                Title = "Выберите файл с топологией",
-                Filter = "Файлы JSON (*.json)|*.json"
-            };
-            saveFileDialog = new SaveFileDialog
-            {
-                AddExtension = true,
-                RestoreDirectory = true,
-                Title = "Сохраните файл с топологией",
-                DefaultExt = ".json",
-                Filter = "Файлы JSON (*.json)|*.json"
-            };
 
-            CreateGrid(gridSize, gridSize);
-            Topology.Size.Height = gridSize;
-            Topology.Size.Width = gridSize;
+            CreateGrid(MinGridSize, MinGridSize);
+            Topology.Size.Height = MinGridSize;
+            Topology.Size.Width = MinGridSize;
 
             flightsGridView.Visible = true;
             citiesGridView.Visible = false;
@@ -65,6 +50,7 @@ namespace AirportSimulationSystem
             _airplaneService = airplaneService;
             _cityService = cityService;
             _flightService = flightService;
+            flightsGridView.DataSource = _db.Flights.ToList();
         }
 
         #region Navigation 
@@ -149,7 +135,7 @@ namespace AirportSimulationSystem
 
         #region Drag Events
 
-        private void calculateCoordinates(DragEventArgs e)
+        private void CalculateCoordinates(DragEventArgs e)
         {
             var clientPoint = grid.PointToClient(new Point(e.X, e.Y));
             var widths = grid.GetColumnWidths();
@@ -189,9 +175,9 @@ namespace AirportSimulationSystem
         private int prevCol;
         private int prevRow;
         private PictureBox prevPB;
-        private void dragDropCopy(object sender, DragEventArgs e)
+        private void DragDropCopy(object sender, DragEventArgs e)
         {
-            calculateCoordinates(e);
+            CalculateCoordinates(e);
             var col = CurrentDraggableItem.Coordinates.X;
             var row = CurrentDraggableItem.Coordinates.Y;
 
@@ -290,9 +276,9 @@ namespace AirportSimulationSystem
 
         private DragDropEffects currentEffect;
 
-        private void dragDropMove(object sender, DragEventArgs e)
+        private void DragDropMove(object sender, DragEventArgs e)
         {
-            calculateCoordinates(e);
+            CalculateCoordinates(e);
             var widths = grid.GetColumnWidths();
             var heights = grid.GetRowHeights();
 
@@ -360,7 +346,7 @@ namespace AirportSimulationSystem
                 Debug.WriteLine("PrevCol: " + prevCol + ". PrevRow: " + prevRow);
             }
 
-            calculateCoordinates(e);
+            CalculateCoordinates(e);
 
             var col = CurrentDraggableItem.Coordinates.X;
             var row = CurrentDraggableItem.Coordinates.Y;
@@ -398,10 +384,10 @@ namespace AirportSimulationSystem
             switch (e.Effect)
             {
                 case DragDropEffects.Copy:
-                    dragDropCopy(sender, e);
+                    DragDropCopy(sender, e);
                     break;
                 case DragDropEffects.Move:
-                    dragDropMove(sender, e);
+                    DragDropMove(sender, e);
                     break;
             }
         }
@@ -441,7 +427,7 @@ namespace AirportSimulationSystem
 
         private void plusHorButton_Click(object sender, EventArgs e)
         {
-            if (grid.ColumnCount < 25 && extendedPanel.Controls.Count == 0)
+            if (grid.ColumnCount < MaxGridSize && extendedPanel.Controls.Count == 0)
             {
                 grid.ColumnCount++;
                 extendedPanel.Size = grid.Size;
@@ -465,7 +451,7 @@ namespace AirportSimulationSystem
 
         private void plusVerBut_Click(object sender, EventArgs e)
         {
-            if (grid.RowCount < 25 && extendedPanel.Controls.Count == 0)
+            if (grid.RowCount < MaxGridSize && extendedPanel.Controls.Count == 0)
             {
                 grid.RowCount++;
                 extendedPanel.Size = grid.Size;
@@ -496,6 +482,12 @@ namespace AirportSimulationSystem
 
         private void LoadTopologyButton_Click(object sender, EventArgs e)
         {
+            using var openFileDialog = new OpenFileDialog
+            {
+                Title = "Выберите файл с топологией",
+                Filter = "Файлы JSON (*.json)|*.json"
+            };
+
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -555,6 +547,15 @@ namespace AirportSimulationSystem
                 }
             }
 
+            using var saveFileDialog = new SaveFileDialog
+            {
+                AddExtension = true,
+                RestoreDirectory = true,
+                Title = "Сохраните файл с топологией",
+                DefaultExt = ".json",
+                Filter = "Файлы JSON (*.json)|*.json"
+            };
+
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Stream fileStream;
@@ -596,7 +597,7 @@ namespace AirportSimulationSystem
             grid.RowCount = ver;
             grid.ColumnCount = hor;
 
-            for (int i = 0; i < gridSize; i++)
+            for (int i = 0; i < MinGridSize; i++)
             {
                 grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / grid.ColumnCount));
                 grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / grid.RowCount));
@@ -741,8 +742,8 @@ namespace AirportSimulationSystem
         {
             Topology.Name = "Название топологии";
             Topology.Items = new List<TopologyItemModel>();
-            Topology.Size.Width = gridSize;
-            Topology.Size.Height = gridSize;
+            Topology.Size.Width = MinGridSize;
+            Topology.Size.Height = MinGridSize;
             ResetCounters();
             ApplyTopology();
         }

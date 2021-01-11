@@ -63,12 +63,12 @@ namespace AirportSimulationSystem
             this.counterGarage = new System.Windows.Forms.TextBox();
             this.counterAirport = new System.Windows.Forms.TextBox();
             this.counterVPP = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.PassengerTerminalTittle = new System.Windows.Forms.TextBox();
+            this.CargoTerminalTittle = new System.Windows.Forms.TextBox();
+            this.HangarTittle = new System.Windows.Forms.TextBox();
+            this.GarageTittle = new System.Windows.Forms.TextBox();
+            this.AirportBuildingTittle = new System.Windows.Forms.TextBox();
+            this.RunwayTittle = new System.Windows.Forms.TextBox();
             this.passengerTerminal = new System.Windows.Forms.PictureBox();
             this.cargoTerminal = new System.Windows.Forms.PictureBox();
             this.vpp = new System.Windows.Forms.PictureBox();
@@ -192,7 +192,7 @@ namespace AirportSimulationSystem
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1263, 688);
+            this.tabControl1.Size = new System.Drawing.Size(1267, 688);
             this.tabControl1.TabIndex = 4;
             // 
             // MainPage
@@ -206,7 +206,7 @@ namespace AirportSimulationSystem
             this.MainPage.Location = new System.Drawing.Point(4, 24);
             this.MainPage.Name = "MainPage";
             this.MainPage.Padding = new System.Windows.Forms.Padding(3);
-            this.MainPage.Size = new System.Drawing.Size(1255, 660);
+            this.MainPage.Size = new System.Drawing.Size(1259, 660);
             this.MainPage.TabIndex = 0;
             this.MainPage.Text = "Главная";
             // 
@@ -227,7 +227,7 @@ namespace AirportSimulationSystem
             this.TopologyPage.Controls.Add(this.panel1);
             this.TopologyPage.Location = new System.Drawing.Point(4, 24);
             this.TopologyPage.Name = "TopologyPage";
-            this.TopologyPage.Size = new System.Drawing.Size(1255, 660);
+            this.TopologyPage.Size = new System.Drawing.Size(1259, 660);
             this.TopologyPage.TabIndex = 3;
             this.TopologyPage.Text = "Топология";
             // 
@@ -260,6 +260,7 @@ namespace AirportSimulationSystem
             // 
             this.verGridOutput.BackColor = System.Drawing.Color.White;
             this.verGridOutput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.verGridOutput.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.verGridOutput.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.verGridOutput.Location = new System.Drawing.Point(1141, 297);
             this.verGridOutput.Name = "verGridOutput";
@@ -298,6 +299,7 @@ namespace AirportSimulationSystem
             // 
             this.horGridOutput.BackColor = System.Drawing.Color.White;
             this.horGridOutput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.horGridOutput.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.horGridOutput.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.horGridOutput.Location = new System.Drawing.Point(841, 605);
             this.horGridOutput.Name = "horGridOutput";
@@ -402,9 +404,9 @@ namespace AirportSimulationSystem
             this.panel1.Controls.Add(this.backToMainPageButton);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.groupBox1);
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(-1, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(444, 657);
+            this.panel1.Size = new System.Drawing.Size(448, 657);
             this.panel1.TabIndex = 1;
             // 
             // backToMainPageButton
@@ -442,12 +444,12 @@ namespace AirportSimulationSystem
             this.groupBox1.Controls.Add(this.counterGarage);
             this.groupBox1.Controls.Add(this.counterAirport);
             this.groupBox1.Controls.Add(this.counterVPP);
-            this.groupBox1.Controls.Add(this.textBox7);
-            this.groupBox1.Controls.Add(this.textBox6);
-            this.groupBox1.Controls.Add(this.textBox5);
-            this.groupBox1.Controls.Add(this.textBox4);
-            this.groupBox1.Controls.Add(this.textBox3);
-            this.groupBox1.Controls.Add(this.textBox2);
+            this.groupBox1.Controls.Add(this.PassengerTerminalTittle);
+            this.groupBox1.Controls.Add(this.CargoTerminalTittle);
+            this.groupBox1.Controls.Add(this.HangarTittle);
+            this.groupBox1.Controls.Add(this.GarageTittle);
+            this.groupBox1.Controls.Add(this.AirportBuildingTittle);
+            this.groupBox1.Controls.Add(this.RunwayTittle);
             this.groupBox1.Controls.Add(this.passengerTerminal);
             this.groupBox1.Controls.Add(this.cargoTerminal);
             this.groupBox1.Controls.Add(this.vpp);
@@ -531,71 +533,77 @@ namespace AirportSimulationSystem
             this.counterVPP.TabIndex = 18;
             this.counterVPP.Text = "x1";
             // 
-            // textBox7
+            // PassengerTerminalTittle
             // 
-            this.textBox7.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox7.Location = new System.Drawing.Point(166, 431);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.ReadOnly = true;
-            this.textBox7.Size = new System.Drawing.Size(222, 26);
-            this.textBox7.TabIndex = 17;
-            this.textBox7.Text = "Пассажирский терминал";
+            this.PassengerTerminalTittle.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.PassengerTerminalTittle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.PassengerTerminalTittle.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.PassengerTerminalTittle.Location = new System.Drawing.Point(166, 431);
+            this.PassengerTerminalTittle.Name = "PassengerTerminalTittle";
+            this.PassengerTerminalTittle.ReadOnly = true;
+            this.PassengerTerminalTittle.Size = new System.Drawing.Size(222, 26);
+            this.PassengerTerminalTittle.TabIndex = 17;
+            this.PassengerTerminalTittle.Text = "Пассажирский терминал";
             // 
-            // textBox6
+            // CargoTerminalTittle
             // 
-            this.textBox6.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox6.Location = new System.Drawing.Point(166, 368);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.ReadOnly = true;
-            this.textBox6.Size = new System.Drawing.Size(177, 26);
-            this.textBox6.TabIndex = 16;
-            this.textBox6.Text = "Грузовой терминал";
+            this.CargoTerminalTittle.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.CargoTerminalTittle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.CargoTerminalTittle.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.CargoTerminalTittle.Location = new System.Drawing.Point(166, 368);
+            this.CargoTerminalTittle.Name = "CargoTerminalTittle";
+            this.CargoTerminalTittle.ReadOnly = true;
+            this.CargoTerminalTittle.Size = new System.Drawing.Size(177, 26);
+            this.CargoTerminalTittle.TabIndex = 16;
+            this.CargoTerminalTittle.Text = "Грузовой терминал";
             // 
-            // textBox5
+            // HangarTittle
             // 
-            this.textBox5.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox5.Location = new System.Drawing.Point(166, 306);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(69, 26);
-            this.textBox5.TabIndex = 15;
-            this.textBox5.Text = "Ангар";
+            this.HangarTittle.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.HangarTittle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.HangarTittle.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.HangarTittle.Location = new System.Drawing.Point(166, 306);
+            this.HangarTittle.Name = "HangarTittle";
+            this.HangarTittle.ReadOnly = true;
+            this.HangarTittle.Size = new System.Drawing.Size(69, 26);
+            this.HangarTittle.TabIndex = 15;
+            this.HangarTittle.Text = "Ангар";
             // 
-            // textBox4
+            // GarageTittle
             // 
-            this.textBox4.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox4.Location = new System.Drawing.Point(166, 239);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(69, 26);
-            this.textBox4.TabIndex = 14;
-            this.textBox4.Text = "Гараж";
+            this.GarageTittle.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.GarageTittle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.GarageTittle.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.GarageTittle.Location = new System.Drawing.Point(166, 239);
+            this.GarageTittle.Name = "GarageTittle";
+            this.GarageTittle.ReadOnly = true;
+            this.GarageTittle.Size = new System.Drawing.Size(69, 26);
+            this.GarageTittle.TabIndex = 14;
+            this.GarageTittle.Text = "Гараж";
             // 
-            // textBox3
+            // AirportBuildingTittle
             // 
-            this.textBox3.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.Location = new System.Drawing.Point(241, 153);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(121, 26);
-            this.textBox3.TabIndex = 13;
-            this.textBox3.Text = "Аэровокзал";
+            this.AirportBuildingTittle.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.AirportBuildingTittle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.AirportBuildingTittle.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.AirportBuildingTittle.Location = new System.Drawing.Point(241, 153);
+            this.AirportBuildingTittle.Name = "AirportBuildingTittle";
+            this.AirportBuildingTittle.ReadOnly = true;
+            this.AirportBuildingTittle.Size = new System.Drawing.Size(121, 26);
+            this.AirportBuildingTittle.TabIndex = 13;
+            this.AirportBuildingTittle.Text = "Аэровокзал";
             // 
-            // textBox2
+            // RunwayTittle
             // 
-            this.textBox2.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Location = new System.Drawing.Point(241, 54);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(48, 26);
-            this.textBox2.TabIndex = 12;
-            this.textBox2.Text = "ВПП";
+            this.RunwayTittle.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.RunwayTittle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.RunwayTittle.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.RunwayTittle.Location = new System.Drawing.Point(241, 54);
+            this.RunwayTittle.Name = "RunwayTittle";
+            this.RunwayTittle.ReadOnly = true;
+            this.RunwayTittle.Size = new System.Drawing.Size(48, 26);
+            this.RunwayTittle.TabIndex = 12;
+            this.RunwayTittle.Text = "ВПП";
             // 
             // passengerTerminal
             // 
@@ -681,7 +689,7 @@ namespace AirportSimulationSystem
             this.SchedulePage.Location = new System.Drawing.Point(4, 24);
             this.SchedulePage.Name = "SchedulePage";
             this.SchedulePage.Padding = new System.Windows.Forms.Padding(3);
-            this.SchedulePage.Size = new System.Drawing.Size(1255, 660);
+            this.SchedulePage.Size = new System.Drawing.Size(1259, 660);
             this.SchedulePage.TabIndex = 1;
             this.SchedulePage.Text = "Расписание";
             // 
@@ -806,7 +814,7 @@ namespace AirportSimulationSystem
             this.citiesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.citiesGridView.GridColor = System.Drawing.SystemColors.ControlLight;
             this.citiesGridView.Location = new System.Drawing.Point(75, 110);
-            this.citiesGridView.Name = "citiesGridView"; 
+            this.citiesGridView.Name = "citiesGridView";
             this.citiesGridView.RowHeadersVisible = false;
             this.citiesGridView.RowTemplate.Height = 25;
             this.citiesGridView.Size = new System.Drawing.Size(1102, 382);
@@ -943,7 +951,7 @@ namespace AirportSimulationSystem
             this.airplanesGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.airplanesGridView.GridColor = System.Drawing.SystemColors.ControlLight;
             this.airplanesGridView.Location = new System.Drawing.Point(75, 110);
-            this.airplanesGridView.Name = "airplanesGridView"; 
+            this.airplanesGridView.Name = "airplanesGridView";
             this.airplanesGridView.RowHeadersVisible = false;
             this.airplanesGridView.RowTemplate.Height = 25;
             this.airplanesGridView.Size = new System.Drawing.Size(1102, 382);
@@ -957,7 +965,7 @@ namespace AirportSimulationSystem
             this.SimulationPage.Controls.Add(this.backToScheduleButton);
             this.SimulationPage.Location = new System.Drawing.Point(4, 24);
             this.SimulationPage.Name = "SimulationPage";
-            this.SimulationPage.Size = new System.Drawing.Size(1255, 660);
+            this.SimulationPage.Size = new System.Drawing.Size(1259, 660);
             this.SimulationPage.TabIndex = 2;
             this.SimulationPage.Text = "Моделирование";
             // 
@@ -980,7 +988,7 @@ namespace AirportSimulationSystem
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.65979F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 186F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 292F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 308F));
             this.tableLayoutPanel1.Location = new System.Drawing.Point(20, 430);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -1088,6 +1096,8 @@ namespace AirportSimulationSystem
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ASS 1.0 - Airport Simulation System";
@@ -1177,12 +1187,12 @@ namespace AirportSimulationSystem
         private PictureBox garage;
         private PictureBox airport;
         private TextBox counterVPP;
-        private TextBox textBox7;
-        private TextBox textBox6;
-        private TextBox textBox5;
-        private TextBox textBox4;
-        private TextBox textBox3;
-        private TextBox textBox2;
+        private TextBox PassengerTerminalTittle;
+        private TextBox CargoTerminalTittle;
+        private TextBox HangarTittle;
+        private TextBox GarageTittle;
+        private TextBox AirportBuildingTittle;
+        private TextBox RunwayTittle;
         private TextBox counterPassTerm;
         private TextBox counterCargoTerm;
         private TextBox counterHangar;
