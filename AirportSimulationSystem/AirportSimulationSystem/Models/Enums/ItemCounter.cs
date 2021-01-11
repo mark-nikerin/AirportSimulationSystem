@@ -17,7 +17,16 @@ namespace AirportSimulationSystem.Models.Enums
         public static int Garage = 5;
 
         public static int Hangar = 3;
+
+        public static void reset()
+        {
+            AirportBuilding = 1;
+            Runway = 1;
+            PassengerTerminal = 1;
+            CargoTerminal = 1;
+            Garage = 5;
+            Hangar = 3;
+        }
     }
-    
-    
+
 }

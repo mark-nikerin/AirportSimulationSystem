@@ -112,6 +112,7 @@ namespace AirportSimulationSystem
 
         private void BackButton_Click(object sender, EventArgs e)
         {
+            ItemCounter.reset();
             tabControl1.SelectedIndex--;
         }
 
@@ -305,6 +306,9 @@ namespace AirportSimulationSystem
             CurrentDraggableItem.Coordinates.Y = row;
         }
 
+        private int prevCol;
+        private int prevRow;
+
         private void dragDropCopy(object sender, DragEventArgs e)
         {
             calculateCoordinates(e);
@@ -334,6 +338,7 @@ namespace AirportSimulationSystem
                 : PictureBoxSizeMode.Zoom;
 
             AddCurrentItemToTopology();
+            var item = Topology.Items.First(model => model.Coordinates.X == col && model.Coordinates.Y == row);
 
             pb.GotFocus += (o, args) => pb.BackColor = Color.Aquamarine;
             pb.LostFocus += (o, args) => pb.ResetBackColor();
@@ -346,6 +351,9 @@ namespace AirportSimulationSystem
             pb.MouseDown += (o, args) =>
             {
                 if (!pb.Focused) return;
+                var newItem = Topology.Items.First(model => model == item);
+                prevCol = newItem.Coordinates.X;
+                prevRow = newItem.Coordinates.Y;
                 CurrentDraggableItem.Size.Height = itemHeight;
                 CurrentDraggableItem.Size.Width = itemWidth;
                 currentEffect = DragDropEffects.Move;
@@ -356,7 +364,7 @@ namespace AirportSimulationSystem
                 if (args.KeyCode == Keys.Delete && pb.Focused)
                 {
                     ActiveControl = null;
-                    RemoveItemFromTopology(col, row, pb);
+                    RemoveItemFromTopology(item, pb);
                 }
             };
             pb.MouseWheel += (o, args) =>
@@ -377,10 +385,8 @@ namespace AirportSimulationSystem
                     pb.Image = RotateImage(pb.Image, new PointF(pb.Image.Width / 2, pb.Image.Height / 2), -90f);
                 }
 
-                RemoveItemFromTopology(col, row, pb);
-                AddCurrentItemToTopology(pb.Size.Width, pb.Size.Height, col, row);
-
-                extendedPanel.Controls.Add(pb);
+                grid.Refresh();
+                extendedPanel.Refresh();
             };
 
             extendedPanel.Controls.Add(pb);
@@ -397,14 +403,44 @@ namespace AirportSimulationSystem
             var col = CurrentDraggableItem.Coordinates.X;
             var row = CurrentDraggableItem.Coordinates.Y;
 
+            var item = Topology.Items.First(model => model.Coordinates.X == prevCol && model.Coordinates.Y == prevRow);
+            item.Coordinates.X = col; 
+            item.Coordinates.Y = row;
+
             currentEffect = DragDropEffects.Move;
             e.Effect = DragDropEffects.Move;
 
             if (e.Data.GetData(typeof(PictureBox)) is PictureBox pb)
+            {
                 pb.Location = new Point(col * widths[col] + 1, row * heights[row] + 1);
+            }
 
             grid.Refresh();
             extendedPanel.Refresh();
+        }
+
+        private bool placeIsNotFree(int col, int row, int height, int width)
+        {
+            var key = false;
+            foreach (var topologyItemModel in Topology.Items)
+            {
+                if (topologyItemModel.Coordinates.X == prevCol && topologyItemModel.Coordinates.Y == prevRow)
+                    continue;
+
+                if (IndexOfInnerRectangle(new Rectangle(col, row, width, height),
+                    new Rectangle(topologyItemModel.Coordinates.X, topologyItemModel.Coordinates.Y,
+                        topologyItemModel.Size.Width, topologyItemModel.Size.Height)))
+                {
+                    key = true;
+                }
+            }
+
+            return key;
+        }
+
+        private bool IndexOfInnerRectangle(Rectangle r1, Rectangle r2)
+        {
+            return r1.IntersectsWith(r2) || r2.IntersectsWith(r1);
         }
 
         private void extendedPanel_DragDrop(object sender, DragEventArgs e)
@@ -413,9 +449,10 @@ namespace AirportSimulationSystem
 
             var col = CurrentDraggableItem.Coordinates.X;
             var row = CurrentDraggableItem.Coordinates.Y;
-            
+
             if (col + CurrentDraggableItem.Size.Width > grid.ColumnCount
-                || row + CurrentDraggableItem.Size.Height > grid.RowCount)
+                || row + CurrentDraggableItem.Size.Height > grid.RowCount
+                || placeIsNotFree(col, row, CurrentDraggableItem.Size.Height, CurrentDraggableItem.Size.Width))
             {
                 const string message = "Объект нельзя расположить в данной области";
                 const string caption = "Ошибка";
@@ -715,14 +752,14 @@ namespace AirportSimulationSystem
                     if (!pictureBox.Focused) return;
 
                     pictureBox.DoDragDrop(pictureBox.Image, DragDropEffects.Copy);
-                    RemoveItemFromTopology(X, Y, pictureBox);
+                    RemoveItemFromTopology(item, pictureBox);
                 };
                 pictureBox.KeyDown += (o, args) =>
                 {
                     if (args.KeyCode == Keys.Delete && pictureBox.Focused)
                     {
                         ActiveControl = null;
-                        RemoveItemFromTopology(X, Y, pictureBox);
+                        RemoveItemFromTopology(item, pictureBox);
                     }
                 };
                 pictureBox.MouseWheel += (o, args) =>
@@ -765,9 +802,8 @@ namespace AirportSimulationSystem
             ApplyTopology();
         }
 
-        private void RemoveItemFromTopology(int col, int row, PictureBox pb)
+        private void RemoveItemFromTopology(TopologyItemModel item, PictureBox pb)
         {
-            var item = Topology.Items.First(model => model.Coordinates.X == col && model.Coordinates.Y == row);
             Topology.Items.Remove(item);
             extendedPanel.Controls.Remove(pb);
             grid.Refresh();
@@ -856,40 +892,19 @@ namespace AirportSimulationSystem
             });
         }
 
-        private void AddCurrentItemToTopology(int width, int height, int x, int y)
-        {
-            MinusCounter();
-            Topology.Items.Add(new TopologyItemModel
-            {
-                Type = CurrentDraggableItem.Type,
-                Size = new Models.Size
-                {
-                    Width = width,
-                    Height = height
-                },
-                Coordinates = new Coordinates
-                {
-                    X = x,
-                    Y = y
-                },
-            });
-        }
-
         #endregion
 
         private void groupBox1_DragDrop(object sender, DragEventArgs e)
         {
-            RemoveItemFromTopology(CurrentDraggableItem.Coordinates.X, CurrentDraggableItem.Coordinates.Y, e.Data.GetData(typeof(PictureBox)) as PictureBox);
+            var item = Topology.Items.First(model =>
+                model.Coordinates.X == CurrentDraggableItem.Coordinates.X &&
+                model.Coordinates.Y == CurrentDraggableItem.Coordinates.Y);
+            RemoveItemFromTopology(item, e.Data.GetData(typeof(PictureBox)) as PictureBox);
         }
 
         private void groupBox1_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
-        }
-
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
