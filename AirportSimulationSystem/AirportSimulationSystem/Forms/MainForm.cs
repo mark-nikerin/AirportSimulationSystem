@@ -14,21 +14,25 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using PictureBox = System.Windows.Forms.PictureBox;
+using AirportSimulationSystem.Database;
+using AirportSimulationSystem.Services.Interfaces;
 
 namespace AirportSimulationSystem
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private OpenFileDialog openFileDialog;
         private SaveFileDialog saveFileDialog;
-        private DataGridView dataGridView2 = new DataGridView();
-        private BindingSource bindingSource1 = new BindingSource();
-        private SqlDataAdapter dataAdapter = new SqlDataAdapter();
         private const int gridSize = 10;
         private static TopologyModel Topology = new TopologyModel();
         private static TopologyItemModel CurrentDraggableItem = new TopologyItemModel();
 
-        public Form1()
+        private static AirportContext _db;
+        private static IAirplaneService _airplaneService;
+        private static ICityService _cityService;
+        private static IFlightService _flightService;
+
+        public MainForm(AirportContext db, IAirplaneService airplaneService, ICityService cityService, IFlightService flightService)
         {
             InitializeComponent();
 
@@ -60,50 +64,14 @@ namespace AirportSimulationSystem
 
             extendedPanel.AllowDrop = true;
             groupBox1.AllowDrop = true;
+
+            _db = db;
+            _airplaneService = airplaneService;
+            _cityService = cityService;
+            _flightService = flightService;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            //dataGridView1.DataSource = bindingSource1;
-            //GetData("select FlightNumber '№ Рейса', Title 'Название', Time 'Время', RegistryNumber '№ стойки регистрации', SoldTicketsAmount 'Количество проданных билетов' from Flights");
-        }
-
-        private void GetData(string selectCommand)
-        {
-            try
-            {
-                // Specify a connection string.
-                // Replace <SQL Server> with the SQL Server for your Northwind sample database.
-                // Replace "Integrated Security=True" with user login information if necessary.
-                String connectionString =
-                    "Data source=DELL-INSPIRON-5\\SQLEXPRESS;Initial Catalog=AirportDatabase;" +
-                    "Integrated Security=True";
-
-                dataAdapter = new SqlDataAdapter(selectCommand, connectionString);
-
-                SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
-
-                // Populate a new data table and bind it to the BindingSource.
-                DataTable table = new DataTable
-                {
-                    Locale = CultureInfo.InvariantCulture
-                };
-                dataAdapter.Fill(table);
-                bindingSource1.DataSource = table;
-
-                // Resize the DataGridView columns to fit the newly loaded content.
-                flightsGridView.AutoResizeColumns(
-                    DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
-            }
-            catch (SqlException e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
-
-        #region Navigation
-
-        #region Button Click Events
+        #region Navigation 
 
         private void NextButton_Click(object sender, EventArgs e)
         {
@@ -114,69 +82,6 @@ namespace AirportSimulationSystem
         {
             tabControl1.SelectedIndex--;
         }
-
-        private void fligthsButton_Click(object sender, EventArgs e)
-        {
-            if (!flightsGridView.Visible)
-            {
-                comboBox1.SelectedIndex = 1;
-                flightsGridView.Visible = true;
-                citiesGridView.Visible = false;
-                airplanesGridView.Visible = false;
-                SetButtonActive(fligthsButton);
-                SetButtonInactive(airplanesButton);
-                SetButtonInactive(citiesButton);
-            }
-        }
-
-        private void airplanesButton_Click(object sender, EventArgs e)
-        {
-            if (!airplanesGridView.Visible)
-            {
-                comboBox1.SelectedIndex = 2;
-                airplanesGridView.Visible = true;
-                citiesGridView.Visible = false;
-                flightsGridView.Visible = false;
-                SetButtonActive(airplanesButton);
-                SetButtonInactive(fligthsButton);
-                SetButtonInactive(citiesButton);
-            }
-        }
-
-        private void citiesButton_Click(object sender, EventArgs e)
-        {
-            if (!citiesGridView.Visible)
-            {
-                comboBox1.SelectedIndex = 0;
-                citiesGridView.Visible = true;
-                flightsGridView.Visible = false;
-                airplanesGridView.Visible = false;
-                SetButtonActive(citiesButton);
-                SetButtonInactive(airplanesButton);
-                SetButtonInactive(fligthsButton);
-            }
-        }
-
-        private void SetButtonActive(Button button)
-        {
-            button.BackColor = Color.FromArgb(0, 120, 212);
-            button.Cursor = Cursors.Hand;
-            button.FlatAppearance.BorderSize = 0;
-            button.FlatStyle = FlatStyle.Flat;
-            button.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            button.ForeColor = SystemColors.HighlightText;
-        }
-
-        private void SetButtonInactive(Button button)
-        {
-            button.UseVisualStyleBackColor = true;
-            button.BackColor = Color.FromArgb(0, 120, 212);
-            button.Cursor = Cursors.Hand;
-            button.BackColor = Color.WhiteSmoke;
-            button.ForeColor = SystemColors.ControlText;
-        }
-
-        #endregion
 
         #endregion
 
@@ -413,7 +318,7 @@ namespace AirportSimulationSystem
 
             var col = CurrentDraggableItem.Coordinates.X;
             var row = CurrentDraggableItem.Coordinates.Y;
-            
+
             if (col + CurrentDraggableItem.Size.Width > grid.ColumnCount
                 || row + CurrentDraggableItem.Size.Height > grid.RowCount)
             {
@@ -875,8 +780,6 @@ namespace AirportSimulationSystem
             });
         }
 
-        #endregion
-
         private void groupBox1_DragDrop(object sender, DragEventArgs e)
         {
             RemoveItemFromTopology(CurrentDraggableItem.Coordinates.X, CurrentDraggableItem.Coordinates.Y, e.Data.GetData(typeof(PictureBox)) as PictureBox);
@@ -887,9 +790,129 @@ namespace AirportSimulationSystem
             e.Effect = DragDropEffects.Move;
         }
 
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        #endregion
 
+        #region Schedule
+
+        #region Button Click Events
+
+        private void fligthsButton_Click(object sender, EventArgs e)
+        {
+            if (!flightsGridView.Visible)
+            {
+                comboBox1.SelectedIndex = 1;
+                flightsGridView.Visible = true;
+                citiesGridView.Visible = false;
+                airplanesGridView.Visible = false;
+                SetButtonActive(fligthsButton);
+                SetButtonInactive(airplanesButton);
+                SetButtonInactive(citiesButton);
+                flightsGridView.DataSource = _db.Flights.ToList();
+                flightsGridView.Refresh();
+            }
         }
+
+        private void airplanesButton_Click(object sender, EventArgs e)
+        {
+            if (!airplanesGridView.Visible)
+            {
+                comboBox1.SelectedIndex = 2;
+                airplanesGridView.Visible = true;
+                citiesGridView.Visible = false;
+                flightsGridView.Visible = false;
+                SetButtonActive(airplanesButton);
+                SetButtonInactive(fligthsButton);
+                SetButtonInactive(citiesButton);
+                airplanesGridView.DataSource = _airplaneService.GetAirplanes();
+                airplanesGridView.Refresh();
+            }
+        }
+
+        private void citiesButton_Click(object sender, EventArgs e)
+        {
+            if (!citiesGridView.Visible)
+            {
+                comboBox1.SelectedIndex = 0;
+                citiesGridView.Visible = true;
+                flightsGridView.Visible = false;
+                airplanesGridView.Visible = false;
+                SetButtonActive(citiesButton);
+                SetButtonInactive(airplanesButton);
+                SetButtonInactive(fligthsButton);
+                citiesGridView.DataSource = _cityService.GetCities();
+                citiesGridView.Refresh();
+            }
+        }
+
+        private void SetButtonActive(Button button)
+        {
+            button.BackColor = Color.FromArgb(0, 120, 212);
+            button.Cursor = Cursors.Hand;
+            button.FlatAppearance.BorderSize = 0;
+            button.FlatStyle = FlatStyle.Flat;
+            button.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            button.ForeColor = SystemColors.HighlightText;
+        }
+
+        private void SetButtonInactive(Button button)
+        {
+            button.UseVisualStyleBackColor = true;
+            button.BackColor = Color.FromArgb(0, 120, 212);
+            button.Cursor = Cursors.Hand;
+            button.BackColor = Color.WhiteSmoke;
+            button.ForeColor = SystemColors.ControlText;
+        }
+
+        private void AddItemButton_Click(object sender, EventArgs e)
+        {
+            //using var addCityForm = new AddCityForm();
+
+            //DialogResult result = addCityForm.ShowDialog();
+            //if (result == DialogResult.OK && addCityForm.CityDTO != null)
+            //{
+            //    _cityService.AddCity(addCityForm.CityDTO);
+            //    citiesGridView.DataSource = _cityService.GetCities();
+            //    citiesGridView.Refresh();
+            //}
+            
+            using var addAirplaneForm = new AddAirplaneForm();
+
+            DialogResult result = addAirplaneForm.ShowDialog();
+            if (result == DialogResult.OK && addAirplaneForm.AirplaneDTO != null)
+            {
+                _airplaneService.AddAirplane(addAirplaneForm.AirplaneDTO);
+                airplanesGridView.DataSource = _airplaneService.GetAirplanes();
+                airplanesGridView.Refresh();
+            }
+        }
+
+        private void DeleteItemButton_Click(object sender, EventArgs e)
+        {
+            //if (citiesGridView.SelectedCells.Count > 0)
+            //{
+            //    var selectedRowIndex = citiesGridView.SelectedCells[0].RowIndex;
+            //    var selectedRow = citiesGridView.Rows[selectedRowIndex];
+            //    var cityId = int.Parse(Convert.ToString(selectedRow.Cells["Id"].Value));
+
+            //    _cityService.RemoveCity(cityId);
+            //    citiesGridView.DataSource = _cityService.GetCities();
+            //    citiesGridView.Refresh();
+            //}
+
+            if (airplanesGridView.SelectedCells.Count > 0)
+            {
+                var selectedRowIndex = airplanesGridView.SelectedCells[0].RowIndex;
+                var selectedRow = airplanesGridView.Rows[selectedRowIndex];
+                var airplaneId = int.Parse(Convert.ToString(selectedRow.Cells["Id"].Value));
+
+                _airplaneService.RemoveAirplane(airplaneId);
+                airplanesGridView.DataSource = _airplaneService.GetAirplanes();
+                airplanesGridView.Refresh();
+            }
+        }
+
+        #endregion
+
+        #endregion 
     }
 }
