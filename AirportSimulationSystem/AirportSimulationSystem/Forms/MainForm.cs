@@ -884,7 +884,9 @@ namespace AirportSimulationSystem
 
         private void groupBox1_DragDrop(object sender, DragEventArgs e)
         {
-            RemoveItemFromTopology((TopologyItemModel)e.Data.GetData(typeof(TopologyItemModel)), prevPB);
+            var item = (TopologyItemModel) e.Data.GetData(typeof(TopologyItemModel));
+            if (Topology.Items.FirstOrDefault(model => model == item) == null) return;
+            RemoveItemFromTopology(item, prevPB);
         }
 
         private void groupBox1_DragEnter(object sender, DragEventArgs e)
