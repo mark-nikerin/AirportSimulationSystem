@@ -41,7 +41,7 @@ namespace AirportSimulationSystem.Database
 
             modelBuilder.Entity<City>()
                 .Property(x => x.Id)
-                .ValueGeneratedOnAdd(); 
+                .ValueGeneratedOnAdd();
         }
     }
 }

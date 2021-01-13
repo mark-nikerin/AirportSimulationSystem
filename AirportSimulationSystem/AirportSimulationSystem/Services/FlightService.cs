@@ -1,10 +1,12 @@
 ﻿namespace AirportSimulationSystem.Services
 {
     using AirportSimulationSystem.Database;
+    using AirportSimulationSystem.Database.Entities;
     using AirportSimulationSystem.Models.DTOs;
     using AirportSimulationSystem.Services.Interfaces;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Linq;
 
     public class FlightService : IFlightService
@@ -18,7 +20,26 @@
 
         public void AddFlight(FlightDTO dto)
         {
-            throw new System.NotImplementedException();
+            var city = _db.Cities.FirstOrDefault(x => x.Id == dto.CityId);
+
+            var currentCityName = ConfigurationManager.AppSettings["CurrentCityName"];
+
+            var flight = new Flight
+            {
+                FlightNumber = dto.FlightNumber,
+                IsArrival = dto.IsArrival,
+                Tittle = dto.IsArrival
+                    ? $"{city.Name} - {currentCityName}"
+                    : $"{currentCityName} - {city.Name}",
+                Time = dto.Time,
+                RegistryNumber = dto.RegistryNumber,
+                CityId = dto.CityId,
+                AirplaneId = dto.AirplaneId,
+                SoldTicketsAmount = dto.SoldTicketsAmount
+            };
+
+            _db.Flights.Add(flight);
+            _db.SaveChanges();
         }
 
         public ICollection<FlightDTO> GetFlights()
@@ -33,7 +54,12 @@
 
         public void RemoveFlight(int id)
         {
-            throw new System.NotImplementedException();
+            var flight = _db.Flights.FirstOrDefault(x => x.Id == id);
+
+            if (flight == null) return;
+
+            _db.Flights.Remove(flight);
+            _db.SaveChanges();
         }
     }
 }

@@ -22,18 +22,16 @@ namespace AirportSimulationSystem
         private const int MaxGridSize = 25;
         private static TopologyModel Topology = new TopologyModel();
         private static TopologyItemModel CurrentDraggableItem = new TopologyItemModel();
-
-        private static AirportContext _db;
+         
         private static IAirplaneService _airplaneService;
         private static ICityService _cityService;
         private static IFlightService _flightService;
 
-        public MainForm(AirportContext db, IAirplaneService airplaneService, ICityService cityService, IFlightService flightService)
+        public MainForm(IAirplaneService airplaneService, ICityService cityService, IFlightService flightService)
         {
             InitializeComponent();
             DoubleBuffered = true;
-
-            _db = db;
+             
             _airplaneService = airplaneService;
             _cityService = cityService;
             _flightService = flightService;
@@ -44,6 +42,7 @@ namespace AirportSimulationSystem
             {
                 new DataGridViewComboBoxColumn
                 {
+                    Name = "City",
                     HeaderText = "Город",
                     DataSource = citiesGridView.DataSource,
                     DataPropertyName = "Name",
@@ -58,6 +57,7 @@ namespace AirportSimulationSystem
                 },
                 new DataGridViewComboBoxColumn
                 {
+                    Name = "Airplane",
                     HeaderText = "Самолёт",
                     DataSource = airplanesGridView.DataSource,
                     DataPropertyName = "Model",
@@ -71,6 +71,8 @@ namespace AirportSimulationSystem
                     Width = 150
                 },
             });
+
+            RefreshFlightComboBoxValues();
 
             CreateGrid(MinGridSize, MinGridSize);
             Topology.Size.Height = MinGridSize;
@@ -910,6 +912,7 @@ namespace AirportSimulationSystem
                 SetButtonInactive(airplanesButton);
                 SetButtonInactive(citiesButton);
                 flightsGridView.DataSource = _flightService.GetFlights();
+                RefreshFlightComboBoxValues();
                 flightsGridView.Refresh();
             }
         }
@@ -997,7 +1000,26 @@ namespace AirportSimulationSystem
 
             if (flightsGridView.Visible)
             {
-                //TODO Добавить реализацию
+                using var addFlightForm = new AddFlightForm(_cityService.GetCities(), _airplaneService.GetAirplanes());
+                dialogResult = addFlightForm.ShowDialog();
+                if (dialogResult == DialogResult.OK && addFlightForm.FlightDTO != null)
+                {
+                    _flightService.AddFlight(addFlightForm.FlightDTO);
+                    flightsGridView.DataSource = _flightService.GetFlights();
+                    RefreshFlightComboBoxValues(); 
+                    flightsGridView.Refresh();
+                }
+            }
+        }
+
+        private void RefreshFlightComboBoxValues()
+        {
+            var counter = 0;
+            foreach (FlightDTO item in (List<FlightDTO>)flightsGridView.DataSource)
+            {
+                flightsGridView.Rows[counter].Cells["City"].Value = item.CityId;
+                flightsGridView.Rows[counter].Cells["Airplane"].Value = item.AirplaneId;
+                counter++;
             }
         }
 
@@ -1009,7 +1031,7 @@ namespace AirportSimulationSystem
 
             if (confirmResult == DialogResult.No) return;
 
-            if (citiesGridView.Visible && citiesGridView.SelectedCells.Count > 0 )
+            if (citiesGridView.Visible && citiesGridView.SelectedCells.Count > 0)
             {
                 var selectedRowIndex = citiesGridView.SelectedCells[0].RowIndex;
                 var selectedRow = citiesGridView.Rows[selectedRowIndex];
@@ -1029,6 +1051,18 @@ namespace AirportSimulationSystem
                 _airplaneService.RemoveAirplane(airplaneId);
                 airplanesGridView.DataSource = _airplaneService.GetAirplanes();
                 airplanesGridView.Refresh();
+            }
+
+            if (flightsGridView.Visible && flightsGridView.SelectedCells.Count > 0)
+            {
+                var selectedRowIndex = flightsGridView.SelectedCells[0].RowIndex;
+                var selectedRow = flightsGridView.Rows[selectedRowIndex];
+                var flightId = int.Parse(Convert.ToString(selectedRow.Cells["Id"].Value));
+
+                _flightService.RemoveFlight(flightId);
+                flightsGridView.DataSource = _flightService.GetFlights();
+                RefreshFlightComboBoxValues();
+                flightsGridView.Refresh();
             }
         }
 

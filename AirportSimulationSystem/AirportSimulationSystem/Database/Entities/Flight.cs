@@ -10,7 +10,9 @@ namespace AirportSimulationSystem.Database.Entities
 
         public string FlightNumber { get; set; }
 
-        public string Title { get; set; }
+        public string Tittle { get; set; }
+
+        public bool IsArrival { get; set; }
 
         public DateTime Time { get; set; }
 

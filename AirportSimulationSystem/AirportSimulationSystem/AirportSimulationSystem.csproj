@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <UseWindowsForms>true</UseWindowsForms>
-        <TargetFramework>netcoreapp3.1-windows</TargetFramework>
+        <TargetFramework>net5.0-windows</TargetFramework>
         <StartupObject>AirportSimulationSystem.Program</StartupObject>
         <ApplicationIcon></ApplicationIcon>
     </PropertyGroup>
@@ -17,6 +17,9 @@
 
     <ItemGroup>
       <Compile Update="Forms\AddAirplaneForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="Forms\AddFlightForm.cs">
         <SubType>Form</SubType>
       </Compile>
       <Compile Update="Properties\Resources.Designer.cs">

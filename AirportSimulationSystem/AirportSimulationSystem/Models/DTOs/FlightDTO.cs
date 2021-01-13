@@ -14,6 +14,12 @@
         [DisplayName("Рейс")]
         public string FlightNumber { get; set; }
 
+        [Browsable(false)]
+        public bool IsArrival { get; set; }
+
+        [DisplayName("Вылет/Прибытие")]
+        public string FlightType { get; set; }
+
         [DisplayName("Название")]
         public string Title { get; set; }
 
@@ -23,10 +29,14 @@
         [DisplayName("№ стойки регистрации")]
         public int RegistryNumber { get; set; }
 
-
-        [Display(Order = 999)]
         [DisplayName("Число проданных билетов")]
         public int SoldTicketsAmount { get; set; }
+
+        [Browsable(false)]
+        public int CityId { get; set; }
+
+        [Browsable(false)]
+        public int AirplaneId { get; set; }
 
         public static explicit operator FlightDTO(Flight entity)
         {
@@ -34,10 +44,16 @@
             {
                 Id = entity.Id,
                 FlightNumber = entity.FlightNumber,
-                Title = entity.Title,
+                IsArrival = entity.IsArrival,
+                FlightType = entity.IsArrival 
+                ? "Прибытие" 
+                : "Вылет",
+                Title = entity.Tittle,
                 Time = entity.Time,
                 RegistryNumber = entity.RegistryNumber,
-                SoldTicketsAmount = entity.SoldTicketsAmount
+                SoldTicketsAmount = entity.SoldTicketsAmount,
+                CityId = entity.CityId,
+                AirplaneId = entity.AirplaneId
             };
         }
     }
