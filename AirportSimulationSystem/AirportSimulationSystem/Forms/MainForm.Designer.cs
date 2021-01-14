@@ -33,8 +33,8 @@ namespace AirportSimulationSystem
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.CreateTopologyButton = new System.Windows.Forms.Button();
             this.LoadTopologyButton = new System.Windows.Forms.Button();
@@ -42,8 +42,8 @@ namespace AirportSimulationSystem
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.MainPage = new System.Windows.Forms.TabPage();
             this.TopologyPage = new System.Windows.Forms.TabPage();
-            this.saveTopology = new System.Windows.Forms.Button();
             this.extendedPanel = new AirportSimulationSystem.ExtendedPanel();
+            this.saveTopology = new System.Windows.Forms.Button();
             this.verGridOutput = new System.Windows.Forms.TextBox();
             this.minusVerBut = new System.Windows.Forms.Button();
             this.plusVerBut = new System.Windows.Forms.Button();
@@ -51,7 +51,7 @@ namespace AirportSimulationSystem
             this.minusHorBut = new System.Windows.Forms.Button();
             this.plusHorBut = new System.Windows.Forms.Button();
             this.grid = new System.Windows.Forms.TableLayoutPanel();
-            this.topologyName = new System.Windows.Forms.Label();
+            this.topologyName = new System.Windows.Forms.TextBox();
             this.goToScheduleButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.backToMainPageButton = new System.Windows.Forms.Button();
@@ -76,9 +76,9 @@ namespace AirportSimulationSystem
             this.garage = new System.Windows.Forms.PictureBox();
             this.airport = new System.Windows.Forms.PictureBox();
             this.SchedulePage = new System.Windows.Forms.TabPage();
+            this.flightsGridView = new System.Windows.Forms.DataGridView();
             this.DeleteItemButton = new System.Windows.Forms.Button();
             this.AddItemButton = new System.Windows.Forms.Button();
-            this.flightsGridView = new System.Windows.Forms.DataGridView();
             this.citiesGridView = new System.Windows.Forms.DataGridView();
             this.citiesButton = new System.Windows.Forms.Button();
             this.airplanesButton = new System.Windows.Forms.Button();
@@ -206,8 +206,8 @@ namespace AirportSimulationSystem
             // TopologyPage
             // 
             this.TopologyPage.BackColor = System.Drawing.Color.White;
-            this.TopologyPage.Controls.Add(this.saveTopology);
             this.TopologyPage.Controls.Add(this.extendedPanel);
+            this.TopologyPage.Controls.Add(this.saveTopology);
             this.TopologyPage.Controls.Add(this.verGridOutput);
             this.TopologyPage.Controls.Add(this.minusVerBut);
             this.TopologyPage.Controls.Add(this.plusVerBut);
@@ -224,6 +224,17 @@ namespace AirportSimulationSystem
             this.TopologyPage.TabIndex = 3;
             this.TopologyPage.Text = "Топология";
             // 
+            // extendedPanel
+            // 
+            this.extendedPanel.AllowDrop = true;
+            this.extendedPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.extendedPanel.Location = new System.Drawing.Point(568, 70);
+            this.extendedPanel.Name = "extendedPanel";
+            this.extendedPanel.Size = new System.Drawing.Size(521, 522);
+            this.extendedPanel.TabIndex = 0;
+            this.extendedPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.extendedPanel_DragDrop);
+            this.extendedPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.extendedPanel_DragEnter);
+            // 
             // saveTopology
             // 
             this.saveTopology.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
@@ -239,15 +250,6 @@ namespace AirportSimulationSystem
             this.saveTopology.Text = "Сохранить";
             this.saveTopology.UseVisualStyleBackColor = false;
             this.saveTopology.Click += new System.EventHandler(this.saveTopology_Click);
-            // 
-            // extendedPanel
-            // 
-            this.extendedPanel.Location = new System.Drawing.Point(568, 70);
-            this.extendedPanel.Name = "extendedPanel";
-            this.extendedPanel.Size = new System.Drawing.Size(521, 521);
-            this.extendedPanel.TabIndex = 12;
-            this.extendedPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.extendedPanel_DragDrop);
-            this.extendedPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.extendedPanel_DragEnter);
             // 
             // verGridOutput
             // 
@@ -367,13 +369,14 @@ namespace AirportSimulationSystem
             // 
             // topologyName
             // 
+            this.topologyName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.topologyName.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.topologyName.Location = new System.Drawing.Point(450, 24);
             this.topologyName.Name = "topologyName";
-            this.topologyName.Size = new System.Drawing.Size(798, 30);
+            this.topologyName.Size = new System.Drawing.Size(798, 28);
             this.topologyName.TabIndex = 4;
             this.topologyName.Text = "Название топологии";
-            this.topologyName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.topologyName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // goToScheduleButton
             // 
@@ -686,6 +689,22 @@ namespace AirportSimulationSystem
             this.SchedulePage.TabIndex = 1;
             this.SchedulePage.Text = "Расписание";
             // 
+            // flightsGridView
+            // 
+            this.flightsGridView.AllowUserToOrderColumns = true;
+            this.flightsGridView.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.flightsGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.flightsGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.flightsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.flightsGridView.GridColor = System.Drawing.SystemColors.ControlLight;
+            this.flightsGridView.Location = new System.Drawing.Point(75, 110);
+            this.flightsGridView.Name = "flightsGridView";
+            this.flightsGridView.RowHeadersVisible = false;
+            this.flightsGridView.RowTemplate.Height = 25;
+            this.flightsGridView.Size = new System.Drawing.Size(1102, 382);
+            this.flightsGridView.TabIndex = 0;
+            this.flightsGridView.CancelRowEdit += new System.Windows.Forms.QuestionEventHandler(this.flightsGridView_CancelRowEdit);
+            // 
             // DeleteItemButton
             // 
             this.DeleteItemButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
@@ -717,22 +736,6 @@ namespace AirportSimulationSystem
             this.AddItemButton.Text = "+ Добавить";
             this.AddItemButton.UseVisualStyleBackColor = false;
             this.AddItemButton.Click += new System.EventHandler(this.AddItemButton_Click);
-            // 
-            // flightsGridView
-            // 
-            this.flightsGridView.AllowUserToOrderColumns = true;
-            this.flightsGridView.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.flightsGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.flightsGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.flightsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.flightsGridView.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.flightsGridView.Location = new System.Drawing.Point(75, 110);
-            this.flightsGridView.Name = "flightsGridView";
-            this.flightsGridView.RowHeadersVisible = false;
-            this.flightsGridView.RowTemplate.Height = 25;
-            this.flightsGridView.Size = new System.Drawing.Size(1102, 382);
-            this.flightsGridView.TabIndex = 0;
-            this.flightsGridView.CancelRowEdit += new System.Windows.Forms.QuestionEventHandler(this.flightsGridView_CancelRowEdit);
             // 
             // citiesGridView
             // 
@@ -861,23 +864,23 @@ namespace AirportSimulationSystem
             this.airplanesGridView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.airplanesGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.airplanesGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.airplanesGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.airplanesGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.airplanesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.airplanesGridView.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.airplanesGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.airplanesGridView.GridColor = System.Drawing.SystemColors.ControlLight;
             this.airplanesGridView.Location = new System.Drawing.Point(75, 110);
             this.airplanesGridView.Name = "airplanesGridView";
@@ -917,7 +920,7 @@ namespace AirportSimulationSystem
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.65979F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 186F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 312F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 324F));
             this.tableLayoutPanel1.Location = new System.Drawing.Point(20, 430);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -1095,7 +1098,6 @@ namespace AirportSimulationSystem
         private Button minusHorBut;
         private Button plusHorBut;
         private TableLayoutPanel grid;
-        private Label topologyName;
         private Button goToScheduleButton;
         private Panel panel1;
         private Button backToMainPageButton;
@@ -1124,5 +1126,6 @@ namespace AirportSimulationSystem
         private Button saveTopology;
         private Button DeleteItemButton;
         private Button AddItemButton;
+        private TextBox topologyName;
     }
 }
