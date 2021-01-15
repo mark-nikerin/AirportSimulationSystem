@@ -34,11 +34,11 @@ namespace AirportSimulationSystem
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.CreateTopologyButton = new System.Windows.Forms.Button();
             this.LoadTopologyButton = new System.Windows.Forms.Button();
@@ -80,7 +80,6 @@ namespace AirportSimulationSystem
             this.garage = new System.Windows.Forms.PictureBox();
             this.airport = new System.Windows.Forms.PictureBox();
             this.SchedulePage = new System.Windows.Forms.TabPage();
-            this.flightsGridView = new System.Windows.Forms.DataGridView();
             this.DeleteItemButton = new System.Windows.Forms.Button();
             this.AddItemButton = new System.Windows.Forms.Button();
             this.citiesGridView = new System.Windows.Forms.DataGridView();
@@ -125,9 +124,9 @@ namespace AirportSimulationSystem
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
-            //
+            // 
             // label1
-            //
+            // 
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label1.Location = new System.Drawing.Point(365, 366);
@@ -136,9 +135,9 @@ namespace AirportSimulationSystem
             this.label1.TabIndex = 0;
             this.label1.Text = "Создайте топологию аэропорта с нуля \nили загрузите готовый файл";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            //
+            // 
             // CreateTopologyButton
-            //
+            // 
             this.CreateTopologyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.CreateTopologyButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.CreateTopologyButton.FlatAppearance.BorderSize = 0;
@@ -152,9 +151,9 @@ namespace AirportSimulationSystem
             this.CreateTopologyButton.Text = "Создать";
             this.CreateTopologyButton.UseVisualStyleBackColor = false;
             this.CreateTopologyButton.Click += new System.EventHandler(this.CreateTopologyButton_click);
-            //
+            // 
             // LoadTopologyButton
-            //
+            // 
             this.LoadTopologyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.LoadTopologyButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LoadTopologyButton.FlatAppearance.BorderSize = 0;
@@ -168,18 +167,18 @@ namespace AirportSimulationSystem
             this.LoadTopologyButton.Text = "Загрузить";
             this.LoadTopologyButton.UseVisualStyleBackColor = false;
             this.LoadTopologyButton.Click += new System.EventHandler(this.LoadTopologyButton_Click);
-            //
+            // 
             // pictureBox1
-            //
+            // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(521, 186);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(184, 149);
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
-            //
+            // 
             // MainTabControl
-            //
+            // 
             this.MainTabControl.AllowDrop = true;
             this.MainTabControl.Controls.Add(this.MainPage);
             this.MainTabControl.Controls.Add(this.TopologyPage);
@@ -193,9 +192,9 @@ namespace AirportSimulationSystem
             this.MainTabControl.Size = new System.Drawing.Size(1267, 688);
             this.MainTabControl.TabIndex = 4;
             this.MainTabControl.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
-            //
+            // 
             // MainPage
-            //
+            // 
             this.MainPage.BackColor = System.Drawing.Color.White;
             this.MainPage.Controls.Add(this.LoadTopologyButton);
             this.MainPage.Controls.Add(this.pictureBox1);
@@ -208,9 +207,9 @@ namespace AirportSimulationSystem
             this.MainPage.Size = new System.Drawing.Size(1259, 660);
             this.MainPage.TabIndex = 0;
             this.MainPage.Text = "Главная";
-            //
+            // 
             // TopologyPage
-            //
+            // 
             this.TopologyPage.BackColor = System.Drawing.Color.White;
             this.TopologyPage.Controls.Add(this.extendedPanel);
             this.TopologyPage.Controls.Add(this.saveTopology);
@@ -229,9 +228,9 @@ namespace AirportSimulationSystem
             this.TopologyPage.Size = new System.Drawing.Size(1259, 660);
             this.TopologyPage.TabIndex = 3;
             this.TopologyPage.Text = "Топология";
-            //
+            // 
             // extendedPanel
-            //
+            // 
             this.extendedPanel.AllowDrop = true;
             this.extendedPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.extendedPanel.Location = new System.Drawing.Point(568, 70);
@@ -240,9 +239,9 @@ namespace AirportSimulationSystem
             this.extendedPanel.TabIndex = 0;
             this.extendedPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.extendedPanel_DragDrop);
             this.extendedPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.extendedPanel_DragEnter);
-            //
+            // 
             // saveTopology
-            //
+            // 
             this.saveTopology.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.saveTopology.Cursor = System.Windows.Forms.Cursors.Hand;
             this.saveTopology.FlatAppearance.BorderSize = 0;
@@ -256,9 +255,9 @@ namespace AirportSimulationSystem
             this.saveTopology.Text = "Сохранить";
             this.saveTopology.UseVisualStyleBackColor = false;
             this.saveTopology.Click += new System.EventHandler(this.saveTopology_Click);
-            //
+            // 
             // verGridOutput
-            //
+            // 
             this.verGridOutput.BackColor = System.Drawing.Color.White;
             this.verGridOutput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.verGridOutput.Cursor = System.Windows.Forms.Cursors.Arrow;
@@ -269,9 +268,9 @@ namespace AirportSimulationSystem
             this.verGridOutput.Size = new System.Drawing.Size(47, 36);
             this.verGridOutput.TabIndex = 11;
             this.verGridOutput.Text = "10";
-            //
+            // 
             // minusVerBut
-            //
+            // 
             this.minusVerBut.FlatAppearance.BorderSize = 0;
             this.minusVerBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.minusVerBut.Font = new System.Drawing.Font("Segoe UI", 23F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -282,9 +281,9 @@ namespace AirportSimulationSystem
             this.minusVerBut.Text = "-";
             this.minusVerBut.UseVisualStyleBackColor = true;
             this.minusVerBut.Click += new System.EventHandler(this.minusVerBut_Click);
-            //
+            // 
             // plusVerBut
-            //
+            // 
             this.plusVerBut.FlatAppearance.BorderSize = 0;
             this.plusVerBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.plusVerBut.Font = new System.Drawing.Font("Segoe UI", 23F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -295,9 +294,9 @@ namespace AirportSimulationSystem
             this.plusVerBut.Text = "+";
             this.plusVerBut.UseVisualStyleBackColor = true;
             this.plusVerBut.Click += new System.EventHandler(this.plusVerBut_Click);
-            //
+            // 
             // horGridOutput
-            //
+            // 
             this.horGridOutput.BackColor = System.Drawing.Color.White;
             this.horGridOutput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.horGridOutput.Cursor = System.Windows.Forms.Cursors.Arrow;
@@ -308,9 +307,9 @@ namespace AirportSimulationSystem
             this.horGridOutput.Size = new System.Drawing.Size(35, 36);
             this.horGridOutput.TabIndex = 8;
             this.horGridOutput.Text = "10";
-            //
+            // 
             // minusHorBut
-            //
+            // 
             this.minusHorBut.FlatAppearance.BorderSize = 0;
             this.minusHorBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.minusHorBut.Font = new System.Drawing.Font("Segoe UI", 23F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -321,9 +320,9 @@ namespace AirportSimulationSystem
             this.minusHorBut.Text = "-";
             this.minusHorBut.UseVisualStyleBackColor = true;
             this.minusHorBut.Click += new System.EventHandler(this.minusHorBut_Click);
-            //
+            // 
             // plusHorBut
-            //
+            // 
             this.plusHorBut.FlatAppearance.BorderSize = 0;
             this.plusHorBut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.plusHorBut.Font = new System.Drawing.Font("Segoe UI", 23F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -334,12 +333,12 @@ namespace AirportSimulationSystem
             this.plusHorBut.Text = "+";
             this.plusHorBut.UseVisualStyleBackColor = true;
             this.plusHorBut.Click += new System.EventHandler(this.plusHorButton_Click);
-            //
+            // 
             // grid
-            //
+            // 
             this.grid.AllowDrop = true;
-            this.grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grid.AutoSize = true;
             this.grid.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -372,9 +371,9 @@ namespace AirportSimulationSystem
             this.grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.grid.Size = new System.Drawing.Size(521, 521);
             this.grid.TabIndex = 5;
-            //
+            // 
             // topologyName
-            //
+            // 
             this.topologyName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.topologyName.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.topologyName.Location = new System.Drawing.Point(450, 24);
@@ -383,9 +382,9 @@ namespace AirportSimulationSystem
             this.topologyName.TabIndex = 4;
             this.topologyName.Text = "Название топологии";
             this.topologyName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            //
+            // 
             // goToScheduleButton
-            //
+            // 
             this.goToScheduleButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.goToScheduleButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.goToScheduleButton.FlatAppearance.BorderSize = 0;
@@ -399,9 +398,9 @@ namespace AirportSimulationSystem
             this.goToScheduleButton.Text = "Далее";
             this.goToScheduleButton.UseVisualStyleBackColor = false;
             this.goToScheduleButton.Click += new System.EventHandler(this.NextButton_Click);
-            //
+            // 
             // panel1
-            //
+            // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.panel1.Controls.Add(this.backToMainPageButton);
             this.panel1.Controls.Add(this.label2);
@@ -410,9 +409,9 @@ namespace AirportSimulationSystem
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(448, 657);
             this.panel1.TabIndex = 1;
-            //
+            // 
             // backToMainPageButton
-            //
+            // 
             this.backToMainPageButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.backToMainPageButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.backToMainPageButton.FlatAppearance.BorderSize = 0;
@@ -426,9 +425,9 @@ namespace AirportSimulationSystem
             this.backToMainPageButton.Text = "Назад";
             this.backToMainPageButton.UseVisualStyleBackColor = false;
             this.backToMainPageButton.Click += new System.EventHandler(this.BackButton_Click);
-            //
+            // 
             // label2
-            //
+            // 
             this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label2.Location = new System.Drawing.Point(53, 24);
@@ -437,9 +436,9 @@ namespace AirportSimulationSystem
             this.label2.TabIndex = 1;
             this.label2.Text = "Расположите объекты на \r\nсетке топологии аэропорта";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            //
+            // 
             // groupBox1
-            //
+            // 
             this.groupBox1.Controls.Add(this.counterPassTerm);
             this.groupBox1.Controls.Add(this.counterCargoTerm);
             this.groupBox1.Controls.Add(this.counterHangar);
@@ -468,9 +467,9 @@ namespace AirportSimulationSystem
             this.groupBox1.Text = "Элементы топологии";
             this.groupBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.groupBox1_DragDrop);
             this.groupBox1.DragEnter += new System.Windows.Forms.DragEventHandler(this.groupBox1_DragEnter);
-            //
+            // 
             // counterPassTerm
-            //
+            // 
             this.counterPassTerm.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.counterPassTerm.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.counterPassTerm.Location = new System.Drawing.Point(21, 431);
@@ -479,9 +478,9 @@ namespace AirportSimulationSystem
             this.counterPassTerm.Size = new System.Drawing.Size(48, 26);
             this.counterPassTerm.TabIndex = 23;
             this.counterPassTerm.Text = "x1";
-            //
+            // 
             // counterCargoTerm
-            //
+            // 
             this.counterCargoTerm.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.counterCargoTerm.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.counterCargoTerm.Location = new System.Drawing.Point(21, 368);
@@ -490,9 +489,9 @@ namespace AirportSimulationSystem
             this.counterCargoTerm.Size = new System.Drawing.Size(48, 26);
             this.counterCargoTerm.TabIndex = 22;
             this.counterCargoTerm.Text = "x1";
-            //
+            // 
             // counterHangar
-            //
+            // 
             this.counterHangar.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.counterHangar.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.counterHangar.Location = new System.Drawing.Point(21, 306);
@@ -501,9 +500,9 @@ namespace AirportSimulationSystem
             this.counterHangar.Size = new System.Drawing.Size(48, 26);
             this.counterHangar.TabIndex = 21;
             this.counterHangar.Text = "x5";
-            //
+            // 
             // counterGarage
-            //
+            // 
             this.counterGarage.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.counterGarage.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.counterGarage.Location = new System.Drawing.Point(21, 239);
@@ -512,9 +511,9 @@ namespace AirportSimulationSystem
             this.counterGarage.Size = new System.Drawing.Size(48, 26);
             this.counterGarage.TabIndex = 20;
             this.counterGarage.Text = "x5";
-            //
+            // 
             // counterAirport
-            //
+            // 
             this.counterAirport.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.counterAirport.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.counterAirport.Location = new System.Drawing.Point(21, 153);
@@ -523,9 +522,9 @@ namespace AirportSimulationSystem
             this.counterAirport.Size = new System.Drawing.Size(48, 26);
             this.counterAirport.TabIndex = 19;
             this.counterAirport.Text = "x1";
-            //
+            // 
             // counterVPP
-            //
+            // 
             this.counterVPP.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.counterVPP.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.counterVPP.Location = new System.Drawing.Point(21, 54);
@@ -534,9 +533,9 @@ namespace AirportSimulationSystem
             this.counterVPP.Size = new System.Drawing.Size(48, 26);
             this.counterVPP.TabIndex = 18;
             this.counterVPP.Text = "x1";
-            //
+            // 
             // PassengerTerminalTittle
-            //
+            // 
             this.PassengerTerminalTittle.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.PassengerTerminalTittle.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.PassengerTerminalTittle.Cursor = System.Windows.Forms.Cursors.Arrow;
@@ -546,9 +545,9 @@ namespace AirportSimulationSystem
             this.PassengerTerminalTittle.Size = new System.Drawing.Size(222, 26);
             this.PassengerTerminalTittle.TabIndex = 17;
             this.PassengerTerminalTittle.Text = "Пассажирский терминал";
-            //
+            // 
             // CargoTerminalTittle
-            //
+            // 
             this.CargoTerminalTittle.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.CargoTerminalTittle.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.CargoTerminalTittle.Cursor = System.Windows.Forms.Cursors.Arrow;
@@ -558,9 +557,9 @@ namespace AirportSimulationSystem
             this.CargoTerminalTittle.Size = new System.Drawing.Size(177, 26);
             this.CargoTerminalTittle.TabIndex = 16;
             this.CargoTerminalTittle.Text = "Грузовой терминал";
-            //
+            // 
             // HangarTittle
-            //
+            // 
             this.HangarTittle.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.HangarTittle.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.HangarTittle.Cursor = System.Windows.Forms.Cursors.Arrow;
@@ -570,9 +569,9 @@ namespace AirportSimulationSystem
             this.HangarTittle.Size = new System.Drawing.Size(69, 26);
             this.HangarTittle.TabIndex = 15;
             this.HangarTittle.Text = "Ангар";
-            //
+            // 
             // GarageTittle
-            //
+            // 
             this.GarageTittle.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.GarageTittle.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.GarageTittle.Cursor = System.Windows.Forms.Cursors.Arrow;
@@ -582,9 +581,9 @@ namespace AirportSimulationSystem
             this.GarageTittle.Size = new System.Drawing.Size(69, 26);
             this.GarageTittle.TabIndex = 14;
             this.GarageTittle.Text = "Гараж";
-            //
+            // 
             // AirportBuildingTittle
-            //
+            // 
             this.AirportBuildingTittle.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.AirportBuildingTittle.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.AirportBuildingTittle.Cursor = System.Windows.Forms.Cursors.Arrow;
@@ -594,9 +593,9 @@ namespace AirportSimulationSystem
             this.AirportBuildingTittle.Size = new System.Drawing.Size(121, 26);
             this.AirportBuildingTittle.TabIndex = 13;
             this.AirportBuildingTittle.Text = "Аэровокзал";
-            //
+            // 
             // RunwayTittle
-            //
+            // 
             this.RunwayTittle.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.RunwayTittle.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.RunwayTittle.Cursor = System.Windows.Forms.Cursors.Arrow;
@@ -606,9 +605,9 @@ namespace AirportSimulationSystem
             this.RunwayTittle.Size = new System.Drawing.Size(48, 26);
             this.RunwayTittle.TabIndex = 12;
             this.RunwayTittle.Text = "ВПП";
-            //
+            // 
             // passengerTerminal
-            //
+            // 
             this.passengerTerminal.Image = ((System.Drawing.Image)(resources.GetObject("passengerTerminal.Image")));
             this.passengerTerminal.Location = new System.Drawing.Point(75, 416);
             this.passengerTerminal.Name = "passengerTerminal";
@@ -617,9 +616,9 @@ namespace AirportSimulationSystem
             this.passengerTerminal.TabIndex = 11;
             this.passengerTerminal.TabStop = false;
             this.passengerTerminal.MouseDown += new System.Windows.Forms.MouseEventHandler(this.passengerTerminal_MouseDown);
-            //
+            // 
             // cargoTerminal
-            //
+            // 
             this.cargoTerminal.Image = ((System.Drawing.Image)(resources.GetObject("cargoTerminal.Image")));
             this.cargoTerminal.Location = new System.Drawing.Point(75, 355);
             this.cargoTerminal.Name = "cargoTerminal";
@@ -628,9 +627,9 @@ namespace AirportSimulationSystem
             this.cargoTerminal.TabIndex = 10;
             this.cargoTerminal.TabStop = false;
             this.cargoTerminal.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cargoTerminal_MouseDown);
-            //
+            // 
             // vpp
-            //
+            // 
             this.vpp.Image = ((System.Drawing.Image)(resources.GetObject("vpp.Image")));
             this.vpp.Location = new System.Drawing.Point(75, 32);
             this.vpp.Name = "vpp";
@@ -639,9 +638,9 @@ namespace AirportSimulationSystem
             this.vpp.TabIndex = 9;
             this.vpp.TabStop = false;
             this.vpp.MouseDown += new System.Windows.Forms.MouseEventHandler(this.vpp_MouseDown);
-            //
+            // 
             // hangar
-            //
+            // 
             this.hangar.Image = ((System.Drawing.Image)(resources.GetObject("hangar.Image")));
             this.hangar.Location = new System.Drawing.Point(75, 288);
             this.hangar.Name = "hangar";
@@ -650,9 +649,9 @@ namespace AirportSimulationSystem
             this.hangar.TabIndex = 8;
             this.hangar.TabStop = false;
             this.hangar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.hangar_MouseDown);
-            //
+            // 
             // garage
-            //
+            // 
             this.garage.Image = ((System.Drawing.Image)(resources.GetObject("garage.Image")));
             this.garage.Location = new System.Drawing.Point(75, 221);
             this.garage.Name = "garage";
@@ -661,9 +660,9 @@ namespace AirportSimulationSystem
             this.garage.TabIndex = 7;
             this.garage.TabStop = false;
             this.garage.MouseDown += new System.Windows.Forms.MouseEventHandler(this.garage_MouseDown);
-            //
+            // 
             // airport
-            //
+            // 
             this.airport.Image = ((System.Drawing.Image)(resources.GetObject("airport.Image")));
             this.airport.Location = new System.Drawing.Point(75, 115);
             this.airport.Name = "airport";
@@ -672,9 +671,9 @@ namespace AirportSimulationSystem
             this.airport.TabIndex = 6;
             this.airport.TabStop = false;
             this.airport.MouseDown += new System.Windows.Forms.MouseEventHandler(this.airport_MouseDown);
-            //
+            // 
             // SchedulePage
-            //
+            // 
             this.SchedulePage.BackColor = System.Drawing.Color.White;
             this.SchedulePage.Controls.Add(this.DeleteItemButton);
             this.SchedulePage.Controls.Add(this.AddItemButton);
@@ -694,25 +693,9 @@ namespace AirportSimulationSystem
             this.SchedulePage.Size = new System.Drawing.Size(1259, 660);
             this.SchedulePage.TabIndex = 1;
             this.SchedulePage.Text = "Расписание";
-            //
-            // flightsGridView
-            //
-            this.flightsGridView.AllowUserToOrderColumns = true;
-            this.flightsGridView.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.flightsGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.flightsGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.flightsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.flightsGridView.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.flightsGridView.Location = new System.Drawing.Point(75, 110);
-            this.flightsGridView.Name = "flightsGridView";
-            this.flightsGridView.RowHeadersVisible = false;
-            this.flightsGridView.RowTemplate.Height = 25;
-            this.flightsGridView.Size = new System.Drawing.Size(1102, 382);
-            this.flightsGridView.TabIndex = 0;
-            this.flightsGridView.CancelRowEdit += new System.Windows.Forms.QuestionEventHandler(this.flightsGridView_CancelRowEdit);
-            //
+            // 
             // DeleteItemButton
-            //
+            // 
             this.DeleteItemButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.DeleteItemButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.DeleteItemButton.FlatAppearance.BorderSize = 0;
@@ -726,9 +709,9 @@ namespace AirportSimulationSystem
             this.DeleteItemButton.Text = "Х Удалить";
             this.DeleteItemButton.UseVisualStyleBackColor = false;
             this.DeleteItemButton.Click += new System.EventHandler(this.DeleteItemButton_Click);
-            //
+            // 
             // AddItemButton
-            //
+            // 
             this.AddItemButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.AddItemButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.AddItemButton.FlatAppearance.BorderSize = 0;
@@ -742,22 +725,22 @@ namespace AirportSimulationSystem
             this.AddItemButton.Text = "+ Добавить";
             this.AddItemButton.UseVisualStyleBackColor = false;
             this.AddItemButton.Click += new System.EventHandler(this.AddItemButton_Click);
-            //
+            // 
             // citiesGridView
-            //
+            // 
             this.citiesGridView.AllowUserToOrderColumns = true;
             this.citiesGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.citiesGridView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.citiesGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.citiesGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.citiesGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.citiesGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.citiesGridView.GridColor = System.Drawing.SystemColors.ControlLight;
             this.citiesGridView.Location = new System.Drawing.Point(75, 64);
             this.citiesGridView.Name = "citiesGridView";
@@ -767,9 +750,9 @@ namespace AirportSimulationSystem
             this.citiesGridView.TabIndex = 10;
             this.citiesGridView.Visible = false;
             this.citiesGridView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.citiesGridView_KeyUp);
-            //
+            // 
             // citiesButton
-            //
+            // 
             this.citiesButton.BackColor = System.Drawing.Color.WhiteSmoke;
             this.citiesButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.citiesButton.FlatAppearance.BorderSize = 0;
@@ -782,9 +765,9 @@ namespace AirportSimulationSystem
             this.citiesButton.Text = "Города";
             this.citiesButton.UseVisualStyleBackColor = false;
             this.citiesButton.Click += new System.EventHandler(this.citiesButton_Click);
-            //
+            // 
             // airplanesButton
-            //
+            // 
             this.airplanesButton.BackColor = System.Drawing.Color.WhiteSmoke;
             this.airplanesButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.airplanesButton.FlatAppearance.BorderSize = 0;
@@ -797,9 +780,9 @@ namespace AirportSimulationSystem
             this.airplanesButton.Text = "Самолёты";
             this.airplanesButton.UseVisualStyleBackColor = false;
             this.airplanesButton.Click += new System.EventHandler(this.airplanesButton_Click);
-            //
+            // 
             // fligthsButton
-            //
+            // 
             this.fligthsButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.fligthsButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.fligthsButton.FlatAppearance.BorderSize = 0;
@@ -813,9 +796,9 @@ namespace AirportSimulationSystem
             this.fligthsButton.Text = "Рейсы";
             this.fligthsButton.UseVisualStyleBackColor = false;
             this.fligthsButton.Click += new System.EventHandler(this.fligthsButton_Click);
-            //
+            // 
             // goToSimulationPagebutton
-            //
+            // 
             this.goToSimulationPagebutton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.goToSimulationPagebutton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.goToSimulationPagebutton.FlatAppearance.BorderSize = 0;
@@ -829,9 +812,9 @@ namespace AirportSimulationSystem
             this.goToSimulationPagebutton.Text = "Далее";
             this.goToSimulationPagebutton.UseVisualStyleBackColor = false;
             this.goToSimulationPagebutton.Click += new System.EventHandler(this.NextButton_Click);
-            //
+            // 
             // backToTopologyPage
-            //
+            // 
             this.backToTopologyPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.backToTopologyPage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.backToTopologyPage.FlatAppearance.BorderSize = 0;
@@ -845,31 +828,31 @@ namespace AirportSimulationSystem
             this.backToTopologyPage.Text = "Назад";
             this.backToTopologyPage.UseVisualStyleBackColor = false;
             this.backToTopologyPage.Click += new System.EventHandler(this.BackButton_Click);
-            //
+            // 
             // airplanesGridView
-            //
+            // 
             this.airplanesGridView.AllowUserToOrderColumns = true;
             this.airplanesGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.airplanesGridView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.airplanesGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.airplanesGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.airplanesGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.airplanesGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.airplanesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.airplanesGridView.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.airplanesGridView.DefaultCellStyle = dataGridViewCellStyle8;
             this.airplanesGridView.GridColor = System.Drawing.SystemColors.ControlLight;
             this.airplanesGridView.Location = new System.Drawing.Point(75, 64);
             this.airplanesGridView.Name = "airplanesGridView";
@@ -878,31 +861,32 @@ namespace AirportSimulationSystem
             this.airplanesGridView.Size = new System.Drawing.Size(1102, 430);
             this.airplanesGridView.TabIndex = 10;
             this.airplanesGridView.Visible = false;
-            //
+            // 
             // flightsGridView
-            //
+            // 
+            this.flightsGridView.AllowUserToOrderColumns = true;
             this.flightsGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.flightsGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             this.flightsGridView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.flightsGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.flightsGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.flightsGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.flightsGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.flightsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.flightsGridView.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.flightsGridView.DefaultCellStyle = dataGridViewCellStyle10;
             this.flightsGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.flightsGridView.GridColor = System.Drawing.SystemColors.ControlLight;
             this.flightsGridView.Location = new System.Drawing.Point(75, 110);
@@ -912,9 +896,9 @@ namespace AirportSimulationSystem
             this.flightsGridView.RowTemplate.Height = 25;
             this.flightsGridView.Size = new System.Drawing.Size(1102, 384);
             this.flightsGridView.TabIndex = 0;
-            //
+            // 
             // SearchTextBox
-            //
+            // 
             this.SearchTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.SearchTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.SearchTextBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -925,9 +909,9 @@ namespace AirportSimulationSystem
             this.SearchTextBox.Size = new System.Drawing.Size(970, 25);
             this.SearchTextBox.TabIndex = 5;
             this.SearchTextBox.TextChanged += new System.EventHandler(this.SearchTextBox_TextChanged);
-            //
+            // 
             // SearchComboBox
-            //
+            // 
             this.SearchComboBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.SearchComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SearchComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -940,9 +924,9 @@ namespace AirportSimulationSystem
             this.SearchComboBox.Name = "SearchComboBox";
             this.SearchComboBox.Size = new System.Drawing.Size(126, 25);
             this.SearchComboBox.TabIndex = 6;
-            //
+            // 
             // SimulationPage
-            //
+            // 
             this.SimulationPage.BackColor = System.Drawing.Color.White;
             this.SimulationPage.Controls.Add(this.groupBox2);
             this.SimulationPage.Controls.Add(this.backToScheduleButton);
@@ -951,9 +935,9 @@ namespace AirportSimulationSystem
             this.SimulationPage.Size = new System.Drawing.Size(1259, 660);
             this.SimulationPage.TabIndex = 2;
             this.SimulationPage.Text = "Моделирование";
-            //
+            // 
             // groupBox2
-            //
+            // 
             this.groupBox2.Controls.Add(this.tableLayoutPanel1);
             this.groupBox2.Controls.Add(this.panel2);
             this.groupBox2.Location = new System.Drawing.Point(197, 24);
@@ -962,16 +946,16 @@ namespace AirportSimulationSystem
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Моделирование";
-            //
+            // 
             // tableLayoutPanel1
-            //
+            // 
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 5;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.34021F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.65979F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 186F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 336F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 338F));
             this.tableLayoutPanel1.Location = new System.Drawing.Point(20, 430);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -979,9 +963,9 @@ namespace AirportSimulationSystem
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(827, 49);
             this.tableLayoutPanel1.TabIndex = 1;
-            //
+            // 
             // panel2
-            //
+            // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.label3);
@@ -992,9 +976,9 @@ namespace AirportSimulationSystem
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(866, 68);
             this.panel2.TabIndex = 0;
-            //
+            // 
             // button1
-            //
+            // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.FlatAppearance.BorderSize = 0;
@@ -1007,9 +991,9 @@ namespace AirportSimulationSystem
             this.button1.TabIndex = 6;
             this.button1.Text = "СТАРТ";
             this.button1.UseVisualStyleBackColor = false;
-            //
+            // 
             // label3
-            //
+            // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label3.Location = new System.Drawing.Point(515, 14);
@@ -1017,34 +1001,34 @@ namespace AirportSimulationSystem
             this.label3.Size = new System.Drawing.Size(51, 30);
             this.label3.TabIndex = 3;
             this.label3.Text = "1,0X";
-            //
+            // 
             // trackBar1
-            //
+            // 
             this.trackBar1.Location = new System.Drawing.Point(88, 19);
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(422, 45);
             this.trackBar1.TabIndex = 2;
             this.trackBar1.Value = 3;
-            //
+            // 
             // dateTimePicker2
-            //
+            // 
             this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dateTimePicker2.Location = new System.Drawing.Point(773, 19);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.ShowUpDown = true;
             this.dateTimePicker2.Size = new System.Drawing.Size(74, 25);
             this.dateTimePicker2.TabIndex = 1;
-            //
+            // 
             // dateTimePicker1
-            //
+            // 
             this.dateTimePicker1.Location = new System.Drawing.Point(600, 19);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.ShowUpDown = true;
             this.dateTimePicker1.Size = new System.Drawing.Size(147, 25);
             this.dateTimePicker1.TabIndex = 0;
-            //
+            // 
             // backToScheduleButton
-            //
+            // 
             this.backToScheduleButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(212)))));
             this.backToScheduleButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.backToScheduleButton.FlatAppearance.BorderSize = 0;
@@ -1058,9 +1042,9 @@ namespace AirportSimulationSystem
             this.backToScheduleButton.Text = "Назад";
             this.backToScheduleButton.UseVisualStyleBackColor = false;
             this.backToScheduleButton.Click += new System.EventHandler(this.BackButton_Click);
-            //
+            // 
             // plusHorButton
-            //
+            // 
             this.plusHorButton.FlatAppearance.BorderSize = 0;
             this.plusHorButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.plusHorButton.Font = new System.Drawing.Font("Segoe UI", 23F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -1070,9 +1054,9 @@ namespace AirportSimulationSystem
             this.plusHorButton.TabIndex = 6;
             this.plusHorButton.Text = "+";
             this.plusHorButton.UseVisualStyleBackColor = true;
-            //
+            // 
             // MainForm
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;

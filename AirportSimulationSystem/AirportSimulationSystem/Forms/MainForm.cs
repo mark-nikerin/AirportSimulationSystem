@@ -1143,6 +1143,7 @@ namespace AirportSimulationSystem
                     }
             }
             flightsGridView.Refresh();
+            RefreshFlightComboBoxValues();
         }
 
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
