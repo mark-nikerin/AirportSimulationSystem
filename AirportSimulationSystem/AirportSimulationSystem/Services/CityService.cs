@@ -28,6 +28,19 @@
             _db.SaveChanges();
         }
 
+        public void UpdateCity(CityDTO dto)
+        {
+            var city = _db.Cities.FirstOrDefault(x => x.Id == dto.Id);
+
+            if (city == null) return;
+
+            city.Name = dto.Name;
+            city.Distance = dto.Distance;
+
+            _db.Cities.Update(city);
+            _db.SaveChanges();
+        }
+
         public void RemoveCity(int id)
         {
             var city = _db.Cities.FirstOrDefault(x => x.Id == id);

@@ -7,6 +7,8 @@
     {
         void AddAirplane(AirplaneDTO dto);
 
+        void UpdateAirplane(AirplaneDTO dto);
+
         void RemoveAirplane(int airplaneId);
 
         ICollection<AirplaneDTO> GetAirplanes();

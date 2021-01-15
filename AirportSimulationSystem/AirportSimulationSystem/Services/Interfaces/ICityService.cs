@@ -7,6 +7,8 @@ namespace AirportSimulationSystem.Services.Interfaces
     {
         void AddCity(CityDTO dto);
 
+        void UpdateCity(CityDTO dto);
+
         void RemoveCity(int id);
 
         ICollection<CityDTO> GetCities();

@@ -13,10 +13,11 @@ namespace AirportSimulationSystem
         public FlightDTO FlightDTO { get; private set; }
         private ICollection<string> _errorMessagesList = new List<string>();
         private IEnumerable<CityDTO> _cities;
-        private IEnumerable<AirplaneDTO> _airplanes;
+        private IEnumerable<AirplaneDTO> _airplanes; 
+        private IEnumerable<FlightDTO> _flights;
 
 
-        public AddFlightForm(ICollection<CityDTO> cities, ICollection<AirplaneDTO> airplanes)
+        public AddFlightForm(ICollection<CityDTO> cities, ICollection<AirplaneDTO> airplanes, ICollection<FlightDTO> flights)
         {
             InitializeComponent();
 
@@ -37,6 +38,7 @@ namespace AirportSimulationSystem
 
             _cities = cities.OrderBy(x => x.Id).ToArray();
             _airplanes = airplanes.OrderBy(x => x.Id).ToArray();
+            _flights = flights.ToArray();
 
             FlightCityComboBox.DisplayMember = "Name";
             FlightCityComboBox.ValueMember = "Id";
@@ -81,7 +83,7 @@ namespace AirportSimulationSystem
                     RegistryNumber = (int)RegistryNumberComboBox.SelectedItem,
                     SoldTicketsAmount = (int)SoldTicketsAmountNumeric.Value,
                     Time = FlightTimePicker.Value.ToString("H:mm"),
-                    Title = IsDepartureCheckBox.Checked
+                    Tittle = IsDepartureCheckBox.Checked
                     ? $"{currentCityName} - {selectedCity.Name}"
                     : $"{selectedCity.Name} - {currentCityName}"
                 };
@@ -94,7 +96,7 @@ namespace AirportSimulationSystem
                 errorTextBuilder.AppendJoin("\n", _errorMessagesList).ToString();
                 errorTextBuilder.AppendLine("\n\nПроверьте вводимые значения и попробуйте еще раз.");
                 var errorText = errorTextBuilder.ToString();
-                MessageBox.Show(errorText, "Ошибка", MessageBoxButtons.OK);
+                MessageBox.Show(errorText, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _errorMessagesList = new List<string>();
             }
         }
@@ -119,7 +121,20 @@ namespace AirportSimulationSystem
 
         private bool IsValidForm()
         {
+            if (_flights.Any(x => DateTime.Parse(x.Time).Hour == FlightTimePicker.Value.Hour && Math.Abs(DateTime.Parse(x.Time).Minute - FlightTimePicker.Value.Minute) < 30))
+            {
+                _errorMessagesList.Add("Произошел конфликт времени. Между рейсами должен\nбыть промежуток в 30 минут");
+                return false;
+            }
+
+            if (_flights.Any(x => x.FlightNumber.Equals(FlightNumberTextBox.Text, StringComparison.OrdinalIgnoreCase)))
+            {
+                _errorMessagesList.Add("Код рейса должен быть уникальным");
+                return false;
+            }
+
             if (string.IsNullOrWhiteSpace(FlightNumberTextBox.Text)) _errorMessagesList.Add("Не указан код рейса");
+
             if (FlightCityComboBox.SelectedIndex == 0) _errorMessagesList.Add("Не выбран город прибытия");
             if (FlightAirplaneComboBox.SelectedIndex == 0) _errorMessagesList.Add("Не выбран самолёт");
             if (RegistryNumberComboBox.SelectedIndex == 0) _errorMessagesList.Add("Не выбрана стойка регистрации");

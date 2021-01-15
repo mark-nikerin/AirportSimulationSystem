@@ -4,14 +4,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Resources;
 using System.Security;
 using System.Text.Json;
 using System.Windows.Forms;
 using AirportSimulationSystem.Models;
 using AirportSimulationSystem.Models.DTOs;
 using AirportSimulationSystem.Models.Enums;
-using AirportSimulationSystem.Properties;
 using AirportSimulationSystem.Services.Interfaces;
 using Size = System.Drawing.Size;
 
@@ -81,10 +79,12 @@ namespace AirportSimulationSystem
             RefreshFlightComboBoxValues();
             flightsGridView.Refresh();
 
-            foreach (DataGridViewBand band in flightsGridView.Columns)
-            {
-                band.ReadOnly = true;
-            }
+            flightsGridView.Columns[0].ReadOnly = true; 
+            flightsGridView.Columns["FlightType"].ReadOnly = true;
+            flightsGridView.Columns["RegistryNumber"].ReadOnly = true;
+            flightsGridView.Columns["Tittle"].ReadOnly = true;
+            citiesGridView.Columns[0].ReadOnly = true;
+            airplanesGridView.Columns[0].ReadOnly = true;
 
             CreateGrid(MinGridSize, MinGridSize);
             Topology.Size.Height = MinGridSize;
@@ -1032,33 +1032,14 @@ namespace AirportSimulationSystem
                 citiesGridView.Refresh();
             }
         }
-
-        private void SetButtonActive(Button button)
-        {
-            button.BackColor = Color.FromArgb(0, 120, 212);
-            button.Cursor = Cursors.Hand;
-            button.FlatAppearance.BorderSize = 0;
-            button.FlatStyle = FlatStyle.Flat;
-            button.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            button.ForeColor = SystemColors.HighlightText;
-        }
-
-        private void SetButtonInactive(Button button)
-        {
-            button.UseVisualStyleBackColor = true;
-            button.BackColor = Color.FromArgb(0, 120, 212);
-            button.Cursor = Cursors.Hand;
-            button.BackColor = Color.WhiteSmoke;
-            button.ForeColor = SystemColors.ControlText;
-        }
-
+         
         private void AddItemButton_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult;
 
             if (citiesGridView.Visible)
             {
-                using var addCityForm = new AddCityForm();
+                using var addCityForm = new AddCityForm(_cityService.GetCities());
 
                 dialogResult = addCityForm.ShowDialog();
                 if (dialogResult == DialogResult.OK)
@@ -1071,7 +1052,7 @@ namespace AirportSimulationSystem
 
             if (airplanesGridView.Visible)
             {
-                using var addAirplaneForm = new AddAirplaneForm();
+                using var addAirplaneForm = new AddAirplaneForm(_airplaneService.GetAirplanes());
 
                 dialogResult = addAirplaneForm.ShowDialog();
                 if (dialogResult == DialogResult.OK)
@@ -1084,7 +1065,7 @@ namespace AirportSimulationSystem
 
             if (flightsGridView.Visible)
             {
-                using var addFlightForm = new AddFlightForm(_cityService.GetCities(), _airplaneService.GetAirplanes());
+                using var addFlightForm = new AddFlightForm(_cityService.GetCities(), _airplaneService.GetAirplanes(), _flightService.GetFlights());
                 dialogResult = addFlightForm.ShowDialog();
                 if (dialogResult == DialogResult.OK)
                 {
@@ -1095,32 +1076,23 @@ namespace AirportSimulationSystem
                 }
             }
         }
-
-        private void RefreshFlightComboBoxValues()
-        {
-            var counter = 0;
-            foreach (FlightDTO item in (List<FlightDTO>)flightsGridView.DataSource)
-            {
-                flightsGridView.Rows[counter].Cells["City"].Value = item.CityId;
-                flightsGridView.Rows[counter].Cells["Airplane"].Value = item.AirplaneId;
-                counter++;
-            }
-        }
-
+          
         private void DeleteItemButton_Click(object sender, EventArgs e)
         {
-            var confirmResult = MessageBox.Show("Вы уверены, что хотите удалить объект?",
-                                     "Подтвеждение удаления",
-                                     MessageBoxButtons.YesNo);
-
-            if (confirmResult == DialogResult.No) return;
-
             if (citiesGridView.Visible && citiesGridView.SelectedCells.Count > 0)
             {
                 var selectedRowIndex = citiesGridView.SelectedCells[0].RowIndex;
                 var selectedRow = citiesGridView.Rows[selectedRowIndex];
                 var cityId = int.Parse(Convert.ToString(selectedRow.Cells["Id"].Value));
+                var cityName = (string)selectedRow.Cells["Name"].Value;
 
+                var confirmResult = MessageBox.Show($"Вы уверены, что хотите удалить город '{cityName}'?",
+                                     "Подтвеждение удаления",
+                                     MessageBoxButtons.YesNo,
+                                     MessageBoxIcon.Warning);
+
+                if (confirmResult == DialogResult.No) return;
+                 
                 _cityService.RemoveCity(cityId);
                 citiesGridView.DataSource = _cityService.GetCities();
                 citiesGridView.Refresh();
@@ -1131,6 +1103,16 @@ namespace AirportSimulationSystem
                 var selectedRowIndex = airplanesGridView.SelectedCells[0].RowIndex;
                 var selectedRow = airplanesGridView.Rows[selectedRowIndex];
                 var airplaneId = int.Parse(Convert.ToString(selectedRow.Cells["Id"].Value));
+                var airplaneModel = (string)selectedRow.Cells["Model"].Value;
+
+                var confirmResult = MessageBox.Show($"Вы уверены, что хотите удалить самолёт '{airplaneModel}'?",
+                                     "Подтвеждение удаления",
+                                     MessageBoxButtons.YesNo,
+                                     MessageBoxIcon.Warning);
+
+                if (confirmResult == DialogResult.No) return;
+
+               
 
                 _airplaneService.RemoveAirplane(airplaneId);
                 airplanesGridView.DataSource = _airplaneService.GetAirplanes();
@@ -1142,12 +1124,151 @@ namespace AirportSimulationSystem
                 var selectedRowIndex = flightsGridView.SelectedCells[0].RowIndex;
                 var selectedRow = flightsGridView.Rows[selectedRowIndex];
                 var flightId = int.Parse(Convert.ToString(selectedRow.Cells["Id"].Value));
+                var flightTittle = (string)selectedRow.Cells["Tittle"].Value;
+                var flightNumber = (string)selectedRow.Cells["FlightNumber"].Value;
+
+                var confirmResult = MessageBox.Show($"Вы уверены, что хотите удалить рейс {flightNumber} '{flightTittle}'?",
+                                     "Подтвеждение удаления",
+                                     MessageBoxButtons.YesNo,
+                                     MessageBoxIcon.Warning);
+
+                if (confirmResult == DialogResult.No) return;
+
+               
 
                 _flightService.RemoveFlight(flightId);
                 flightsGridView.DataSource = _flightService.GetFlights();
                 RefreshFlightComboBoxValues();
                 flightsGridView.Refresh();
             }
+        }
+
+        #endregion
+
+        #region Key Press Events
+
+        private void citiesGridView_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            { 
+                if (citiesGridView.Visible && citiesGridView.SelectedCells.Count > 0)
+                {
+                    var rowIndex = citiesGridView.SelectedCells[0].RowIndex;
+
+                    var selectedRowIndex = rowIndex == citiesGridView.RowCount - 1
+                       ? rowIndex
+                       : rowIndex - 1;
+
+                    var selectedRow = citiesGridView.Rows[selectedRowIndex];
+
+                    var cityId = (int)selectedRow.Cells["Id"].Value;
+                    var cityName = (string)selectedRow.Cells["Name"].Value;
+                    var cityDistance = (int)selectedRow.Cells["Distance"].Value;
+
+                    citiesGridView.EndEdit();
+
+                    var cityDTO = new CityDTO
+                    {
+                        Id = cityId,
+                        Name = cityName,
+                        Distance = cityDistance
+                    };
+
+                    _cityService.UpdateCity(cityDTO);
+                }
+            }
+        }
+
+        private void airplanesGridView_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                airplanesGridView.EndEdit();
+                if (airplanesGridView.Visible && airplanesGridView.SelectedCells.Count > 0)
+                {
+                    var rowIndex = airplanesGridView.SelectedCells[0].RowIndex;
+
+                    var selectedRowIndex = rowIndex == airplanesGridView.RowCount - 1
+                        ? rowIndex
+                        : rowIndex - 1;
+
+                    var selectedRow = airplanesGridView.Rows[selectedRowIndex];
+
+                    var airplaneId = (int)selectedRow.Cells["Id"].Value;
+                    var airplaneModel = (string)selectedRow.Cells["Model"].Value;
+                    var airplaneDistance = (int)selectedRow.Cells["Distance"].Value;
+                    var airplaneLiftingCapacity = (int)selectedRow.Cells["LiftingCapacity"].Value;
+                    var airplanePassengerCapacity = (int)selectedRow.Cells["PassengerCapacity"].Value;
+
+                    var airplaneDTO = new AirplaneDTO
+                    {
+                        Id = airplaneId,
+                        Model = airplaneModel,
+                        Distance = airplaneDistance,
+                        LiftingCapacity = airplaneLiftingCapacity,
+                        PassengerCapacity = airplanePassengerCapacity
+                    };
+
+                    _airplaneService.UpdateAirplane(airplaneDTO);
+                }
+            }
+        }
+
+        private void flightsGridView_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                flightsGridView.EndEdit();
+                if (flightsGridView.Visible && flightsGridView.SelectedCells.Count > 0)
+                {
+                    var rowIndex = flightsGridView.SelectedCells[0].RowIndex;
+
+                    var selectedRowIndex = rowIndex == flightsGridView.RowCount - 1
+                       ? rowIndex
+                       : rowIndex - 1;
+
+                    var selectedRow = flightsGridView.Rows[selectedRowIndex];
+
+                    var flightId = (int)selectedRow.Cells["Id"].Value;
+                    var flightNumber = (string)selectedRow.Cells["FlightNumber"].Value;
+                    var time = (string)selectedRow.Cells["Time"].Value;
+                    var soldTicketsAmount = (int)selectedRow.Cells["SoldTicketsAmount"].Value; 
+                    var cityId = (int)selectedRow.Cells["City"].Value;
+                    var airplaneId = (int)selectedRow.Cells["Airplane"].Value;
+                     
+                    var flightDTO = new FlightDTO
+                    {
+                        Id = flightId,
+                        FlightNumber = flightNumber,
+                        SoldTicketsAmount = soldTicketsAmount,
+                        CityId = cityId,
+                        AirplaneId = airplaneId,
+                        Time = time
+                    };
+                    _flightService.UpdateFlight(flightDTO);
+                    flightsGridView.DataSource = _flightService.GetFlights();
+                    RefreshFlightComboBoxValues();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Error Events
+
+        private void airplanesGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("Введённые данные имели неверный формат\nПопробуйте снова", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void citiesGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("Введённые данные имели неверный формат\nПопробуйте снова", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void flightsGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("Введённые данные имели неверный формат\nПопробуйте снова", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         #endregion
@@ -1161,7 +1282,7 @@ namespace AirportSimulationSystem
                     {
                         flightsGridView.DataSource = _flightService
                             .GetFlights()
-                            .Where(x => x.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                            .Where(x => x.Tittle.Contains(searchText, StringComparison.OrdinalIgnoreCase))
                             .ToList();
                         break;
                     }
@@ -1186,6 +1307,38 @@ namespace AirportSimulationSystem
             RefreshFlightComboBoxValues();
         }
 
+        private void RefreshFlightComboBoxValues()
+        {
+            var counter = 0;
+            foreach (FlightDTO item in (List<FlightDTO>)flightsGridView.DataSource)
+            {
+                flightsGridView.Rows[counter].Cells["City"].Value = item.CityId;
+                flightsGridView.Rows[counter].Cells["Airplane"].Value = item.AirplaneId;
+                counter++;
+            }
+        }
+
+        private void SetButtonActive(Button button)
+        {
+            button.BackColor = Color.FromArgb(0, 120, 212);
+            button.Cursor = Cursors.Hand;
+            button.FlatAppearance.BorderSize = 0;
+            button.FlatStyle = FlatStyle.Flat;
+            button.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            button.ForeColor = SystemColors.HighlightText;
+        }
+
+        private void SetButtonInactive(Button button)
+        {
+            button.UseVisualStyleBackColor = true;
+            button.BackColor = Color.FromArgb(0, 120, 212);
+            button.Cursor = Cursors.Hand;
+            button.BackColor = Color.WhiteSmoke;
+            button.ForeColor = SystemColors.ControlText;
+        }
+
+        #endregion
+
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (MainTabControl.SelectedTab.Text.Equals("Расписание"))
@@ -1193,23 +1346,11 @@ namespace AirportSimulationSystem
                 RefreshFlightComboBoxValues();
             }
         }
-
-
-        #endregion
-
-        private void citiesGridView_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                citiesGridView.EndEdit();
-                MessageBox.Show("1", "2", MessageBoxButtons.OK);
-            }
-        }
-
+         
         private void MainPage_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
             Debug.Write(Application.StartupPath);
             Help.ShowHelp(this, Application.StartupPath + @"\Resources\info.chm");
-        }
+        } 
     }
 }

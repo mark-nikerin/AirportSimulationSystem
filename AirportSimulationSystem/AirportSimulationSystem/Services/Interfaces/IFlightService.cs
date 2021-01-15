@@ -7,6 +7,8 @@
     {
         void AddFlight(FlightDTO dto);
 
+        void UpdateFlight(FlightDTO dto);
+
         void RemoveFlight(int id);
 
         ICollection<FlightDTO> GetFlights();

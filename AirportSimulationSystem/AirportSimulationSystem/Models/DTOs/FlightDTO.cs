@@ -1,7 +1,6 @@
 ﻿namespace AirportSimulationSystem.Models.DTOs
 {
     using AirportSimulationSystem.Database.Entities;
-    using System;
     using System.ComponentModel;
 
     public class FlightDTO
@@ -19,7 +18,7 @@
         public string FlightType { get; set; }
 
         [DisplayName("Название")]
-        public string Title { get; set; }
+        public string Tittle { get; set; }
 
         [DisplayName("Время")]
         public string Time { get; set; }
@@ -49,7 +48,7 @@
                 FlightType = entity.IsArrival
                 ? "Прибытие"
                 : "Вылет",
-                Title = entity.Tittle,
+                Tittle = entity.Tittle,
                 Time = entity.Time.ToString("H:mm"),
                 RegistryNumber = entity.RegistryNumber,
                 SoldTicketsAmount = entity.SoldTicketsAmount,

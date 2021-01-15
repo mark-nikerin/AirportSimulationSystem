@@ -44,6 +44,32 @@
             _db.SaveChanges();
         }
 
+        public void UpdateFlight(FlightDTO dto)
+        {
+            var flight = _db.Flights
+                .Include(x => x.Airplane)
+                .Include(x => x.City)
+                .FirstOrDefault(x => x.Id == dto.Id);
+
+            var city = _db.Cities.FirstOrDefault(x => x.Id == dto.CityId);
+
+            var currentCityName = ConfigurationManager.AppSettings["CurrentCityName"];
+
+            DateTime.TryParseExact(dto.Time, "H:mm", null, System.Globalization.DateTimeStyles.None, out var time);
+
+            flight.FlightNumber = dto.FlightNumber;
+            flight.Time = time;
+            flight.Tittle = flight.IsArrival
+                    ? $"{city.Name} - {currentCityName}"
+                    : $"{currentCityName} - {city.Name}";
+            flight.CityId = dto.CityId;
+            flight.AirplaneId = dto.AirplaneId;
+            flight.SoldTicketsAmount = dto.SoldTicketsAmount;
+
+            _db.Update(flight);
+            _db.SaveChanges();
+        }
+
         public ICollection<FlightDTO> GetFlights()
         {
             return _db.Flights

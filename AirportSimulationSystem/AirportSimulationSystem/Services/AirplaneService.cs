@@ -30,6 +30,21 @@
             _db.SaveChanges();
         }
 
+        public void UpdateAirplane(AirplaneDTO dto)
+        {
+            var airplane = _db.Airplanes.FirstOrDefault(x => x.Id == dto.Id);
+
+            if (airplane == null) return;
+
+            airplane.Distance = dto.Distance;
+            airplane.Model = dto.Model;
+            airplane.LiftingCapacity = dto.LiftingCapacity;
+            airplane.PassengerCapacity = dto.PassengerCapacity;
+
+            _db.Airplanes.Update(airplane);
+            _db.SaveChanges();
+        }
+
         public void RemoveAirplane(int id)
         {
             var airplane = _db.Airplanes.FirstOrDefault(x => x.Id == id);

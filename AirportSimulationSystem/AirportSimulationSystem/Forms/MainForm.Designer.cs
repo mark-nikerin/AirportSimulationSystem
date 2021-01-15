@@ -754,6 +754,7 @@ namespace AirportSimulationSystem
             this.citiesGridView.Size = new System.Drawing.Size(1102, 430);
             this.citiesGridView.TabIndex = 10;
             this.citiesGridView.Visible = false;
+            this.citiesGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.citiesGridView_DataError);
             this.citiesGridView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.citiesGridView_KeyUp);
             // 
             // citiesButton
@@ -866,6 +867,8 @@ namespace AirportSimulationSystem
             this.airplanesGridView.Size = new System.Drawing.Size(1102, 430);
             this.airplanesGridView.TabIndex = 10;
             this.airplanesGridView.Visible = false;
+            this.airplanesGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.airplanesGridView_DataError);
+            this.airplanesGridView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.airplanesGridView_KeyUp);
             // 
             // flightsGridView
             // 
@@ -892,7 +895,6 @@ namespace AirportSimulationSystem
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.flightsGridView.DefaultCellStyle = dataGridViewCellStyle5;
-            this.flightsGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.flightsGridView.GridColor = System.Drawing.SystemColors.ControlLight;
             this.flightsGridView.Location = new System.Drawing.Point(75, 110);
             this.flightsGridView.Margin = new System.Windows.Forms.Padding(3, 3, 3, 40);
@@ -901,6 +903,8 @@ namespace AirportSimulationSystem
             this.flightsGridView.RowTemplate.Height = 25;
             this.flightsGridView.Size = new System.Drawing.Size(1102, 384);
             this.flightsGridView.TabIndex = 0;
+            this.flightsGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.flightsGridView_DataError);
+            this.flightsGridView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.flightsGridView_KeyUp);
             // 
             // SearchTextBox
             // 
@@ -960,7 +964,7 @@ namespace AirportSimulationSystem
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.65979F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 186F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 370F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 378F));
             this.tableLayoutPanel1.Location = new System.Drawing.Point(20, 430);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
