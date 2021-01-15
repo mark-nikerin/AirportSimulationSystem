@@ -3,8 +3,6 @@
     using AirportSimulationSystem.Database.Entities;
     using System;
     using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-    using System.Windows.Forms;
 
     public class FlightDTO
     {
@@ -17,19 +15,19 @@
         [Browsable(false)]
         public bool IsArrival { get; set; }
 
-        [DisplayName("Вылет/Прибытие")]
+        [DisplayName("Тип")]
         public string FlightType { get; set; }
 
         [DisplayName("Название")]
         public string Title { get; set; }
 
         [DisplayName("Время")]
-        public DateTime Time { get; set; }
+        public string Time { get; set; }
 
-        [DisplayName("№ стойки регистрации")]
+        [DisplayName("Стойка\nрегистрации")]
         public int RegistryNumber { get; set; }
 
-        [DisplayName("Число проданных билетов")]
+        [DisplayName("Проданные\nбилеты")]
         public int SoldTicketsAmount { get; set; }
 
         [Browsable(false)]
@@ -38,6 +36,9 @@
         [Browsable(false)]
         public int AirplaneId { get; set; }
 
+        [Browsable(false)]
+        public string AirplaneModel { get; set; }
+
         public static explicit operator FlightDTO(Flight entity)
         {
             return new FlightDTO
@@ -45,15 +46,16 @@
                 Id = entity.Id,
                 FlightNumber = entity.FlightNumber,
                 IsArrival = entity.IsArrival,
-                FlightType = entity.IsArrival 
-                ? "Прибытие" 
+                FlightType = entity.IsArrival
+                ? "Прибытие"
                 : "Вылет",
                 Title = entity.Tittle,
-                Time = entity.Time,
+                Time = entity.Time.ToString("H:mm"),
                 RegistryNumber = entity.RegistryNumber,
                 SoldTicketsAmount = entity.SoldTicketsAmount,
                 CityId = entity.CityId,
-                AirplaneId = entity.AirplaneId
+                AirplaneId = entity.AirplaneId,
+                AirplaneModel = entity.Airplane.Model
             };
         }
     }

@@ -129,7 +129,7 @@ namespace AirportSimulationSystem
             // 
             this.RegistryNumberTittle.AutoSize = true;
             this.RegistryNumberTittle.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.RegistryNumberTittle.Location = new System.Drawing.Point(49, 203);
+            this.RegistryNumberTittle.Location = new System.Drawing.Point(391, 203);
             this.RegistryNumberTittle.Margin = new System.Windows.Forms.Padding(3, 20, 3, 0);
             this.RegistryNumberTittle.Name = "RegistryNumberTittle";
             this.RegistryNumberTittle.Size = new System.Drawing.Size(170, 17);
@@ -143,9 +143,9 @@ namespace AirportSimulationSystem
             this.FlightCityTittle.Location = new System.Drawing.Point(49, 131);
             this.FlightCityTittle.Margin = new System.Windows.Forms.Padding(3, 20, 3, 0);
             this.FlightCityTittle.Name = "FlightCityTittle";
-            this.FlightCityTittle.Size = new System.Drawing.Size(45, 17);
+            this.FlightCityTittle.Size = new System.Drawing.Size(126, 17);
             this.FlightCityTittle.TabIndex = 17;
-            this.FlightCityTittle.Text = "Город";
+            this.FlightCityTittle.Text = "Город отправления";
             // 
             // FlightAirplaneModelTittle
             // 
@@ -162,7 +162,7 @@ namespace AirportSimulationSystem
             // 
             this.SoldTicketsAmountTittle.AutoSize = true;
             this.SoldTicketsAmountTittle.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SoldTicketsAmountTittle.Location = new System.Drawing.Point(391, 203);
+            this.SoldTicketsAmountTittle.Location = new System.Drawing.Point(49, 203);
             this.SoldTicketsAmountTittle.Margin = new System.Windows.Forms.Padding(3, 20, 3, 0);
             this.SoldTicketsAmountTittle.Name = "SoldTicketsAmountTittle";
             this.SoldTicketsAmountTittle.Size = new System.Drawing.Size(168, 17);
@@ -183,6 +183,7 @@ namespace AirportSimulationSystem
             this.FlightCityComboBox.Name = "FlightCityComboBox";
             this.FlightCityComboBox.Size = new System.Drawing.Size(262, 29);
             this.FlightCityComboBox.TabIndex = 23;
+            this.FlightCityComboBox.SelectedIndexChanged += new System.EventHandler(this.FlightCityComboBox_SelectedIndexChanged);
             // 
             // FlightAirplaneComboBox
             // 
@@ -196,7 +197,7 @@ namespace AirportSimulationSystem
             this.FlightAirplaneComboBox.Name = "FlightAirplaneComboBox";
             this.FlightAirplaneComboBox.Size = new System.Drawing.Size(262, 29);
             this.FlightAirplaneComboBox.TabIndex = 24;
-            this.FlightAirplaneComboBox.Text = "Выберите самолёт";
+            this.FlightAirplaneComboBox.SelectedIndexChanged += new System.EventHandler(this.FlightAirplaneComboBox_SelectedIndexChanged);
             // 
             // RegistryNumberComboBox
             // 
@@ -211,12 +212,11 @@ namespace AirportSimulationSystem
             "3",
             "4",
             "5"});
-            this.RegistryNumberComboBox.Location = new System.Drawing.Point(49, 223);
+            this.RegistryNumberComboBox.Location = new System.Drawing.Point(391, 223);
             this.RegistryNumberComboBox.MaxDropDownItems = 100;
             this.RegistryNumberComboBox.Name = "RegistryNumberComboBox";
             this.RegistryNumberComboBox.Size = new System.Drawing.Size(262, 29);
             this.RegistryNumberComboBox.TabIndex = 25;
-            this.RegistryNumberComboBox.Text = "Не выбрано";
             // 
             // IsDepartureCheckBox
             // 
@@ -233,14 +233,15 @@ namespace AirportSimulationSystem
             // FlightTimePicker
             // 
             this.FlightTimePicker.CalendarFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.FlightTimePicker.CustomFormat = "HH:mm";
             this.FlightTimePicker.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.FlightTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.FlightTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.FlightTimePicker.Location = new System.Drawing.Point(391, 79);
             this.FlightTimePicker.Name = "FlightTimePicker";
             this.FlightTimePicker.ShowUpDown = true;
             this.FlightTimePicker.Size = new System.Drawing.Size(153, 29);
             this.FlightTimePicker.TabIndex = 27;
-            this.FlightTimePicker.Value = new System.DateTime(2021, 1, 14, 0, 0, 0, 0);
+            this.FlightTimePicker.Value = new System.DateTime(2021, 1, 15, 12, 0, 0, 0);
             // 
             // SoldTicketsAmountNumeric
             // 
@@ -252,9 +253,9 @@ namespace AirportSimulationSystem
             0,
             0,
             0});
-            this.SoldTicketsAmountNumeric.Location = new System.Drawing.Point(391, 224);
+            this.SoldTicketsAmountNumeric.Location = new System.Drawing.Point(49, 224);
             this.SoldTicketsAmountNumeric.Maximum = new decimal(new int[] {
-            10000,
+            500,
             0,
             0,
             0});

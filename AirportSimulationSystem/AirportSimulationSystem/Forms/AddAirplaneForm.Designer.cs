@@ -31,15 +31,18 @@ namespace AirportSimulationSystem
         {
             this.AddAirplaneTittle = new System.Windows.Forms.Label();
             this.AirplaneModelTextBox = new System.Windows.Forms.TextBox();
-            this.AirplaneDistanceTextBox = new System.Windows.Forms.TextBox();
             this.AddAirplaneButton = new System.Windows.Forms.Button();
             this.CancelAirplaneButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.PassengerCapacityTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.LiftingCapacityTextBox = new System.Windows.Forms.TextBox();
+            this.AirplaneDistanceNumeric = new System.Windows.Forms.NumericUpDown();
+            this.LiftingCapacityNumeric = new System.Windows.Forms.NumericUpDown();
+            this.PassengerCapacityNumeric = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.AirplaneDistanceNumeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LiftingCapacityNumeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PassengerCapacityNumeric)).BeginInit();
             this.SuspendLayout();
             // 
             // AddAirplaneTittle
@@ -62,16 +65,6 @@ namespace AirportSimulationSystem
             this.AirplaneModelTextBox.PlaceholderText = "Введите модель самолёта";
             this.AirplaneModelTextBox.Size = new System.Drawing.Size(262, 29);
             this.AirplaneModelTextBox.TabIndex = 0;
-            // 
-            // AirplaneDistanceTextBox
-            // 
-            this.AirplaneDistanceTextBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.AirplaneDistanceTextBox.Location = new System.Drawing.Point(49, 151);
-            this.AirplaneDistanceTextBox.Margin = new System.Windows.Forms.Padding(40, 3, 40, 3);
-            this.AirplaneDistanceTextBox.Name = "AirplaneDistanceTextBox";
-            this.AirplaneDistanceTextBox.PlaceholderText = "Введите дальность полёта";
-            this.AirplaneDistanceTextBox.Size = new System.Drawing.Size(262, 29);
-            this.AirplaneDistanceTextBox.TabIndex = 2;
             // 
             // AddAirplaneButton
             // 
@@ -138,16 +131,6 @@ namespace AirportSimulationSystem
             this.label1.TabIndex = 14;
             this.label1.Text = "Количество пассажирских мест";
             // 
-            // PassengerCapacityTextBox
-            // 
-            this.PassengerCapacityTextBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.PassengerCapacityTextBox.Location = new System.Drawing.Point(49, 223);
-            this.PassengerCapacityTextBox.Margin = new System.Windows.Forms.Padding(40, 3, 40, 3);
-            this.PassengerCapacityTextBox.Name = "PassengerCapacityTextBox";
-            this.PassengerCapacityTextBox.PlaceholderText = "Введите количество мест";
-            this.PassengerCapacityTextBox.Size = new System.Drawing.Size(262, 29);
-            this.PassengerCapacityTextBox.TabIndex = 13;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -159,15 +142,68 @@ namespace AirportSimulationSystem
             this.label2.TabIndex = 16;
             this.label2.Text = "Грузоподъёмность, кг";
             // 
-            // LiftingCapacityTextBox
+            // AirplaneDistanceNumeric
             // 
-            this.LiftingCapacityTextBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.LiftingCapacityTextBox.Location = new System.Drawing.Point(49, 295);
-            this.LiftingCapacityTextBox.Margin = new System.Windows.Forms.Padding(40, 3, 40, 3);
-            this.LiftingCapacityTextBox.Name = "LiftingCapacityTextBox";
-            this.LiftingCapacityTextBox.PlaceholderText = "Введите грузоподъёмность";
-            this.LiftingCapacityTextBox.Size = new System.Drawing.Size(262, 29);
-            this.LiftingCapacityTextBox.TabIndex = 15;
+            this.AirplaneDistanceNumeric.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.AirplaneDistanceNumeric.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.AirplaneDistanceNumeric.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.AirplaneDistanceNumeric.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.AirplaneDistanceNumeric.Location = new System.Drawing.Point(49, 151);
+            this.AirplaneDistanceNumeric.Maximum = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.AirplaneDistanceNumeric.Name = "AirplaneDistanceNumeric";
+            this.AirplaneDistanceNumeric.Size = new System.Drawing.Size(262, 29);
+            this.AirplaneDistanceNumeric.TabIndex = 30;
+            this.AirplaneDistanceNumeric.ThousandsSeparator = true;
+            // 
+            // LiftingCapacityNumeric
+            // 
+            this.LiftingCapacityNumeric.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.LiftingCapacityNumeric.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.LiftingCapacityNumeric.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.LiftingCapacityNumeric.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.LiftingCapacityNumeric.Location = new System.Drawing.Point(49, 295);
+            this.LiftingCapacityNumeric.Maximum = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.LiftingCapacityNumeric.Name = "LiftingCapacityNumeric";
+            this.LiftingCapacityNumeric.Size = new System.Drawing.Size(262, 29);
+            this.LiftingCapacityNumeric.TabIndex = 31;
+            this.LiftingCapacityNumeric.ThousandsSeparator = true;
+            // 
+            // PassengerCapacityNumeric
+            // 
+            this.PassengerCapacityNumeric.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PassengerCapacityNumeric.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.PassengerCapacityNumeric.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.PassengerCapacityNumeric.Increment = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.PassengerCapacityNumeric.Location = new System.Drawing.Point(49, 223);
+            this.PassengerCapacityNumeric.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.PassengerCapacityNumeric.Name = "PassengerCapacityNumeric";
+            this.PassengerCapacityNumeric.Size = new System.Drawing.Size(262, 29);
+            this.PassengerCapacityNumeric.TabIndex = 32;
+            this.PassengerCapacityNumeric.ThousandsSeparator = true;
             // 
             // AddAirplaneForm
             // 
@@ -175,15 +211,15 @@ namespace AirportSimulationSystem
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(360, 421);
+            this.Controls.Add(this.PassengerCapacityNumeric);
+            this.Controls.Add(this.LiftingCapacityNumeric);
+            this.Controls.Add(this.AirplaneDistanceNumeric);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.LiftingCapacityTextBox);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.PassengerCapacityTextBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.CancelAirplaneButton);
             this.Controls.Add(this.AddAirplaneButton);
-            this.Controls.Add(this.AirplaneDistanceTextBox);
             this.Controls.Add(this.AirplaneModelTextBox);
             this.Controls.Add(this.AddAirplaneTittle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -193,6 +229,9 @@ namespace AirportSimulationSystem
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            ((System.ComponentModel.ISupportInitialize)(this.AirplaneDistanceNumeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LiftingCapacityNumeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PassengerCapacityNumeric)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -202,14 +241,14 @@ namespace AirportSimulationSystem
 
         private System.Windows.Forms.Label AddAirplaneTittle;
         private System.Windows.Forms.TextBox AirplaneModelTextBox;
-        private System.Windows.Forms.TextBox AirplaneDistanceTextBox;
         private System.Windows.Forms.Button AddAirplaneButton;
         private System.Windows.Forms.Button CancelAirplaneButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox PassengerCapacityTextBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox LiftingCapacityTextBox;
+        private System.Windows.Forms.NumericUpDown AirplaneDistanceNumeric;
+        private System.Windows.Forms.NumericUpDown LiftingCapacityNumeric;
+        private System.Windows.Forms.NumericUpDown PassengerCapacityNumeric;
     }
 }

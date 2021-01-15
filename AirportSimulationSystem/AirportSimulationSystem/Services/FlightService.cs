@@ -5,6 +5,7 @@
     using AirportSimulationSystem.Models.DTOs;
     using AirportSimulationSystem.Services.Interfaces;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
@@ -23,6 +24,7 @@
             var city = _db.Cities.FirstOrDefault(x => x.Id == dto.CityId);
 
             var currentCityName = ConfigurationManager.AppSettings["CurrentCityName"];
+            DateTime.TryParseExact(dto.Time, "H:mm", null, System.Globalization.DateTimeStyles.None, out var time);
 
             var flight = new Flight
             {
@@ -31,7 +33,7 @@
                 Tittle = dto.IsArrival
                     ? $"{city.Name} - {currentCityName}"
                     : $"{currentCityName} - {city.Name}",
-                Time = dto.Time,
+                Time = time,
                 RegistryNumber = dto.RegistryNumber,
                 CityId = dto.CityId,
                 AirplaneId = dto.AirplaneId,

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Security;
 using System.Text.Json;
 using System.Windows.Forms;
-using AirportSimulationSystem.Database;
 using AirportSimulationSystem.Models;
 using AirportSimulationSystem.Models.DTOs;
 using AirportSimulationSystem.Models.Enums;
@@ -35,9 +34,15 @@ namespace AirportSimulationSystem
             _airplaneService = airplaneService;
             _cityService = cityService;
             _flightService = flightService;
+
             flightsGridView.DataSource = _flightService.GetFlights();
-            citiesGridView.DataSource = _cityService.GetCities();
+            citiesGridView.DataSource = _cityService.GetCities(); 
             airplanesGridView.DataSource = _airplaneService.GetAirplanes();
+
+            citiesGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            airplanesGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            flightsGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
             flightsGridView.Columns.AddRange(new DataGridViewColumn[]
             {
                 new DataGridViewComboBoxColumn
@@ -53,7 +58,7 @@ namespace AirportSimulationSystem
                     FlatStyle = FlatStyle.Flat,
                     Resizable = DataGridViewTriState.True,
                     SortMode = DataGridViewColumnSortMode.Automatic,
-                    Width = 150,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                 },
                 new DataGridViewComboBoxColumn
                 {
@@ -68,22 +73,22 @@ namespace AirportSimulationSystem
                     FlatStyle = FlatStyle.Flat,
                     Resizable = DataGridViewTriState.True,
                     SortMode = DataGridViewColumnSortMode.Automatic,
-                    Width = 150
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                 },
-            });
-
+            }); 
             RefreshFlightComboBoxValues();
+            flightsGridView.Refresh();
+
+            //foreach (DataGridViewBand band in flightsGridView.Columns)
+            //{
+            //    band.ReadOnly = true;
+            //}
 
             CreateGrid(MinGridSize, MinGridSize);
             Topology.Size.Height = MinGridSize;
             Topology.Size.Width = MinGridSize;
 
-            flightsGridView.Visible = true;
-            citiesGridView.Visible = false;
-            airplanesGridView.Visible = false;
-            SetButtonActive(fligthsButton);
-            SetButtonInactive(airplanesButton);
-            SetButtonInactive(citiesButton);
+            SearchComboBox.SelectedIndex = 0;
 
             extendedPanel.AllowDrop = true;
             groupBox1.AllowDrop = true;
@@ -93,12 +98,12 @@ namespace AirportSimulationSystem
 
         private void NextButton_Click(object sender, EventArgs e)
         {
-            tabControl1.SelectedIndex++;
+            MainTabControl.SelectedIndex++;
         }
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            tabControl1.SelectedIndex--;
+            MainTabControl.SelectedIndex--;
         }
 
         #endregion
@@ -512,7 +517,7 @@ namespace AirportSimulationSystem
         {
             ResetTopology();
             extendedPanel.Controls.Clear();
-            tabControl1.SelectedIndex++;
+            MainTabControl.SelectedIndex++;
         }
 
         private void LoadTopologyButton_Click(object sender, EventArgs e)
@@ -541,7 +546,7 @@ namespace AirportSimulationSystem
 
                     ApplyTopology();
 
-                    tabControl1.SelectedIndex++;
+                    MainTabControl.SelectedIndex++;
                 }
                 catch (SecurityException ex)
                 {
@@ -906,7 +911,7 @@ namespace AirportSimulationSystem
         {
             if (!flightsGridView.Visible)
             {
-                comboBox1.SelectedIndex = 1;
+                SearchComboBox.SelectedIndex = 1;
                 flightsGridView.Visible = true;
                 citiesGridView.Visible = false;
                 airplanesGridView.Visible = false;
@@ -923,7 +928,7 @@ namespace AirportSimulationSystem
         {
             if (!airplanesGridView.Visible)
             {
-                comboBox1.SelectedIndex = 2;
+                SearchComboBox.SelectedIndex = 2;
                 airplanesGridView.Visible = true;
                 citiesGridView.Visible = false;
                 flightsGridView.Visible = false;
@@ -939,7 +944,7 @@ namespace AirportSimulationSystem
         {
             if (!citiesGridView.Visible)
             {
-                comboBox1.SelectedIndex = 0;
+                SearchComboBox.SelectedIndex = 0;
                 citiesGridView.Visible = true;
                 flightsGridView.Visible = false;
                 airplanesGridView.Visible = false;
@@ -979,7 +984,7 @@ namespace AirportSimulationSystem
                 using var addCityForm = new AddCityForm();
 
                 dialogResult = addCityForm.ShowDialog();
-                if (dialogResult == DialogResult.OK && addCityForm.CityDTO != null)
+                if (dialogResult == DialogResult.OK)
                 {
                     _cityService.AddCity(addCityForm.CityDTO);
                     citiesGridView.DataSource = _cityService.GetCities();
@@ -992,7 +997,7 @@ namespace AirportSimulationSystem
                 using var addAirplaneForm = new AddAirplaneForm();
 
                 dialogResult = addAirplaneForm.ShowDialog();
-                if (dialogResult == DialogResult.OK && addAirplaneForm.AirplaneDTO != null)
+                if (dialogResult == DialogResult.OK)
                 {
                     _airplaneService.AddAirplane(addAirplaneForm.AirplaneDTO);
                     airplanesGridView.DataSource = _airplaneService.GetAirplanes();
@@ -1004,11 +1009,11 @@ namespace AirportSimulationSystem
             {
                 using var addFlightForm = new AddFlightForm(_cityService.GetCities(), _airplaneService.GetAirplanes());
                 dialogResult = addFlightForm.ShowDialog();
-                if (dialogResult == DialogResult.OK && addFlightForm.FlightDTO != null)
+                if (dialogResult == DialogResult.OK)
                 {
                     _flightService.AddFlight(addFlightForm.FlightDTO);
                     flightsGridView.DataSource = _flightService.GetFlights();
-                    RefreshFlightComboBoxValues(); 
+                    RefreshFlightComboBoxValues();
                     flightsGridView.Refresh();
                 }
             }
@@ -1070,11 +1075,57 @@ namespace AirportSimulationSystem
 
         #endregion
 
+        private void SearchTextBox_TextChanged(object sender, EventArgs e)
+        {
+            var searchText = SearchTextBox.Text;
+            switch (SearchComboBox.SelectedItem)
+            {
+                case " Город":
+                    {
+                        flightsGridView.DataSource = _flightService
+                            .GetFlights()
+                            .Where(x => x.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+                    }
+                case " Самолёт":
+                    {
+                        flightsGridView.DataSource = _flightService
+                            .GetFlights()
+                            .Where(x => x.AirplaneModel.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+                    }
+                case " Рейс":
+                    {
+                        flightsGridView.DataSource = _flightService
+                            .GetFlights()
+                            .Where(x => x.FlightNumber.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+                    }
+            } 
+            flightsGridView.Refresh();
+        }
+
+        private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (MainTabControl.SelectedTab.Text.Equals("Расписание"))
+            {
+                RefreshFlightComboBoxValues();
+            }
+        }
+
+
         #endregion
 
-        private void flightsGridView_CancelRowEdit(object sender, QuestionEventArgs e)
+        private void citiesGridView_KeyUp(object sender, KeyEventArgs e)
         {
-            MessageBox.Show("", "", MessageBoxButtons.OK);
+            if (e.KeyCode == Keys.Enter)
+            { 
+                citiesGridView.EndEdit();
+                MessageBox.Show("1","2", MessageBoxButtons.OK);
+            }
         }
     }
 }

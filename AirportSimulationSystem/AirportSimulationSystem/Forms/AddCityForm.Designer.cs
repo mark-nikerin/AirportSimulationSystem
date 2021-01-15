@@ -31,11 +31,12 @@ namespace AirportSimulationSystem
         {
             this.AddCityTittle = new System.Windows.Forms.Label();
             this.CityNameTextBox = new System.Windows.Forms.TextBox();
-            this.CityDistanceTextBox = new System.Windows.Forms.TextBox();
             this.AddCityButton = new System.Windows.Forms.Button();
             this.CancelCityButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.CityDistanceNumeric = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.CityDistanceNumeric)).BeginInit();
             this.SuspendLayout();
             // 
             // AddCityTittle
@@ -58,16 +59,6 @@ namespace AirportSimulationSystem
             this.CityNameTextBox.PlaceholderText = "Введите название города";
             this.CityNameTextBox.Size = new System.Drawing.Size(262, 29);
             this.CityNameTextBox.TabIndex = 0;
-            // 
-            // CityDistanceTextBox
-            // 
-            this.CityDistanceTextBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.CityDistanceTextBox.Location = new System.Drawing.Point(49, 151);
-            this.CityDistanceTextBox.Margin = new System.Windows.Forms.Padding(40, 3, 40, 3);
-            this.CityDistanceTextBox.Name = "CityDistanceTextBox";
-            this.CityDistanceTextBox.PlaceholderText = "Введите расстояние";
-            this.CityDistanceTextBox.Size = new System.Drawing.Size(262, 29);
-            this.CityDistanceTextBox.TabIndex = 2;
             // 
             // AddCityButton
             // 
@@ -123,17 +114,38 @@ namespace AirportSimulationSystem
             this.label2.TabIndex = 12;
             this.label2.Text = "Расстояние, км";
             // 
+            // CityDistanceNumeric
+            // 
+            this.CityDistanceNumeric.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CityDistanceNumeric.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.CityDistanceNumeric.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.CityDistanceNumeric.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.CityDistanceNumeric.Location = new System.Drawing.Point(49, 151);
+            this.CityDistanceNumeric.Maximum = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.CityDistanceNumeric.Name = "CityDistanceNumeric";
+            this.CityDistanceNumeric.Size = new System.Drawing.Size(262, 29);
+            this.CityDistanceNumeric.TabIndex = 29;
+            this.CityDistanceNumeric.ThousandsSeparator = true;
+            // 
             // AddCityForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(360, 268);
+            this.Controls.Add(this.CityDistanceNumeric);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CancelCityButton);
             this.Controls.Add(this.AddCityButton);
-            this.Controls.Add(this.CityDistanceTextBox);
             this.Controls.Add(this.CityNameTextBox);
             this.Controls.Add(this.AddCityTittle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -143,6 +155,7 @@ namespace AirportSimulationSystem
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            ((System.ComponentModel.ISupportInitialize)(this.CityDistanceNumeric)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -152,10 +165,10 @@ namespace AirportSimulationSystem
 
         private System.Windows.Forms.Label AddCityTittle;
         private System.Windows.Forms.TextBox CityNameTextBox;
-        private System.Windows.Forms.TextBox CityDistanceTextBox;
         private System.Windows.Forms.Button AddCityButton;
         private System.Windows.Forms.Button CancelCityButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown CityDistanceNumeric;
     }
 }
