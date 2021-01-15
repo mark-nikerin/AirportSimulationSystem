@@ -4,12 +4,14 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Resources;
 using System.Security;
 using System.Text.Json;
 using System.Windows.Forms;
 using AirportSimulationSystem.Models;
 using AirportSimulationSystem.Models.DTOs;
 using AirportSimulationSystem.Models.Enums;
+using AirportSimulationSystem.Properties;
 using AirportSimulationSystem.Services.Interfaces;
 using Size = System.Drawing.Size;
 
@@ -35,54 +37,54 @@ namespace AirportSimulationSystem
             _cityService = cityService;
             _flightService = flightService;
 
-            //flightsGridView.DataSource = _flightService.GetFlights();
-            //citiesGridView.DataSource = _cityService.GetCities();
-            //airplanesGridView.DataSource = _airplaneService.GetAirplanes();
+            flightsGridView.DataSource = _flightService.GetFlights();
+            citiesGridView.DataSource = _cityService.GetCities();
+            airplanesGridView.DataSource = _airplaneService.GetAirplanes();
 
-            //citiesGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            //airplanesGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            //flightsGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            citiesGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            airplanesGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            flightsGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
-            //flightsGridView.Columns.AddRange(new DataGridViewColumn[]
-            //{
-            //    new DataGridViewComboBoxColumn
-            //    {
-            //        Name = "City",
-            //        HeaderText = "Город",
-            //        DataSource = citiesGridView.DataSource,
-            //        DataPropertyName = "Name",
-            //        DisplayMember = "Name",
-            //        ValueType = typeof(int),
-            //        ValueMember = "Id",
-            //        DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox,
-            //        FlatStyle = FlatStyle.Flat,
-            //        Resizable = DataGridViewTriState.True,
-            //        SortMode = DataGridViewColumnSortMode.Automatic,
-            //        AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-            //    },
-            //    new DataGridViewComboBoxColumn
-            //    {
-            //        Name = "Airplane",
-            //        HeaderText = "Самолёт",
-            //        DataSource = airplanesGridView.DataSource,
-            //        DataPropertyName = "Model",
-            //        DisplayMember = "Model",
-            //        ValueType = typeof(int),
-            //        ValueMember = "Id",
-            //        DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox,
-            //        FlatStyle = FlatStyle.Flat,
-            //        Resizable = DataGridViewTriState.True,
-            //        SortMode = DataGridViewColumnSortMode.Automatic,
-            //        AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-            //    },
-            //});
-            //RefreshFlightComboBoxValues();
-            //flightsGridView.Refresh();
+            flightsGridView.Columns.AddRange(new DataGridViewColumn[]
+            {
+                new DataGridViewComboBoxColumn
+                {
+                    Name = "City",
+                    HeaderText = "Город",
+                    DataSource = citiesGridView.DataSource,
+                    DataPropertyName = "Name",
+                    DisplayMember = "Name",
+                    ValueType = typeof(int),
+                    ValueMember = "Id",
+                    DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox,
+                    FlatStyle = FlatStyle.Flat,
+                    Resizable = DataGridViewTriState.True,
+                    SortMode = DataGridViewColumnSortMode.Automatic,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                },
+                new DataGridViewComboBoxColumn
+                {
+                    Name = "Airplane",
+                    HeaderText = "Самолёт",
+                    DataSource = airplanesGridView.DataSource,
+                    DataPropertyName = "Model",
+                    DisplayMember = "Model",
+                    ValueType = typeof(int),
+                    ValueMember = "Id",
+                    DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox,
+                    FlatStyle = FlatStyle.Flat,
+                    Resizable = DataGridViewTriState.True,
+                    SortMode = DataGridViewColumnSortMode.Automatic,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                },
+            });
+            RefreshFlightComboBoxValues();
+            flightsGridView.Refresh();
 
-            //foreach (DataGridViewBand band in flightsGridView.Columns)
-            //{
-            //    band.ReadOnly = true;
-            //}
+            foreach (DataGridViewBand band in flightsGridView.Columns)
+            {
+                band.ReadOnly = true;
+            }
 
             CreateGrid(MinGridSize, MinGridSize);
             Topology.Size.Height = MinGridSize;
@@ -1204,5 +1206,10 @@ namespace AirportSimulationSystem
             }
         }
 
+        private void MainPage_HelpRequested(object sender, HelpEventArgs hlpevent)
+        {
+            Debug.Write(Application.StartupPath);
+            Help.ShowHelp(this, Application.StartupPath + @"\Resources\info.chm");
+        }
     }
 }

@@ -103,6 +103,7 @@ namespace AirportSimulationSystem
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.backToScheduleButton = new System.Windows.Forms.Button();
             this.plusHorButton = new System.Windows.Forms.Button();
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.MainTabControl.SuspendLayout();
             this.MainPage.SuspendLayout();
@@ -192,6 +193,7 @@ namespace AirportSimulationSystem
             this.MainTabControl.Size = new System.Drawing.Size(1267, 688);
             this.MainTabControl.TabIndex = 4;
             this.MainTabControl.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
+            this.MainTabControl.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.MainPage_HelpRequested);
             // 
             // MainPage
             // 
@@ -200,13 +202,16 @@ namespace AirportSimulationSystem
             this.MainPage.Controls.Add(this.pictureBox1);
             this.MainPage.Controls.Add(this.CreateTopologyButton);
             this.MainPage.Controls.Add(this.label1);
+            this.helpProvider1.SetHelpNavigator(this.MainPage, System.Windows.Forms.HelpNavigator.TableOfContents);
             this.MainPage.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.MainPage.Location = new System.Drawing.Point(4, 24);
             this.MainPage.Name = "MainPage";
             this.MainPage.Padding = new System.Windows.Forms.Padding(3);
+            this.helpProvider1.SetShowHelp(this.MainPage, true);
             this.MainPage.Size = new System.Drawing.Size(1259, 660);
             this.MainPage.TabIndex = 0;
             this.MainPage.Text = "Главная";
+            this.MainPage.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.MainPage_HelpRequested);
             // 
             // TopologyPage
             // 
@@ -955,7 +960,7 @@ namespace AirportSimulationSystem
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.65979F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 186F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 340F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 370F));
             this.tableLayoutPanel1.Location = new System.Drawing.Point(20, 430);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -1055,6 +1060,10 @@ namespace AirportSimulationSystem
             this.plusHorButton.Text = "+";
             this.plusHorButton.UseVisualStyleBackColor = true;
             // 
+            // helpProvider1
+            // 
+            this.helpProvider1.HelpNamespace = "C:\\Users\\user\\Desktop\\info.chm";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1063,9 +1072,13 @@ namespace AirportSimulationSystem
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.MainTabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.HelpButton = true;
+            this.helpProvider1.SetHelpKeyword(this, "");
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainForm";
+            this.helpProvider1.SetShowHelp(this, true);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ASS 1.0 - Airport Simulation System";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -1162,5 +1175,6 @@ namespace AirportSimulationSystem
         private Button DeleteItemButton;
         private Button AddItemButton;
         private TextBox topologyName;
+        public HelpProvider helpProvider1;
     }
 }
