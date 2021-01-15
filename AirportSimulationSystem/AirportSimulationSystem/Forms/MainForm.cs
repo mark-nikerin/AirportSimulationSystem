@@ -35,49 +35,49 @@ namespace AirportSimulationSystem
             _cityService = cityService;
             _flightService = flightService;
 
-            flightsGridView.DataSource = _flightService.GetFlights();
-            citiesGridView.DataSource = _cityService.GetCities();
-            airplanesGridView.DataSource = _airplaneService.GetAirplanes();
+            //flightsGridView.DataSource = _flightService.GetFlights();
+            //citiesGridView.DataSource = _cityService.GetCities();
+            //airplanesGridView.DataSource = _airplaneService.GetAirplanes();
 
-            citiesGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            airplanesGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            flightsGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            //citiesGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            //airplanesGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            //flightsGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
-            flightsGridView.Columns.AddRange(new DataGridViewColumn[]
-            {
-                new DataGridViewComboBoxColumn
-                {
-                    Name = "City",
-                    HeaderText = "Город",
-                    DataSource = citiesGridView.DataSource,
-                    DataPropertyName = "Name",
-                    DisplayMember = "Name",
-                    ValueType = typeof(int),
-                    ValueMember = "Id",
-                    DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox,
-                    FlatStyle = FlatStyle.Flat,
-                    Resizable = DataGridViewTriState.True,
-                    SortMode = DataGridViewColumnSortMode.Automatic,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-                },
-                new DataGridViewComboBoxColumn
-                {
-                    Name = "Airplane",
-                    HeaderText = "Самолёт",
-                    DataSource = airplanesGridView.DataSource,
-                    DataPropertyName = "Model",
-                    DisplayMember = "Model",
-                    ValueType = typeof(int),
-                    ValueMember = "Id",
-                    DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox,
-                    FlatStyle = FlatStyle.Flat,
-                    Resizable = DataGridViewTriState.True,
-                    SortMode = DataGridViewColumnSortMode.Automatic,
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-                },
-            });
-            RefreshFlightComboBoxValues();
-            flightsGridView.Refresh();
+            //flightsGridView.Columns.AddRange(new DataGridViewColumn[]
+            //{
+            //    new DataGridViewComboBoxColumn
+            //    {
+            //        Name = "City",
+            //        HeaderText = "Город",
+            //        DataSource = citiesGridView.DataSource,
+            //        DataPropertyName = "Name",
+            //        DisplayMember = "Name",
+            //        ValueType = typeof(int),
+            //        ValueMember = "Id",
+            //        DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox,
+            //        FlatStyle = FlatStyle.Flat,
+            //        Resizable = DataGridViewTriState.True,
+            //        SortMode = DataGridViewColumnSortMode.Automatic,
+            //        AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            //    },
+            //    new DataGridViewComboBoxColumn
+            //    {
+            //        Name = "Airplane",
+            //        HeaderText = "Самолёт",
+            //        DataSource = airplanesGridView.DataSource,
+            //        DataPropertyName = "Model",
+            //        DisplayMember = "Model",
+            //        ValueType = typeof(int),
+            //        ValueMember = "Id",
+            //        DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox,
+            //        FlatStyle = FlatStyle.Flat,
+            //        Resizable = DataGridViewTriState.True,
+            //        SortMode = DataGridViewColumnSortMode.Automatic,
+            //        AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            //    },
+            //});
+            //RefreshFlightComboBoxValues();
+            //flightsGridView.Refresh();
 
             //foreach (DataGridViewBand band in flightsGridView.Columns)
             //{
@@ -98,7 +98,23 @@ namespace AirportSimulationSystem
 
         private void NextButton_Click(object sender, EventArgs e)
         {
-            MainTabControl.SelectedIndex++;
+            if (ItemCounter.AirportBuilding < 1
+            && ItemCounter.CargoTerminal < 1
+            && ItemCounter.PassengerTerminal < 1
+            && ItemCounter.Garage < 5
+            && ItemCounter.Hangar < 3
+            && ItemCounter.Runway < 1)
+            {
+                MainTabControl.SelectedIndex++;
+            }
+            else
+            {
+                const string message = "Использованы не все типы объектов";
+                const string caption = "Ошибка";
+                var result = MessageBox.Show(message, caption,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         private void BackButton_Click(object sender, EventArgs e)
@@ -230,10 +246,24 @@ namespace AirportSimulationSystem
             var widths = grid.GetColumnWidths();
             var heights = grid.GetRowHeights();
 
-            var type = CurrentDraggableItem.Type;
             var width = widths[col];
             var height = heights[row];
 
+            if (CurrentDraggableItem.Type == TopologyItemType.Runway)
+            {
+                if (grid.ColumnCount == grid.RowCount)
+                    ItemSizes.Runway.Width = grid.ColumnCount - 3;
+                else if (grid.ColumnCount > grid.RowCount)
+                {
+                    ItemSizes.Runway.Width = grid.RowCount - 1;
+                }
+                else if (grid.ColumnCount < grid.RowCount)
+                {
+                    ItemSizes.Runway.Width = grid.ColumnCount - 1;
+                }
+            }
+
+            var type = CurrentDraggableItem.Type;
             pb.Size = new Size(CurrentDraggableItem.Size.Width * width - 1, CurrentDraggableItem.Size.Height * height - 1);
             pb.Location = new Point(col * width + 1, row * height + 1);
             pb.Image = e.Data.GetData(DataFormats.Bitmap) as Bitmap;
@@ -299,7 +329,7 @@ namespace AirportSimulationSystem
                 item.Size.Height = itemHeight;
                 item.Size.Width = itemWidth;
 
-                pb.Size = new Size(pb.Size.Height, pb.Size.Width);
+                pb.Size = new Size(item.Size.Width * width - 1, item.Size.Height * height - 1);
 
                 if (args.Delta > 0)
                 {
@@ -398,6 +428,7 @@ namespace AirportSimulationSystem
             var row = CurrentDraggableItem.Coordinates.Y;
 
             Debug.WriteLine(col + CurrentDraggableItem.Size.Width > grid.ColumnCount);
+            Debug.WriteLine(col + " " + CurrentDraggableItem.Size.Width);
             Debug.WriteLine(row + CurrentDraggableItem.Size.Height > grid.RowCount);
             Debug.WriteLine(placeIsNotFree(col, row, CurrentDraggableItem.Size.Height, CurrentDraggableItem.Size.Width));
 
@@ -686,6 +717,17 @@ namespace AirportSimulationSystem
                 }
             }
 
+            if (grid.ColumnCount == grid.RowCount)
+                ItemSizes.Runway.Width = grid.ColumnCount - 3;
+            else if (grid.ColumnCount > grid.RowCount)
+            {
+                ItemSizes.Runway.Width = grid.RowCount - 1;
+            }
+            else if (grid.ColumnCount < grid.RowCount)
+            {
+                ItemSizes.Runway.Width = grid.ColumnCount - 1;
+            }
+
             foreach (var item in Topology.Items)
             {
                 PictureBox pb = new PictureBox();
@@ -716,18 +758,16 @@ namespace AirportSimulationSystem
                 {
                     if (item.Angle > 0)
                     {
-                        while (item.Angle > 0)
+                        for (int i = item.Angle; i > 0; i--)
                         {
                             pb.Image = RotateImage(pb.Image, new PointF(pb.Image.Width / 2, pb.Image.Height / 2), 90f);
-                            item.Angle--;
                         }
                     }
                     else if (item.Angle < 0)
                     {
-                        while (item.Angle < 0)
+                        for (int i = item.Angle; i < 0; i++)
                         {
                             pb.Image = RotateImage(pb.Image, new PointF(pb.Image.Width / 2, pb.Image.Height / 2), -90f);
-                            item.Angle++;
                         }
                     }
                 }
@@ -769,8 +809,6 @@ namespace AirportSimulationSystem
                     prevCol = item.Coordinates.X;
                     prevRow = item.Coordinates.Y;
 
-                    Debug.Write("ItemHeight: " + itemHeight + ". ItemWidth: " + itemWidth);
-
                     const string message = "Объект невозможно повернуть";
                     const string caption = "Ошибка";
                     if (prevCol + itemWidth > grid.ColumnCount
@@ -793,7 +831,7 @@ namespace AirportSimulationSystem
                     item.Size.Height = itemHeight;
                     item.Size.Width = itemWidth;
 
-                    pb.Size = new Size(pb.Size.Height, pb.Size.Width);
+                    pb.Size = new Size(item.Size.Width * width - 1, item.Size.Height * height - 1);
 
                     if (args.Delta > 0)
                     {
@@ -1162,7 +1200,7 @@ namespace AirportSimulationSystem
             if (e.KeyCode == Keys.Enter)
             {
                 citiesGridView.EndEdit();
-                MessageBox.Show("1","2", MessageBoxButtons.OK);
+                MessageBox.Show("1", "2", MessageBoxButtons.OK);
             }
         }
 
