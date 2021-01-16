@@ -93,6 +93,7 @@ namespace AirportSimulationSystem
             this.SearchTextBox = new System.Windows.Forms.TextBox();
             this.SearchComboBox = new AirportSimulationSystem.Helpers.FlatComboWithBorder();
             this.SimulationPage = new System.Windows.Forms.TabPage();
+            this.extendedModellingPanel = new AirportSimulationSystem.ExtendedPanel();
             this.modellingGrid = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
@@ -936,6 +937,7 @@ namespace AirportSimulationSystem
             // SimulationPage
             // 
             this.SimulationPage.BackColor = System.Drawing.Color.White;
+            this.SimulationPage.Controls.Add(this.extendedModellingPanel);
             this.SimulationPage.Controls.Add(this.modellingGrid);
             this.SimulationPage.Controls.Add(this.panel2);
             this.SimulationPage.Controls.Add(this.panel3);
@@ -944,6 +946,15 @@ namespace AirportSimulationSystem
             this.SimulationPage.Size = new System.Drawing.Size(1259, 660);
             this.SimulationPage.TabIndex = 2;
             this.SimulationPage.Text = "Моделирование";
+            // 
+            // extendedModellingPanel
+            // 
+            this.extendedModellingPanel.AllowDrop = true;
+            this.extendedModellingPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.extendedModellingPanel.Location = new System.Drawing.Point(611, 32);
+            this.extendedModellingPanel.Name = "extendedModellingPanel";
+            this.extendedModellingPanel.Size = new System.Drawing.Size(521, 522);
+            this.extendedModellingPanel.TabIndex = 7;
             // 
             // modellingGrid
             // 
@@ -1055,7 +1066,7 @@ namespace AirportSimulationSystem
             this.backToScheduleButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.backToScheduleButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.backToScheduleButton.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.backToScheduleButton.Location = new System.Drawing.Point(153, 606);
+            this.backToScheduleButton.Location = new System.Drawing.Point(142, 613);
             this.backToScheduleButton.Name = "backToScheduleButton";
             this.backToScheduleButton.Size = new System.Drawing.Size(134, 32);
             this.backToScheduleButton.TabIndex = 4;
@@ -1191,5 +1202,6 @@ namespace AirportSimulationSystem
         public HelpProvider helpProvider1;
         private Panel panel3;
         private TableLayoutPanel modellingGrid;
+        private ExtendedPanel extendedModellingPanel;
     }
 }
