@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using AirportSimulationSystem.Models;
 using AirportSimulationSystem.Models.DTOs;
 using AirportSimulationSystem.Models.Enums;
+using AirportSimulationSystem.Models.Modelling;
 using AirportSimulationSystem.Services.Interfaces;
 using Size = System.Drawing.Size;
 
@@ -21,6 +22,8 @@ namespace AirportSimulationSystem
         private const int MaxGridSize = 25;
         private static TopologyModel Topology = new TopologyModel();
         private static TopologyItemModel CurrentDraggableItem = new TopologyItemModel();
+        private static int TopologyCellWidth = 0;
+        private static int TopologyCellHeight = 0;
 
         private static IAirplaneService _airplaneService;
         private static ICityService _cityService;
@@ -737,18 +740,18 @@ namespace AirportSimulationSystem
                 ItemSizes.Runway.Width = grid.ColumnCount - 1;
             }
 
+            TopologyCellWidth = grid.GetColumnWidths()[0];
+            TopologyCellHeight = grid.GetRowHeights()[0];
+
             foreach (var item in Topology.Items)
             {
                 PictureBox pb = new PictureBox();
 
                 var X = item.Coordinates.X;
-                var Y = item.Coordinates.Y;
+                var Y = item.Coordinates.Y; 
 
-                var width = grid.GetColumnWidths()[X];
-                var height = grid.GetRowHeights()[Y];
-
-                pb.Size = new Size(item.Size.Width * width - 1, item.Size.Height * height - 1);
-                pb.Location = new Point(X * width + 1, Y * height + 1);
+                pb.Size = new Size(item.Size.Width * TopologyCellWidth - 1, item.Size.Height * TopologyCellHeight - 1);
+                pb.Location = new Point(X * TopologyCellWidth + 1, Y * TopologyCellHeight + 1);
                 pb.Image = item.Type switch
                 {
                     TopologyItemType.AirportBuilding => airport.Image,
@@ -840,7 +843,7 @@ namespace AirportSimulationSystem
                     item.Size.Height = itemHeight;
                     item.Size.Width = itemWidth;
 
-                    pb.Size = new Size(item.Size.Width * width - 1, item.Size.Height * height - 1);
+                    pb.Size = new Size(item.Size.Width * TopologyCellWidth - 1, item.Size.Height * TopologyCellHeight - 1);
 
                     if (args.Delta > 0)
                     {
@@ -1398,7 +1401,7 @@ namespace AirportSimulationSystem
             else if (modellingGrid.ColumnCount < modellingGrid.RowCount)
             {
                 ItemSizes.Runway.Width = modellingGrid.ColumnCount - 1;
-            }
+            } 
 
             foreach (var item in Topology.Items)
             {
@@ -1407,11 +1410,8 @@ namespace AirportSimulationSystem
                 var X = item.Coordinates.X;
                 var Y = item.Coordinates.Y;
 
-                var width = modellingGrid.GetColumnWidths()[X];
-                var height = modellingGrid.GetRowHeights()[Y];
-
-                pb.Size = new Size(item.Size.Width * width - 1, item.Size.Height * height - 1);
-                pb.Location = new Point(X * width + 1, Y * height + 1);
+                pb.Size = new Size(item.Size.Width * TopologyCellWidth - 1, item.Size.Height * TopologyCellHeight - 1);
+                pb.Location = new Point(X * TopologyCellWidth + 1, Y * TopologyCellHeight + 1);
                 pb.Image = item.Type switch
                 {
                     TopologyItemType.AirportBuilding => airport.Image,
@@ -1475,26 +1475,25 @@ namespace AirportSimulationSystem
                 modellingGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 modellingGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                Tuple<int, int> start = new Tuple<int, int>(4,12);
-                Tuple<int, int> end = new Tuple<int, int>(4,12);
+                Tuple<int, int> start = new Tuple<int, int>(4, 12);
+                Tuple<int, int> end = new Tuple<int, int>(4, 12);
+                 
+                var plane = new Plane(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(0 * TopologyCellWidth + 1, 0 * TopologyCellHeight + 1));
+                var track = new Track(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(0 * TopologyCellWidth + 1, 0 * TopologyCellHeight + 1));
+                var bus = new Bus(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(0 * TopologyCellWidth + 1, 0 * TopologyCellHeight + 1));
 
                 List<Tuple<int, int>> path = findpath(start, end);
-                movePlane(path,"plane");
+                MoveObject(path, plane);
 
                 start = new Tuple<int, int>(6, 13);
                 end = new Tuple<int, int>(6, 13);
                 path = findpath(start, end);
-                movePlane(path, "plane");
+                MoveObject(path, track);
 
                 start = new Tuple<int, int>(13, 3);
                 end = new Tuple<int, int>(13, 3);
                 path = findpath(start, end);
-                movePlane(path, "track");
-
-                start = new Tuple<int, int>(11, 3);
-                end = new Tuple<int, int>(11, 3);
-                path = findpath(start, end);
-                movePlane(path, "bus");
+                MoveObject(path, bus);
             }
         }
 
@@ -1594,22 +1593,18 @@ namespace AirportSimulationSystem
             return result;
         }
 
-        private void movePlane(List<Tuple<int, int>> path, string image)
-        {
-            PictureBox pl = new PictureBox();
-            pl.Image = Image.FromFile(Application.StartupPath + $@"\Resources\{image}.png");
-            pl.SizeMode = PictureBoxSizeMode.Zoom;
-            extendedModellingPanel.Controls.Add(pl);
+        private void MoveObject(List<Tuple<int, int>> path, ModellingObject @object)
+        { 
+            var width = modellingGrid.GetColumnWidths()[0];
+            var height = modellingGrid.GetRowHeights()[0];
+
+            extendedModellingPanel.Controls.Add(@object.Model);
             foreach (var position in path)
             {
                 var X = position.Item1;
-                var Y = position.Item2; 
+                var Y = position.Item2;
 
-                var width = modellingGrid.GetColumnWidths()[X];
-                var height = modellingGrid.GetRowHeights()[Y];
-
-                pl.Size = new Size(1 * width - 1, 1 * height - 1);
-                pl.Location = new Point(X * width + 1, Y * height + 1);
+                @object.Model.Location = new Point(X * width + 1, Y * height + 1);
 
                 extendedModellingPanel.Refresh();
             }
