@@ -118,7 +118,7 @@ namespace AirportSimulationSystem
             }
             else
             {
-                const string message = "Использованы не все типы объектов";
+                const string message = "При создании топологии были использованы не все типы объектов.";
                 const string caption = "Ошибка";
                 var result = MessageBox.Show(message, caption,
                     MessageBoxButtons.OK,
@@ -1603,7 +1603,7 @@ namespace AirportSimulationSystem
             foreach (var position in path)
             {
                 var X = position.Item1;
-                var Y = position.Item2;
+                var Y = position.Item2; 
 
                 var width = modellingGrid.GetColumnWidths()[X];
                 var height = modellingGrid.GetRowHeights()[Y];
@@ -1646,18 +1646,20 @@ namespace AirportSimulationSystem
                 if (timer1.Enabled)
                 {
                     startButton.Text = "СТАРТ";
-                    timer1.Stop();
+                    timer1.Stop(); 
+                    trackBar1.Value = 1;
+                    timeScale = trackBar1.Value;
+                    label3.Text = string.Format("{0}x", trackBar1.Value);
                 }
                 else
                 {
                     timer1.Start();
                     startButton.Text = "СТОП";
-                    trackBar1.Value = 1;
                 }
             }
             else
             {
-                const string message = "Использованы не все типы объектов";
+                const string message = "При создании топологии были использованы не все типы объектов.";
                 const string caption = "Ошибка";
                 var result = MessageBox.Show(message, caption,
                     MessageBoxButtons.OK,
@@ -1680,8 +1682,8 @@ namespace AirportSimulationSystem
                   .ToArray(); 
 
             modellingGridView.DataSource = flights
-                .Where(x => DateTime.Parse(x.Time).Hour > modellingTime.Value.Hour
-                || DateTime.Parse(x.Time).Hour == modellingTime.Value.Hour && DateTime.Parse(x.Time).Minute > modellingTime.Value.Minute)
+                .Where(x => DateTime.Parse(x.Time).Hour >= modellingTime.Value.Hour
+                || DateTime.Parse(x.Time).Hour == modellingTime.Value.Hour && DateTime.Parse(x.Time).Minute >= modellingTime.Value.Minute)
                 .ToArray();
         }
     }
