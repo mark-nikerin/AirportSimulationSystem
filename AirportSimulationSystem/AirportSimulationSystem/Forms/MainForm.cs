@@ -95,6 +95,8 @@ namespace AirportSimulationSystem
 
             extendedPanel.AllowDrop = true;
             groupBox1.AllowDrop = true;
+
+            timer1.Interval = 1000;
         }
 
         #region Navigation
@@ -1601,7 +1603,7 @@ namespace AirportSimulationSystem
                 start = new Tuple<int, int>(11, 3);
                 end = new Tuple<int, int>(11, 3);
                 path = findpath(start, end);
-                movePlane(path, "bus");
+                movePlane(path, "bus"); 
             }
         }
          
@@ -1609,6 +1611,24 @@ namespace AirportSimulationSystem
         {
             Debug.Write(Application.StartupPath);
             Help.ShowHelp(this, Application.StartupPath + @"\Resources\info.chm");
-        } 
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            modellingTime.Value = modellingTime.Value.AddSeconds(1);
+            modellingTime.Refresh();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (timer1.Enabled)
+            { 
+                button1.Text = "СТАРТ";
+                timer1.Stop();
+            }
+
+            timer1.Start(); 
+            button1.Text = "СТОП";
+        }
     }
 }

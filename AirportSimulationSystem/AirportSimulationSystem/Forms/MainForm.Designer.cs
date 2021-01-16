@@ -33,6 +33,7 @@ namespace AirportSimulationSystem
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -99,13 +100,14 @@ namespace AirportSimulationSystem
             this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.modellingTime = new System.Windows.Forms.DateTimePicker();
             this.panel3 = new System.Windows.Forms.Panel();
             this.ModellingScheduleLabel = new System.Windows.Forms.Label();
             this.modellingGridView = new System.Windows.Forms.DataGridView();
             this.backToScheduleButton = new System.Windows.Forms.Button();
             this.plusHorButton = new System.Windows.Forms.Button();
             this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.MainTabControl.SuspendLayout();
             this.MainPage.SuspendLayout();
@@ -1002,7 +1004,7 @@ namespace AirportSimulationSystem
             this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.trackBar1);
-            this.panel2.Controls.Add(this.dateTimePicker2);
+            this.panel2.Controls.Add(this.modellingTime);
             this.panel2.Location = new System.Drawing.Point(448, 592);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
@@ -1023,6 +1025,7 @@ namespace AirportSimulationSystem
             this.button1.TabIndex = 6;
             this.button1.Text = "СТАРТ";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label3
             // 
@@ -1042,14 +1045,15 @@ namespace AirportSimulationSystem
             this.trackBar1.TabIndex = 2;
             this.trackBar1.Value = 3;
             // 
-            // dateTimePicker2
+            // modellingTime
             // 
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker2.Location = new System.Drawing.Point(726, 18);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.ShowUpDown = true;
-            this.dateTimePicker2.Size = new System.Drawing.Size(74, 25);
-            this.dateTimePicker2.TabIndex = 1;
+            this.modellingTime.CustomFormat = "H:mm";
+            this.modellingTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.modellingTime.Location = new System.Drawing.Point(726, 18);
+            this.modellingTime.Name = "modellingTime";
+            this.modellingTime.ShowUpDown = true;
+            this.modellingTime.Size = new System.Drawing.Size(74, 25);
+            this.modellingTime.TabIndex = 1;
             // 
             // panel3
             // 
@@ -1115,6 +1119,10 @@ namespace AirportSimulationSystem
             // helpProvider1
             // 
             this.helpProvider1.HelpNamespace = "C:\\Users\\user\\Desktop\\info.chm";
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // MainForm
             // 
@@ -1186,7 +1194,7 @@ namespace AirportSimulationSystem
         private Button button1;
         private Label label3;
         private TrackBar trackBar1;
-        private DateTimePicker dateTimePicker2;
+        private DateTimePicker modellingTime;
         private Button citiesButton;
         private Button airplanesButton;
         private Button fligthsButton;
@@ -1233,5 +1241,6 @@ namespace AirportSimulationSystem
         private ExtendedPanel extendedModellingPanel;
         private DataGridView modellingGridView;
         private Label ModellingScheduleLabel;
+        private Timer timer1;
     }
 }
