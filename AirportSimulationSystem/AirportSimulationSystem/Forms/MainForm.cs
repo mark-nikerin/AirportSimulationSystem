@@ -1482,6 +1482,8 @@ namespace AirportSimulationSystem
                 var track = new Track(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(0 * TopologyCellWidth + 1, 0 * TopologyCellHeight + 1));
                 var bus = new Bus(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(0 * TopologyCellWidth + 1, 0 * TopologyCellHeight + 1));
 
+                plane.Rotate(90F);
+
                 List<Tuple<int, int>> path = findpath(start, end);
                 MoveObject(path, plane);
 
@@ -1520,12 +1522,10 @@ namespace AirportSimulationSystem
             return closedlist;
         }
 
-
         private static int getheuristicpathlength(Tuple<int, int> current, Tuple<int, int> goal)
         {
             return Math.Abs(current.Item1 - goal.Item1) + Math.Abs(current.Item2 - goal.Item2);
         }
-
 
         private static List<Tuple<int, int>> findpath(Tuple<int, int> start, Tuple<int, int> goal)
         {
@@ -1594,7 +1594,7 @@ namespace AirportSimulationSystem
         }
 
         private void MoveObject(List<Tuple<int, int>> path, ModellingObject @object)
-        { 
+        {
             var width = modellingGrid.GetColumnWidths()[0];
             var height = modellingGrid.GetRowHeights()[0];
 
@@ -1604,7 +1604,7 @@ namespace AirportSimulationSystem
                 var X = position.Item1;
                 var Y = position.Item2;
 
-                @object.Model.Location = new Point(X * width + 1, Y * height + 1);
+                @object.MoveTo(new Point(X * width + 1, Y * height + 1));
 
                 extendedModellingPanel.Refresh();
             }
