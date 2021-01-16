@@ -26,6 +26,8 @@ namespace AirportSimulationSystem
         private static ICityService _cityService;
         private static IFlightService _flightService;
 
+        private int timeScale = 1;
+
         public MainForm(IAirplaneService airplaneService, ICityService cityService, IFlightService flightService)
         {
             InitializeComponent();
@@ -97,6 +99,7 @@ namespace AirportSimulationSystem
             groupBox1.AllowDrop = true;
 
             timer1.Interval = 1000;
+            trackBar1.Value = 1;
         }
 
         #region Navigation
@@ -1446,14 +1449,6 @@ namespace AirportSimulationSystem
                 extendedModellingPanel.Controls.Add(pb);
             }
         }
-
-
-
-
-        private void Modeling_tick(object sender, EventArgs e)
-        {
-
-        }
             #endregion
 
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -1467,19 +1462,6 @@ namespace AirportSimulationSystem
                 CreateModellingGrid(Topology.Size.Height, Topology.Size.Width);
                 ApplyTopologyModeling();
 
-               // Tuple<int, int> start_plane = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.X , Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.Y-1);
-               // Tuple<int, int> end_plane = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.AirportBuilding).FirstOrDefault().Coordinates.X , Topology.Items.Where(x => x.Type == TopologyItemType.AirportBuilding).FirstOrDefault().Coordinates.Y-1);
-               //
-               // Tuple<int, int> start_bus= new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.X , Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.Y-1);
-               // Tuple<int, int> end_bus = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.AirportBuilding).FirstOrDefault().Coordinates.X , Topology.Items.Where(x => x.Type == TopologyItemType.AirportBuilding).FirstOrDefault().Coordinates.Y-1);
-
-               // Tuple<int, int> start_track = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.X , Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.Y-1);
-               // Tuple<int, int> end_track = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.AirportBuilding).FirstOrDefault().Coordinates.X , Topology.Items.Where(x => x.Type == TopologyItemType.AirportBuilding).FirstOrDefault().Coordinates.Y-1);
-
-                //Tuple<int, int> start = takestartpoint();
-                   // Tuple<int, int> end
-                //List<Tuple<int, int>> path =  findpath(start, end);
-               // movePlane(path);
                 modellingGridView.DefaultCellStyle = new DataGridViewCellStyle
                 {
                     WrapMode = DataGridViewTriState.True
@@ -1612,62 +1594,26 @@ namespace AirportSimulationSystem
             return result;
         }
 
-        PictureBox pl = new PictureBox();
-        private void movePlane(List<Tuple<int, int>> path)
+        private void movePlane(List<Tuple<int, int>> path, string image)
         {
-
-
-            pl.Image = Image.FromFile("C:\\Users\\fluer\\source\\repos\\ASS_2.0\\AirportSimulationSystem\\AirportSimulationSystem\\Resources\\Самолет.png");
+            PictureBox pl = new PictureBox();
+            pl.Image = Image.FromFile(Application.StartupPath + $@"\Resources\{image}.png");
             pl.SizeMode = PictureBoxSizeMode.Zoom;
             extendedModellingPanel.Controls.Add(pl);
             foreach (var position in path)
             {
-                //  Plane.Location = new Point(position.Item1*Topology., position.Item2);
                 var X = position.Item1;
                 var Y = position.Item2;
 
                 var width = modellingGrid.GetColumnWidths()[X];
                 var height = modellingGrid.GetRowHeights()[Y];
 
+                pl.Size = new Size(1 * width - 1, 1 * height - 1);
+                pl.Location = new Point(X * width + 1, Y * height + 1);
 
-
-                //  modellingGrid.Refresh();
-                //  extendedModellingPanel.Refresh();
-
-                modellingGridView.DataSource = _flightService
-                  .GetFlights()
-                  .Select(x => (ModellingFlightDTO)x)
-                  .OrderBy(x => DateTime.Parse(x.Time))
-                  .ToArray();
-                modellingGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-                modellingGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                Tuple<int, int> start = new Tuple<int, int>(4,12);
-                Tuple<int, int> end = new Tuple<int, int>(4,12);
-
-                List<Tuple<int, int>> path = findpath(start, end);
-                movePlane(path,"plane");
-
-                start = new Tuple<int, int>(6, 13);
-                end = new Tuple<int, int>(6, 13);
-                path = findpath(start, end);
-                movePlane(path, "plane");
-
-                start = new Tuple<int, int>(13, 3);
-                end = new Tuple<int, int>(13, 3);
-                path = findpath(start, end);
-                movePlane(path, "track");
-
-                start = new Tuple<int, int>(11, 3);
-                end = new Tuple<int, int>(11, 3);
-                path = findpath(start, end);
-                movePlane(path, "bus");
+                extendedModellingPanel.Refresh();
             }
         }
-
-
-
-
 
         private void MainPage_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
@@ -1677,25 +1623,66 @@ namespace AirportSimulationSystem
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            modellingTime.Value = modellingTime.Value.AddSeconds(1);
+            modellingTime.Value = modellingTime.Value.AddMinutes(timeScale);
             modellingTime.Refresh();
+
+            var flights = (ICollection<ModellingFlightDTO>)modellingGridView.DataSource;
+
+            modellingGridView.DataSource = flights
+                .Where(x => DateTime.Parse(x.Time).Hour > modellingTime.Value.Hour
+                || DateTime.Parse(x.Time).Hour == modellingTime.Value.Hour && DateTime.Parse(x.Time).Minute > modellingTime.Value.Minute)
+                .ToArray();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void startButton_Click(object sender, EventArgs e)
         {
-            if (timer1.Enabled)
+            if (ItemCounter.AirportBuilding < 1
+                && ItemCounter.CargoTerminal < 1
+                && ItemCounter.PassengerTerminal < 1
+                && ItemCounter.Garage < 5
+                && ItemCounter.Hangar < 3
+                && ItemCounter.Runway < 1)
             {
-                button1.Text = "СТАРТ";
-                timer1.Stop();
+                if (timer1.Enabled)
+                {
+                    startButton.Text = "СТАРТ";
+                    timer1.Stop();
+                }
+                else
+                {
+                    timer1.Start();
+                    startButton.Text = "СТОП";
+                    trackBar1.Value = 1;
+                }
             }
-
-            timer1.Start();
-            button1.Text = "СТОП";
+            else
+            {
+                const string message = "Использованы не все типы объектов";
+                const string caption = "Ошибка";
+                var result = MessageBox.Show(message, caption,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            label3.Text = String.Format("{0}x", trackBar1.Value);
+            timeScale = trackBar1.Value;
+            label3.Text = string.Format("{0}x", trackBar1.Value);
+        }
+
+        private void modellingTime_ValueChanged(object sender, EventArgs e)
+        {
+            var flights = _flightService
+                  .GetFlights()
+                  .Select(x => (ModellingFlightDTO)x)
+                  .OrderBy(x => DateTime.Parse(x.Time))
+                  .ToArray(); 
+
+            modellingGridView.DataSource = flights
+                .Where(x => DateTime.Parse(x.Time).Hour > modellingTime.Value.Hour
+                || DateTime.Parse(x.Time).Hour == modellingTime.Value.Hour && DateTime.Parse(x.Time).Minute > modellingTime.Value.Minute)
+                .ToArray();
         }
     }
 }
