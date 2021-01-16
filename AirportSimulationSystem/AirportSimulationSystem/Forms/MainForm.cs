@@ -1447,7 +1447,81 @@ namespace AirportSimulationSystem
             }
         }
 
-        #endregion
+
+
+
+        private void Modeling_tick(object sender, EventArgs e)
+        {
+
+        }
+            #endregion
+
+        private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (MainTabControl.SelectedTab.Text.Equals("Расписание"))
+            {
+                RefreshFlightComboBoxValues();
+            }
+            if (MainTabControl.SelectedTab.Text.Equals("Моделирование"))
+            {
+                CreateModellingGrid(Topology.Size.Height, Topology.Size.Width);
+                ApplyTopologyModeling();
+
+               // Tuple<int, int> start_plane = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.X , Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.Y-1);
+               // Tuple<int, int> end_plane = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.AirportBuilding).FirstOrDefault().Coordinates.X , Topology.Items.Where(x => x.Type == TopologyItemType.AirportBuilding).FirstOrDefault().Coordinates.Y-1);
+               //
+               // Tuple<int, int> start_bus= new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.X , Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.Y-1);
+               // Tuple<int, int> end_bus = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.AirportBuilding).FirstOrDefault().Coordinates.X , Topology.Items.Where(x => x.Type == TopologyItemType.AirportBuilding).FirstOrDefault().Coordinates.Y-1);
+
+               // Tuple<int, int> start_track = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.X , Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.Y-1);
+               // Tuple<int, int> end_track = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.AirportBuilding).FirstOrDefault().Coordinates.X , Topology.Items.Where(x => x.Type == TopologyItemType.AirportBuilding).FirstOrDefault().Coordinates.Y-1);
+
+                //Tuple<int, int> start = takestartpoint();
+                   // Tuple<int, int> end
+                //List<Tuple<int, int>> path =  findpath(start, end);
+               // movePlane(path);
+                modellingGridView.DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    WrapMode = DataGridViewTriState.True
+                };
+
+                modellingGridView.DataSource = _flightService
+                  .GetFlights()
+                  .Select(x => (ModellingFlightDTO)x)
+                  .OrderBy(x => DateTime.Parse(x.Time))
+                  .ToArray();
+                modellingGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                modellingGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                Tuple<int, int> start = new Tuple<int, int>(4,12);
+                Tuple<int, int> end = new Tuple<int, int>(4,12);
+
+                List<Tuple<int, int>> path = findpath(start, end);
+                movePlane(path,"plane");
+
+                start = new Tuple<int, int>(6, 13);
+                end = new Tuple<int, int>(6, 13);
+                path = findpath(start, end);
+                movePlane(path, "plane");
+
+                start = new Tuple<int, int>(13, 3);
+                end = new Tuple<int, int>(13, 3);
+                path = findpath(start, end);
+                movePlane(path, "track");
+
+                start = new Tuple<int, int>(11, 3);
+                end = new Tuple<int, int>(11, 3);
+                path = findpath(start, end);
+                movePlane(path, "bus");
+            }
+        }
+
+        private static Tuple<int, int> takestartpointPlane()
+        {
+            Tuple<int, int> start = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.X, Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.Y - 1);
+
+            return start;
+        }
 
         private static List<Tuple<int, int>> createclosed()
         {
@@ -1490,6 +1564,7 @@ namespace AirportSimulationSystem
                 }
             }
 
+            Debug.WriteLine(pathlist);
             return pathlist;
         }
 
@@ -1507,7 +1582,6 @@ namespace AirportSimulationSystem
                 }
             }
             return current;
-            throw new NotImplementedException();
         }
 
         private static List<Tuple<int, int>> getneighbours(Tuple<int, int> current, List<Tuple<int, int>> closedlist)
@@ -1538,43 +1612,27 @@ namespace AirportSimulationSystem
             return result;
         }
 
-
-        private void movePlane(List<Tuple<int, int>> path, string picture)
+        PictureBox pl = new PictureBox();
+        private void movePlane(List<Tuple<int, int>> path)
         {
 
-            PictureBox pl = new PictureBox();
-            pl.Image = Image.FromFile(Application.StartupPath + @$"\Resources\{picture}.png");
+
+            pl.Image = Image.FromFile("C:\\Users\\fluer\\source\\repos\\ASS_2.0\\AirportSimulationSystem\\AirportSimulationSystem\\Resources\\Самолет.png");
             pl.SizeMode = PictureBoxSizeMode.Zoom;
             extendedModellingPanel.Controls.Add(pl);
             foreach (var position in path)
             {
+                //  Plane.Location = new Point(position.Item1*Topology., position.Item2);
                 var X = position.Item1;
                 var Y = position.Item2;
 
                 var width = modellingGrid.GetColumnWidths()[X];
                 var height = modellingGrid.GetRowHeights()[Y];
 
-                pl.Size = new Size(1 * width - 1, 1 * height - 1);
-                pl.Location = new Point(X * width + 1, Y * height + 1);
 
-                extendedModellingPanel.Invalidate();
-            }
-        } 
 
-        private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (MainTabControl.SelectedTab.Text.Equals("Расписание"))
-            {
-                RefreshFlightComboBoxValues();
-            }
-            if (MainTabControl.SelectedTab.Text.Equals("Моделирование"))
-            {
-                CreateModellingGrid(Topology.Size.Height, Topology.Size.Width);
-                ApplyTopologyModeling();
-                modellingGridView.DefaultCellStyle = new DataGridViewCellStyle
-                {
-                    WrapMode = DataGridViewTriState.True
-                };
+                //  modellingGrid.Refresh();
+                //  extendedModellingPanel.Refresh();
 
                 modellingGridView.DataSource = _flightService
                   .GetFlights()
@@ -1603,10 +1661,14 @@ namespace AirportSimulationSystem
                 start = new Tuple<int, int>(11, 3);
                 end = new Tuple<int, int>(11, 3);
                 path = findpath(start, end);
-                movePlane(path, "bus"); 
+                movePlane(path, "bus");
             }
         }
-         
+
+
+
+
+
         private void MainPage_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
             Debug.Write(Application.StartupPath);
@@ -1622,13 +1684,18 @@ namespace AirportSimulationSystem
         private void button1_Click(object sender, EventArgs e)
         {
             if (timer1.Enabled)
-            { 
+            {
                 button1.Text = "СТАРТ";
                 timer1.Stop();
             }
 
-            timer1.Start(); 
+            timer1.Start();
             button1.Text = "СТОП";
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            label3.Text = String.Format("{0}x", trackBar1.Value);
         }
     }
 }
