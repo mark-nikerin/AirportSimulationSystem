@@ -1362,8 +1362,11 @@ namespace AirportSimulationSystem
             {
                 RefreshFlightComboBoxValues();
             }
+            if (MainTabControl.SelectedTab.Text.Equals("Моделирование"))
+            {
+              
+            }
         }
-         
         private void MainPage_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
             Debug.Write(Application.StartupPath);
