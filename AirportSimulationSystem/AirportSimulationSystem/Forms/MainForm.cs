@@ -1447,6 +1447,118 @@ namespace AirportSimulationSystem
 
         #endregion
 
+        private static List<Tuple<int, int>> createclosed()
+        {
+            List<Tuple<int, int>> closedlist = new List<Tuple<int, int>>();
+            foreach (var item in Topology.Items)
+            {
+                for (int i = item.Coordinates.X; i < (item.Coordinates.X + item.Size.Width); i++)
+                {
+                    for (int j = item.Coordinates.Y; j < (item.Coordinates.Y + item.Size.Height); j++)
+                    {
+                        closedlist.Add(new Tuple<int, int>(i, j));
+                    }
+                }
+            }
+            return closedlist;
+        }
+
+
+        private static int getheuristicpathlength(Tuple<int, int> current, Tuple<int, int> goal)
+        {
+            return Math.Abs(current.Item1 - goal.Item1) + Math.Abs(current.Item2 - goal.Item2);
+        }
+
+
+        private static List<Tuple<int, int>> findpath(Tuple<int, int> start, Tuple<int, int> goal)
+        {
+            List<Tuple<int, int>> pathlist = new List<Tuple<int, int>>();
+            List<Tuple<int, int>> closedlist = createclosed();
+            Tuple<int, int> current = start;
+            pathlist.Add(current);
+            bool yee = false;
+            while (yee == false)
+            {
+                Tuple<int, int> next = getNext(current, goal, closedlist);
+                pathlist.Add(next);
+                current = next;
+                if (current.Item1 == goal.Item1 & current.Item2 == goal.Item2)
+                {
+                    yee = true;
+                }
+            }
+
+            return pathlist;
+        }
+
+        private static Tuple<int, int> getNext(Tuple<int, int> current, Tuple<int, int> goal, List<Tuple<int, int>> closedlist)
+        {
+            List<Tuple<int, int>> neighbourslist = getneighbours(current, closedlist);
+            int currentcost = 100;
+            foreach (var neighbours in neighbourslist)
+            {
+                int neighbourscost = getheuristicpathlength(neighbours, goal);
+                if (neighbourscost <= currentcost)
+                {
+                    currentcost = neighbourscost;
+                    current = neighbours;
+                }
+            }
+            return current;
+            throw new NotImplementedException();
+        }
+
+        private static List<Tuple<int, int>> getneighbours(Tuple<int, int> current, List<Tuple<int, int>> closedlist)
+        {
+            var result = new List<Tuple<int, int>>();
+
+            // соседними точками являются соседние по стороне клетки.
+            Tuple<int, int> neighbour_1 = new Tuple<int, int>(current.Item1 + 1, current.Item2);
+            Tuple<int, int> neighbour_2 = new Tuple<int, int>(current.Item1 - 1, current.Item2);
+            Tuple<int, int> neighbour_3 = new Tuple<int, int>(current.Item1, current.Item2 + 1);
+            Tuple<int, int> neighbour_4 = new Tuple<int, int>(current.Item1, current.Item2 - 1);
+            if (!closedlist.Contains(neighbour_1))
+            {
+                result.Add(neighbour_1);
+            }
+            if (!closedlist.Contains(neighbour_2))
+            {
+                result.Add(neighbour_2);
+            }
+            if (!closedlist.Contains(neighbour_3))
+            {
+                result.Add(neighbour_3);
+            }
+            if (!closedlist.Contains(neighbour_4))
+            {
+                result.Add(neighbour_4);
+            }
+            return result;
+        }
+
+
+        private void movePlane(List<Tuple<int, int>> path)
+        {
+
+            PictureBox pl = new PictureBox();
+            pl.Image = Image.FromFile(Application.StartupPath + @"\Resources\plane.png");
+            pl.SizeMode = PictureBoxSizeMode.Zoom;
+            extendedModellingPanel.Controls.Add(pl);
+            foreach (var position in path)
+            {
+                var X = position.Item1;
+                var Y = position.Item2;
+
+                var width = modellingGrid.GetColumnWidths()[X];
+                var height = modellingGrid.GetRowHeights()[Y];
+
+                pl.Size = new Size(1 * width - 1, 1 * height - 1);
+                pl.Location = new Point(X * width + 1, Y * height + 1);
+                 
+                extendedModellingPanel.Refresh(); 
+            }
+        }
+
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (MainTabControl.SelectedTab.Text.Equals("Расписание"))
@@ -1461,14 +1573,20 @@ namespace AirportSimulationSystem
                 {
                     WrapMode = DataGridViewTriState.True
                 };
-                
+
                 modellingGridView.DataSource = _flightService
-                   .GetFlights()
-                   .Select(x => (ModellingFlightDTO)x)
-                   .OrderBy(x => DateTime.Parse(x.Time))
-                   .ToArray();
+                  .GetFlights()
+                  .Select(x => (ModellingFlightDTO)x)
+                  .OrderBy(x => DateTime.Parse(x.Time))
+                  .ToArray();
                 modellingGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 modellingGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                Tuple<int, int> start = new Tuple<int, int>(5,5);
+                Tuple<int, int> end = new Tuple<int, int>(1,1);
+
+                List<Tuple<int, int>> path = findpath(start, end);
+                movePlane(path); 
             }
         }
          
