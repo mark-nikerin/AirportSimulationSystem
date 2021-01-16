@@ -87,6 +87,7 @@ namespace AirportSimulationSystem
             airplanesGridView.Columns[0].ReadOnly = true;
 
             CreateGrid(MinGridSize, MinGridSize);
+            CreateModellingGrid(MinGridSize, MinGridSize);
             Topology.Size.Height = MinGridSize;
             Topology.Size.Width = MinGridSize;
 
@@ -1453,7 +1454,7 @@ namespace AirportSimulationSystem
         }
             #endregion
 
-            private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (MainTabControl.SelectedTab.Text.Equals("Расписание"))
             {
@@ -1481,14 +1482,35 @@ namespace AirportSimulationSystem
                 {
                     WrapMode = DataGridViewTriState.True
                 };
-                
+
                 modellingGridView.DataSource = _flightService
-                   .GetFlights()
-                   .Select(x => (ModellingFlightDTO)x)
-                   .OrderBy(x => DateTime.Parse(x.Time))
-                   .ToArray();
+                  .GetFlights()
+                  .Select(x => (ModellingFlightDTO)x)
+                  .OrderBy(x => DateTime.Parse(x.Time))
+                  .ToArray();
                 modellingGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 modellingGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                Tuple<int, int> start = new Tuple<int, int>(4,12);
+                Tuple<int, int> end = new Tuple<int, int>(4,12);
+
+                List<Tuple<int, int>> path = findpath(start, end);
+                movePlane(path,"plane");
+
+                start = new Tuple<int, int>(6, 13);
+                end = new Tuple<int, int>(6, 13);
+                path = findpath(start, end);
+                movePlane(path, "plane");
+
+                start = new Tuple<int, int>(13, 3);
+                end = new Tuple<int, int>(13, 3);
+                path = findpath(start, end);
+                movePlane(path, "track");
+
+                start = new Tuple<int, int>(11, 3);
+                end = new Tuple<int, int>(11, 3);
+                path = findpath(start, end);
+                movePlane(path, "bus");
             }
         }
 
