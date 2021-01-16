@@ -37,10 +37,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models\GridViewModels\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Update="Resources\bus.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
