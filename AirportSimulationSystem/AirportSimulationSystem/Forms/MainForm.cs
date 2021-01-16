@@ -1537,11 +1537,11 @@ namespace AirportSimulationSystem
         }
 
 
-        private void movePlane(List<Tuple<int, int>> path)
+        private void movePlane(List<Tuple<int, int>> path, string picture)
         {
 
             PictureBox pl = new PictureBox();
-            pl.Image = Image.FromFile(Application.StartupPath + @"\Resources\plane.png");
+            pl.Image = Image.FromFile(Application.StartupPath + @$"\Resources\{picture}.png");
             pl.SizeMode = PictureBoxSizeMode.Zoom;
             extendedModellingPanel.Controls.Add(pl);
             foreach (var position in path)
@@ -1554,10 +1554,10 @@ namespace AirportSimulationSystem
 
                 pl.Size = new Size(1 * width - 1, 1 * height - 1);
                 pl.Location = new Point(X * width + 1, Y * height + 1);
-                 
-                extendedModellingPanel.Refresh(); 
+
+                extendedModellingPanel.Invalidate();
             }
-        }
+        } 
 
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1582,11 +1582,26 @@ namespace AirportSimulationSystem
                 modellingGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 modellingGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                Tuple<int, int> start = new Tuple<int, int>(5,5);
-                Tuple<int, int> end = new Tuple<int, int>(1,1);
+                Tuple<int, int> start = new Tuple<int, int>(4,12);
+                Tuple<int, int> end = new Tuple<int, int>(4,12);
 
                 List<Tuple<int, int>> path = findpath(start, end);
-                movePlane(path); 
+                movePlane(path,"plane");
+
+                start = new Tuple<int, int>(6, 13);
+                end = new Tuple<int, int>(6, 13);
+                path = findpath(start, end);
+                movePlane(path, "plane");
+
+                start = new Tuple<int, int>(13, 3);
+                end = new Tuple<int, int>(13, 3);
+                path = findpath(start, end);
+                movePlane(path, "track");
+
+                start = new Tuple<int, int>(11, 3);
+                end = new Tuple<int, int>(11, 3);
+                path = findpath(start, end);
+                movePlane(path, "bus");
             }
         }
          
