@@ -1476,7 +1476,7 @@ namespace AirportSimulationSystem
                 modellingGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
                 Tuple<int, int> start = new Tuple<int, int>(4, 12);
-                Tuple<int, int> end = new Tuple<int, int>(4, 12);
+                Tuple<int, int> end = new Tuple<int, int>(14, 12);
                  
                 var plane = new Plane(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(0 * TopologyCellWidth + 1, 0 * TopologyCellHeight + 1));
                 var track = new Track(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(0 * TopologyCellWidth + 1, 0 * TopologyCellHeight + 1));
@@ -1484,18 +1484,18 @@ namespace AirportSimulationSystem
 
                 plane.Rotate(90F);
 
-                List<Tuple<int, int>> path = findpath(start, end);
-                MoveObject(path, plane);
-
-                start = new Tuple<int, int>(6, 13);
-                end = new Tuple<int, int>(6, 13);
                 path = findpath(start, end);
-                MoveObject(path, track);
+                //movePlane(path, plane);
 
-                start = new Tuple<int, int>(13, 3);
-                end = new Tuple<int, int>(13, 3);
-                path = findpath(start, end);
-                MoveObject(path, bus);
+                //start = new Tuple<int, int>(6, 13);
+                //end = new Tuple<int, int>(6, 13);
+                //path = findpath(start, end);
+                //movePlane(path, track);
+
+                //start = new Tuple<int, int>(13, 3);
+                //end = new Tuple<int, int>(13, 3);
+                //path = findpath(start, end);
+                //movePlane(path, bus);
             }
         }
 
@@ -1537,20 +1537,21 @@ namespace AirportSimulationSystem
             while (yee == false)
             {
                 Tuple<int, int> next = getNext(current, goal, closedlist);
-                if (next.Item1 > start.Item1)
-                {
-                    for (int i = start.Item1; i < next.Item1; i++)
-                    {
-                        pathlist.Add(new Tuple<int, int>(i, start.Item2));
-                    }
-                }
-                else
-                {
-                    for (int i = start.Item1; i > next.Item1; i--)
-                    {
-                        pathlist.Add(new Tuple<int, int>(i, start.Item2));
-                    }
-                }
+                //if (next.Item1 > start.Item1)
+                //{
+                //    for (int i = start.Item1; i < next.Item1; i++)
+                //    {
+                //        pathlist.Add(new Tuple<int, int>(i, start.Item2));
+                //    }
+                //}
+                //else
+                //{
+                //    for (int i = start.Item1; i > next.Item1; i--)
+                //    {
+                //        pathlist.Add(new Tuple<int, int>(i, start.Item2));
+                //    }
+                //}
+                pathlist.Add(next);
                 current = next;
                 if (current.Item1 == goal.Item1 & current.Item2 == goal.Item2)
                 {
@@ -1614,19 +1615,12 @@ namespace AirportSimulationSystem
         int gridModelingHeight;
         private void movePlane(Tuple<int, int> startPath, string image)
         {
-            var width = modellingGrid.GetColumnWidths()[0];
-            var height = modellingGrid.GetRowHeights()[0];
-
-            extendedModellingPanel.Controls.Add(@object.Model);
-            foreach (var position in path)
-            {
-                var X = position.Item1;
-                var Y = position.Item2;
-
             gridModelingWidth = modellingGrid.GetColumnWidths()[0];
             gridModelingHeight = modellingGrid.GetRowHeights()[0];
 
+            pl.Image = Image.FromFile(Application.StartupPath + $@"\Resources\{image}.png");
             pl.Size = new Size(gridModelingWidth - 1, gridModelingHeight - 1);
+            pl.SizeMode = PictureBoxSizeMode.Zoom;
             pl.Location = new Point(startPath.Item1 * gridModelingWidth + 1, startPath.Item2 * gridModelingHeight + 1);
 
             extendedModellingPanel.Controls.Add(pl);
