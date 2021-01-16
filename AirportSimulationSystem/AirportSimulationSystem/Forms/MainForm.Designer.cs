@@ -101,6 +101,8 @@ namespace AirportSimulationSystem
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.ModellingScheduleLabel = new System.Windows.Forms.Label();
+            this.modellingGridView = new System.Windows.Forms.DataGridView();
             this.backToScheduleButton = new System.Windows.Forms.Button();
             this.plusHorButton = new System.Windows.Forms.Button();
             this.helpProvider1 = new System.Windows.Forms.HelpProvider();
@@ -124,6 +126,7 @@ namespace AirportSimulationSystem
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.modellingGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -1051,12 +1054,35 @@ namespace AirportSimulationSystem
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.panel3.Controls.Add(this.ModellingScheduleLabel);
+            this.panel3.Controls.Add(this.modellingGridView);
             this.panel3.Controls.Add(this.backToScheduleButton);
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(448, 660);
             this.panel3.TabIndex = 5;
+            // 
+            // ModellingScheduleLabel
+            // 
+            this.ModellingScheduleLabel.AutoSize = true;
+            this.ModellingScheduleLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.ModellingScheduleLabel.Location = new System.Drawing.Point(77, 32);
+            this.ModellingScheduleLabel.Name = "ModellingScheduleLabel";
+            this.ModellingScheduleLabel.Size = new System.Drawing.Size(272, 25);
+            this.ModellingScheduleLabel.TabIndex = 6;
+            this.ModellingScheduleLabel.Text = "Текущее расписание полётов";
+            // 
+            // modellingGridView
+            // 
+            this.modellingGridView.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.modellingGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.modellingGridView.Location = new System.Drawing.Point(9, 75);
+            this.modellingGridView.Name = "modellingGridView";
+            this.modellingGridView.RowHeadersVisible = false;
+            this.modellingGridView.RowTemplate.Height = 25;
+            this.modellingGridView.Size = new System.Drawing.Size(429, 413);
+            this.modellingGridView.TabIndex = 5;
             // 
             // backToScheduleButton
             // 
@@ -1132,6 +1158,8 @@ namespace AirportSimulationSystem
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.modellingGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1203,5 +1231,7 @@ namespace AirportSimulationSystem
         private Panel panel3;
         private TableLayoutPanel modellingGrid;
         private ExtendedPanel extendedModellingPanel;
+        private DataGridView modellingGridView;
+        private Label ModellingScheduleLabel;
     }
 }
