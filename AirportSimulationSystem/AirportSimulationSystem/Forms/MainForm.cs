@@ -99,7 +99,8 @@ namespace AirportSimulationSystem
         #region Navigation
 
         private void NextButton_Click(object sender, EventArgs e)
-        {
+        { 
+
             if (ItemCounter.AirportBuilding < 1
             && ItemCounter.CargoTerminal < 1
             && ItemCounter.PassengerTerminal < 1
@@ -1335,6 +1336,22 @@ namespace AirportSimulationSystem
             button.Cursor = Cursors.Hand;
             button.BackColor = Color.WhiteSmoke;
             button.ForeColor = SystemColors.ControlText;
+        }
+
+        #endregion
+
+        #region Modelling
+
+        private void CreateGridModeling(int ver, int hor)
+        { 
+            modellingGrid.RowCount = ver;
+            modellingGrid.ColumnCount = hor;
+
+            for (int i = 0; i < MinGridSize; i++)
+            {
+                modellingGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / modellingGrid.ColumnCount));
+                modellingGrid.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / modellingGrid.RowCount));
+            }
         }
 
         #endregion

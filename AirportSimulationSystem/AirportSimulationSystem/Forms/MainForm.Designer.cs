@@ -93,14 +93,13 @@ namespace AirportSimulationSystem
             this.SearchTextBox = new System.Windows.Forms.TextBox();
             this.SearchComboBox = new AirportSimulationSystem.Helpers.FlatComboWithBorder();
             this.SimulationPage = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.modellingGrid = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.backToScheduleButton = new System.Windows.Forms.Button();
             this.plusHorButton = new System.Windows.Forms.Button();
             this.helpProvider1 = new System.Windows.Forms.HelpProvider();
@@ -121,9 +120,9 @@ namespace AirportSimulationSystem
             ((System.ComponentModel.ISupportInitialize)(this.airplanesGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.flightsGridView)).BeginInit();
             this.SimulationPage.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -937,41 +936,51 @@ namespace AirportSimulationSystem
             // SimulationPage
             // 
             this.SimulationPage.BackColor = System.Drawing.Color.White;
-            this.SimulationPage.Controls.Add(this.groupBox2);
-            this.SimulationPage.Controls.Add(this.backToScheduleButton);
+            this.SimulationPage.Controls.Add(this.modellingGrid);
+            this.SimulationPage.Controls.Add(this.panel2);
+            this.SimulationPage.Controls.Add(this.panel3);
             this.SimulationPage.Location = new System.Drawing.Point(4, 24);
             this.SimulationPage.Name = "SimulationPage";
             this.SimulationPage.Size = new System.Drawing.Size(1259, 660);
             this.SimulationPage.TabIndex = 2;
             this.SimulationPage.Text = "Моделирование";
             // 
-            // groupBox2
+            // modellingGrid
             // 
-            this.groupBox2.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox2.Controls.Add(this.panel2);
-            this.groupBox2.Location = new System.Drawing.Point(197, 24);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(866, 564);
-            this.groupBox2.TabIndex = 5;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Моделирование";
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tableLayoutPanel1.ColumnCount = 5;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.34021F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.65979F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 186F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 378F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(20, 430);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(827, 49);
-            this.tableLayoutPanel1.TabIndex = 1;
+            this.modellingGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.modellingGrid.AutoSize = true;
+            this.modellingGrid.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.modellingGrid.BackColor = System.Drawing.Color.White;
+            this.modellingGrid.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.modellingGrid.ColumnCount = 10;
+            this.modellingGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.modellingGrid.Location = new System.Drawing.Point(611, 32);
+            this.modellingGrid.Name = "modellingGrid";
+            this.modellingGrid.RowCount = 10;
+            this.modellingGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.modellingGrid.Size = new System.Drawing.Size(521, 521);
+            this.modellingGrid.TabIndex = 6;
             // 
             // panel2
             // 
@@ -980,10 +989,10 @@ namespace AirportSimulationSystem
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.trackBar1);
             this.panel2.Controls.Add(this.dateTimePicker2);
-            this.panel2.Controls.Add(this.dateTimePicker1);
-            this.panel2.Location = new System.Drawing.Point(0, 496);
+            this.panel2.Location = new System.Drawing.Point(448, 592);
+            this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(866, 68);
+            this.panel2.Size = new System.Drawing.Size(811, 68);
             this.panel2.TabIndex = 0;
             // 
             // button1
@@ -1005,7 +1014,7 @@ namespace AirportSimulationSystem
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(515, 14);
+            this.label3.Location = new System.Drawing.Point(669, 14);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(51, 30);
             this.label3.TabIndex = 3;
@@ -1013,28 +1022,30 @@ namespace AirportSimulationSystem
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(88, 19);
+            this.trackBar1.Location = new System.Drawing.Point(106, 19);
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(422, 45);
+            this.trackBar1.Size = new System.Drawing.Size(542, 45);
             this.trackBar1.TabIndex = 2;
             this.trackBar1.Value = 3;
             // 
             // dateTimePicker2
             // 
             this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker2.Location = new System.Drawing.Point(773, 19);
+            this.dateTimePicker2.Location = new System.Drawing.Point(726, 18);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.ShowUpDown = true;
             this.dateTimePicker2.Size = new System.Drawing.Size(74, 25);
             this.dateTimePicker2.TabIndex = 1;
             // 
-            // dateTimePicker1
+            // panel3
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(600, 19);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.ShowUpDown = true;
-            this.dateTimePicker1.Size = new System.Drawing.Size(147, 25);
-            this.dateTimePicker1.TabIndex = 0;
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.panel3.Controls.Add(this.backToScheduleButton);
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Margin = new System.Windows.Forms.Padding(0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(448, 660);
+            this.panel3.TabIndex = 5;
             // 
             // backToScheduleButton
             // 
@@ -1044,7 +1055,7 @@ namespace AirportSimulationSystem
             this.backToScheduleButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.backToScheduleButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.backToScheduleButton.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.backToScheduleButton.Location = new System.Drawing.Point(35, 613);
+            this.backToScheduleButton.Location = new System.Drawing.Point(153, 606);
             this.backToScheduleButton.Name = "backToScheduleButton";
             this.backToScheduleButton.Size = new System.Drawing.Size(134, 32);
             this.backToScheduleButton.TabIndex = 4;
@@ -1105,10 +1116,11 @@ namespace AirportSimulationSystem
             ((System.ComponentModel.ISupportInitialize)(this.airplanesGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.flightsGridView)).EndInit();
             this.SimulationPage.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
+            this.SimulationPage.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1131,14 +1143,11 @@ namespace AirportSimulationSystem
         private Button backToScheduleButton;
         private FlatComboWithBorder SearchComboBox;
         private TextBox SearchTextBox;
-        private GroupBox groupBox2;
-        private TableLayoutPanel tableLayoutPanel1;
         private Panel panel2;
         private Button button1;
         private Label label3;
         private TrackBar trackBar1;
         private DateTimePicker dateTimePicker2;
-        private DateTimePicker dateTimePicker1;
         private Button citiesButton;
         private Button airplanesButton;
         private Button fligthsButton;
@@ -1180,5 +1189,7 @@ namespace AirportSimulationSystem
         private Button AddItemButton;
         private TextBox topologyName;
         public HelpProvider helpProvider1;
+        private Panel panel3;
+        private TableLayoutPanel modellingGrid;
     }
 }
