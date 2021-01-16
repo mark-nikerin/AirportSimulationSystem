@@ -87,6 +87,7 @@ namespace AirportSimulationSystem
             airplanesGridView.Columns[0].ReadOnly = true;
 
             CreateGrid(MinGridSize, MinGridSize);
+            CreateModellingGrid(MinGridSize, MinGridSize);
             Topology.Size.Height = MinGridSize;
             Topology.Size.Width = MinGridSize;
 
