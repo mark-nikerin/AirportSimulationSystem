@@ -98,7 +98,7 @@ namespace AirportSimulationSystem
             extendedPanel.AllowDrop = true;
             groupBox1.AllowDrop = true;
 
-            timer1.Interval = 1000;
+            timer1.Interval = 100;
             trackBar1.Value = 1;
         }
 
@@ -1449,7 +1449,7 @@ namespace AirportSimulationSystem
                 extendedModellingPanel.Controls.Add(pb);
             }
         }
-            #endregion
+        #endregion
 
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1475,26 +1475,26 @@ namespace AirportSimulationSystem
                 modellingGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 modellingGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                Tuple<int, int> start = new Tuple<int, int>(4,12);
-                Tuple<int, int> end = new Tuple<int, int>(4,12);
+                Tuple<int, int> start = new Tuple<int, int>(4, 12);
+                Tuple<int, int> end = new Tuple<int, int>(14, 12);
 
-                List<Tuple<int, int>> path = findpath(start, end);
-                movePlane(path,"plane");
-
-                start = new Tuple<int, int>(6, 13);
-                end = new Tuple<int, int>(6, 13);
                 path = findpath(start, end);
-                movePlane(path, "plane");
+                //movePlane(path,"plane");
 
-                start = new Tuple<int, int>(13, 3);
-                end = new Tuple<int, int>(13, 3);
-                path = findpath(start, end);
-                movePlane(path, "track");
+                //start = new Tuple<int, int>(6, 13);
+                //end = new Tuple<int, int>(6, 13);
+                //path = findpath(start, end);
+                //movePlane(path, "plane");
 
-                start = new Tuple<int, int>(11, 3);
-                end = new Tuple<int, int>(11, 3);
-                path = findpath(start, end);
-                movePlane(path, "bus");
+                //start = new Tuple<int, int>(13, 3);
+                //end = new Tuple<int, int>(13, 3);
+                //path = findpath(start, end);
+                //movePlane(path, "track");
+
+                //start = new Tuple<int, int>(11, 3);
+                //end = new Tuple<int, int>(11, 3);
+                //path = findpath(start, end);
+                //movePlane(path, "bus");
             }
         }
 
@@ -1538,7 +1538,20 @@ namespace AirportSimulationSystem
             while (yee == false)
             {
                 Tuple<int, int> next = getNext(current, goal, closedlist);
-                pathlist.Add(next);
+                if (next.Item1 > start.Item1)
+                {
+                    for (int i = start.Item1; i < next.Item1; i++)
+                    {
+                        pathlist.Add(new Tuple<int, int>(i, start.Item2));
+                    }
+                }
+                else
+                {
+                    for (int i = start.Item1; i > next.Item1; i--)
+                    {
+                        pathlist.Add(new Tuple<int, int>(i, start.Item2));
+                    }
+                }
                 current = next;
                 if (current.Item1 == goal.Item1 & current.Item2 == goal.Item2)
                 {
@@ -1594,25 +1607,25 @@ namespace AirportSimulationSystem
             return result;
         }
 
-        private void movePlane(List<Tuple<int, int>> path, string image)
+
+        List<Tuple<int, int>> path;
+        PictureBox pl = new PictureBox();
+        int currentPositionModeling = 1;
+        int gridModelingWidth;
+        int gridModelingHeight;
+        private void movePlane(Tuple<int, int> startPath, string image)
         {
-            PictureBox pl = new PictureBox();
             pl.Image = Image.FromFile(Application.StartupPath + $@"\Resources\{image}.png");
             pl.SizeMode = PictureBoxSizeMode.Zoom;
+
+            gridModelingWidth = modellingGrid.GetColumnWidths()[0];
+            gridModelingHeight = modellingGrid.GetRowHeights()[0];
+
+            pl.Size = new Size(gridModelingWidth - 1, gridModelingHeight - 1);
+            pl.Location = new Point(startPath.Item1 * gridModelingWidth + 1, startPath.Item2 * gridModelingHeight + 1);
+
             extendedModellingPanel.Controls.Add(pl);
-            foreach (var position in path)
-            {
-                var X = position.Item1;
-                var Y = position.Item2; 
-
-                var width = modellingGrid.GetColumnWidths()[X];
-                var height = modellingGrid.GetRowHeights()[Y];
-
-                pl.Size = new Size(1 * width - 1, 1 * height - 1);
-                pl.Location = new Point(X * width + 1, Y * height + 1);
-
-                extendedModellingPanel.Refresh();
-            }
+            extendedModellingPanel.Refresh();
         }
 
         private void MainPage_HelpRequested(object sender, HelpEventArgs hlpevent)
@@ -1632,6 +1645,13 @@ namespace AirportSimulationSystem
                 .Where(x => DateTime.Parse(x.Time).Hour > modellingTime.Value.Hour
                 || DateTime.Parse(x.Time).Hour == modellingTime.Value.Hour && DateTime.Parse(x.Time).Minute > modellingTime.Value.Minute)
                 .ToArray();
+
+            if (currentPositionModeling < path.Count)
+            {
+                pl.Location = new Point(path[currentPositionModeling].Item1 * gridModelingWidth + 1, path[currentPositionModeling].Item2 * gridModelingHeight + 1);
+                pl.Refresh();
+                currentPositionModeling++;
+            }
         }
 
         private void startButton_Click(object sender, EventArgs e)
@@ -1646,13 +1666,14 @@ namespace AirportSimulationSystem
                 if (timer1.Enabled)
                 {
                     startButton.Text = "СТАРТ";
-                    timer1.Stop(); 
+                    timer1.Stop();
                     trackBar1.Value = 1;
                     timeScale = trackBar1.Value;
                     label3.Text = string.Format("{0}x", trackBar1.Value);
                 }
                 else
                 {
+                    movePlane(path.First(), "plane");
                     timer1.Start();
                     startButton.Text = "СТОП";
                 }
@@ -1679,7 +1700,7 @@ namespace AirportSimulationSystem
                   .GetFlights()
                   .Select(x => (ModellingFlightDTO)x)
                   .OrderBy(x => DateTime.Parse(x.Time))
-                  .ToArray(); 
+                  .ToArray();
 
             modellingGridView.DataSource = flights
                 .Where(x => DateTime.Parse(x.Time).Hour >= modellingTime.Value.Hour

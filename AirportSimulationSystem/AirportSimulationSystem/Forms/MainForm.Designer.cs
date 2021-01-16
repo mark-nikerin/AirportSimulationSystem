@@ -94,7 +94,8 @@ namespace AirportSimulationSystem
             this.SearchTextBox = new System.Windows.Forms.TextBox();
             this.SearchComboBox = new AirportSimulationSystem.Helpers.FlatComboWithBorder();
             this.SimulationPage = new System.Windows.Forms.TabPage();
-            this.extendedModellingPanel = new AirportSimulationSystem.ExtendedPanel();
+            //this.extendedModellingPanel = new AirportSimulationSystem.ExtendedPanel();
+            this.extendedModellingPanel = new System.Windows.Forms.Panel();
             this.modellingGrid = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.startButton = new System.Windows.Forms.Button();
@@ -1249,7 +1250,7 @@ namespace AirportSimulationSystem
         public HelpProvider helpProvider1;
         private Panel panel3;
         private TableLayoutPanel modellingGrid;
-        private ExtendedPanel extendedModellingPanel;
+        private Panel extendedModellingPanel;
         private DataGridView modellingGridView;
         private Label ModellingScheduleLabel;
         private Timer timer1;
