@@ -1342,7 +1342,7 @@ namespace AirportSimulationSystem
 
         #region Modelling
 
-        private void CreateGridModeling(int ver, int hor)
+        private void CreateModellingGrid(int ver, int hor)
         { 
             modellingGrid.RowCount = ver;
             modellingGrid.ColumnCount = hor;
@@ -1351,6 +1351,104 @@ namespace AirportSimulationSystem
             {
                 modellingGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / modellingGrid.ColumnCount));
                 modellingGrid.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / modellingGrid.RowCount));
+            }
+        }
+
+        private void ApplyTopologyModeling()
+        {
+            ResetCounters();
+            extendedModellingPanel.Controls.Clear();
+            topologyName.Text = Topology.Name;
+
+            while (modellingGrid.ColumnCount != Topology.Size.Width && modellingGrid.RowCount != Topology.Size.Height)
+            {
+                if (modellingGrid.ColumnCount < Topology.Size.Width)
+                {
+                    modellingGrid.ColumnCount++;
+                    modellingGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / modellingGrid.ColumnCount));
+
+                }
+
+                if (modellingGrid.ColumnCount > Topology.Size.Width)
+                {
+                    modellingGrid.ColumnCount--;
+
+                }
+
+                if (modellingGrid.RowCount < Topology.Size.Height)
+                {
+                    modellingGrid.RowCount++;
+                    modellingGrid.ColumnStyles.Add(new RowStyle(SizeType.Percent, 100 / modellingGrid.RowCount));
+
+                }
+
+                if (modellingGrid.RowCount > Topology.Size.Height)
+                {
+                    modellingGrid.RowCount--;
+
+                }
+            }
+
+            if (modellingGrid.ColumnCount == modellingGrid.RowCount)
+                ItemSizes.Runway.Width = modellingGrid.ColumnCount - 3;
+            else if (modellingGrid.ColumnCount > modellingGrid.RowCount)
+            {
+                ItemSizes.Runway.Width = modellingGrid.RowCount - 1;
+            }
+            else if (modellingGrid.ColumnCount < modellingGrid.RowCount)
+            {
+                ItemSizes.Runway.Width = modellingGrid.ColumnCount - 1;
+            }
+
+            foreach (var item in Topology.Items)
+            {
+                PictureBox pb = new PictureBox();
+
+                var X = item.Coordinates.X;
+                var Y = item.Coordinates.Y;
+
+                var width = modellingGrid.GetColumnWidths()[X];
+                var height = modellingGrid.GetRowHeights()[Y];
+
+                pb.Size = new Size(item.Size.Width * width - 1, item.Size.Height * height - 1);
+                pb.Location = new Point(X * width + 1, Y * height + 1);
+                pb.Image = item.Type switch
+                {
+                    TopologyItemType.AirportBuilding => airport.Image,
+                    TopologyItemType.CargoTerminal => cargoTerminal.Image,
+                    TopologyItemType.Garage => garage.Image,
+                    TopologyItemType.Hangar => hangar.Image,
+                    TopologyItemType.PassengerTerminal => passengerTerminal.Image,
+                    TopologyItemType.Runway => vpp.Image,
+                    _ => null
+                };
+
+                CurrentDraggableItem.Type = item.Type;
+
+                if (item.Angle != 0)
+                {
+                    if (item.Angle > 0)
+                    {
+                        for (int i = item.Angle; i > 0; i--)
+                        {
+                            pb.Image = RotateImage(pb.Image, new PointF(pb.Image.Width / 2, pb.Image.Height / 2), 90f);
+                        }
+                    }
+                    else if (item.Angle < 0)
+                    {
+                        for (int i = item.Angle; i < 0; i++)
+                        {
+                            pb.Image = RotateImage(pb.Image, new PointF(pb.Image.Width / 2, pb.Image.Height / 2), -90f);
+                        }
+                    }
+                }
+
+                pb.SizeMode = item.Type == TopologyItemType.Runway
+                    ? PictureBoxSizeMode.StretchImage
+                    : PictureBoxSizeMode.Zoom;
+
+
+                extendedModellingPanel.Controls.Add(pb);
             }
         }
 
@@ -1364,9 +1462,11 @@ namespace AirportSimulationSystem
             }
             if (MainTabControl.SelectedTab.Text.Equals("Моделирование"))
             {
-              
+                CreateModellingGrid(Topology.Size.Height, Topology.Size.Width);
+                ApplyTopologyModeling();
             }
         }
+         
         private void MainPage_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
             Debug.Write(Application.StartupPath);
