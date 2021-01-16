@@ -79,7 +79,7 @@ namespace AirportSimulationSystem
             RefreshFlightComboBoxValues();
             flightsGridView.Refresh();
 
-            flightsGridView.Columns[0].ReadOnly = true; 
+            flightsGridView.Columns[0].ReadOnly = true;
             flightsGridView.Columns["FlightType"].ReadOnly = true;
             flightsGridView.Columns["RegistryNumber"].ReadOnly = true;
             flightsGridView.Columns["Tittle"].ReadOnly = true;
@@ -99,7 +99,7 @@ namespace AirportSimulationSystem
         #region Navigation
 
         private void NextButton_Click(object sender, EventArgs e)
-        { 
+        {
 
             if (ItemCounter.AirportBuilding < 1
             && ItemCounter.CargoTerminal < 1
@@ -1033,7 +1033,7 @@ namespace AirportSimulationSystem
                 citiesGridView.Refresh();
             }
         }
-         
+
         private void AddItemButton_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult;
@@ -1077,7 +1077,7 @@ namespace AirportSimulationSystem
                 }
             }
         }
-          
+
         private void DeleteItemButton_Click(object sender, EventArgs e)
         {
             if (citiesGridView.Visible && citiesGridView.SelectedCells.Count > 0)
@@ -1093,7 +1093,7 @@ namespace AirportSimulationSystem
                                      MessageBoxIcon.Warning);
 
                 if (confirmResult == DialogResult.No) return;
-                 
+
                 _cityService.RemoveCity(cityId);
                 citiesGridView.DataSource = _cityService.GetCities();
                 citiesGridView.Refresh();
@@ -1113,7 +1113,7 @@ namespace AirportSimulationSystem
 
                 if (confirmResult == DialogResult.No) return;
 
-               
+
 
                 _airplaneService.RemoveAirplane(airplaneId);
                 airplanesGridView.DataSource = _airplaneService.GetAirplanes();
@@ -1135,7 +1135,7 @@ namespace AirportSimulationSystem
 
                 if (confirmResult == DialogResult.No) return;
 
-               
+
 
                 _flightService.RemoveFlight(flightId);
                 flightsGridView.DataSource = _flightService.GetFlights();
@@ -1151,7 +1151,7 @@ namespace AirportSimulationSystem
         private void citiesGridView_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-            { 
+            {
                 if (citiesGridView.Visible && citiesGridView.SelectedCells.Count > 0)
                 {
                     var rowIndex = citiesGridView.SelectedCells[0].RowIndex;
@@ -1233,10 +1233,10 @@ namespace AirportSimulationSystem
                     var flightId = (int)selectedRow.Cells["Id"].Value;
                     var flightNumber = (string)selectedRow.Cells["FlightNumber"].Value;
                     var time = (string)selectedRow.Cells["Time"].Value;
-                    var soldTicketsAmount = (int)selectedRow.Cells["SoldTicketsAmount"].Value; 
+                    var soldTicketsAmount = (int)selectedRow.Cells["SoldTicketsAmount"].Value;
                     var cityId = (int)selectedRow.Cells["City"].Value;
                     var airplaneId = (int)selectedRow.Cells["Airplane"].Value;
-                     
+
                     var flightDTO = new FlightDTO
                     {
                         Id = flightId,
@@ -1343,7 +1343,7 @@ namespace AirportSimulationSystem
         #region Modelling
 
         private void CreateModellingGrid(int ver, int hor)
-        { 
+        {
             modellingGrid.RowCount = ver;
             modellingGrid.ColumnCount = hor;
 
@@ -1356,9 +1356,7 @@ namespace AirportSimulationSystem
 
         private void ApplyTopologyModeling()
         {
-            ResetCounters();
             extendedModellingPanel.Controls.Clear();
-            topologyName.Text = Topology.Name;
 
             while (modellingGrid.ColumnCount != Topology.Size.Width && modellingGrid.RowCount != Topology.Size.Height)
             {
@@ -1366,26 +1364,22 @@ namespace AirportSimulationSystem
                 {
                     modellingGrid.ColumnCount++;
                     modellingGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / modellingGrid.ColumnCount));
-
                 }
 
                 if (modellingGrid.ColumnCount > Topology.Size.Width)
                 {
                     modellingGrid.ColumnCount--;
-
                 }
 
                 if (modellingGrid.RowCount < Topology.Size.Height)
                 {
                     modellingGrid.RowCount++;
                     modellingGrid.ColumnStyles.Add(new RowStyle(SizeType.Percent, 100 / modellingGrid.RowCount));
-
                 }
 
                 if (modellingGrid.RowCount > Topology.Size.Height)
                 {
                     modellingGrid.RowCount--;
-
                 }
             }
 
@@ -1422,8 +1416,6 @@ namespace AirportSimulationSystem
                     TopologyItemType.Runway => vpp.Image,
                     _ => null
                 };
-
-                CurrentDraggableItem.Type = item.Type;
 
                 if (item.Angle != 0)
                 {
@@ -1481,13 +1473,18 @@ namespace AirportSimulationSystem
             List<Tuple<int, int>> closedlist = createclosed();
             Tuple<int, int> current = start;
             pathlist.Add(current);
-            do
+            bool yee = false;
+            while (yee==false)  
             {
                 Tuple<int, int> next = getNext(current, goal, closedlist);
                 pathlist.Add(next);
                 current = next;
+                if(current.Item1==goal.Item1 & current.Item2 == goal.Item2)
+                {
+                    yee = true;
+                }
             }
-            while (current.Item1 == goal.Item1 && current.Item2 == goal.Item2);
+           
             Debug.WriteLine(pathlist);
             return pathlist;
         }
@@ -1544,7 +1541,7 @@ namespace AirportSimulationSystem
             PictureBox pl= new PictureBox();
             pl.Image = Image.FromFile("C:\\Users\\fluer\\source\\repos\\ASS_2.0\\AirportSimulationSystem\\AirportSimulationSystem\\Resources\\Самолет.png");
             pl.SizeMode = PictureBoxSizeMode.Zoom;
-
+            extendedModellingPanel.Controls.Add(pl);
             foreach (var position in path)
             {
                 //  Plane.Location = new Point(position.Item1*Topology., position.Item2);
@@ -1557,9 +1554,9 @@ namespace AirportSimulationSystem
                 pl.Size = new Size(1 * width - 1, 1 * height - 1);
                 pl.Location = new Point(X * width + 1, Y * height + 1);
 
-                modellingGrid.Refresh();
-                extendedModellingPanel.Refresh();
-                extendedModellingPanel.Controls.Add(pl);
+              //  modellingGrid.Refresh();
+              //  extendedModellingPanel.Refresh();
+              
             }
         }
 
@@ -1581,6 +1578,18 @@ namespace AirportSimulationSystem
 
                 List<Tuple<int, int>> path =  findpath(start, end);
                 movePlane(path);
+                modellingGridView.DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    WrapMode = DataGridViewTriState.True
+                };
+                
+                modellingGridView.DataSource = _flightService
+                   .GetFlights()
+                   .Select(x => (ModellingFlightDTO)x)
+                   .OrderBy(x => DateTime.Parse(x.Time))
+                   .ToArray();
+                modellingGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                modellingGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
          
