@@ -965,7 +965,7 @@ namespace AirportSimulationSystem
             this.extendedModellingPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.extendedModellingPanel.Location = new System.Drawing.Point(611, 32);
             this.extendedModellingPanel.Name = "extendedModellingPanel";
-            this.extendedModellingPanel.Size = new System.Drawing.Size(511, 511);
+            this.extendedModellingPanel.Size = new System.Drawing.Size(521, 521);
             this.extendedModellingPanel.TabIndex = 7;
             // 
             // modellingGrid
@@ -1047,11 +1047,14 @@ namespace AirportSimulationSystem
             // 
             // trackBar1
             // 
+            this.trackBar1.LargeChange = 1;
             this.trackBar1.Location = new System.Drawing.Point(106, 19);
+            this.trackBar1.Maximum = 3;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(542, 45);
             this.trackBar1.TabIndex = 2;
-            this.trackBar1.Value = 3;
+            this.trackBar1.TickFrequency = 5;
+            this.trackBar1.Value = 1;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // modellingTime

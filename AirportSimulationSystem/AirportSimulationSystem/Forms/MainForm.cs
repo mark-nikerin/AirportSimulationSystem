@@ -1496,6 +1496,9 @@ namespace AirportSimulationSystem
             if (MainTabControl.SelectedTab.Text.Equals("Моделирование"))
             {
                 CreateModellingGrid(Topology.Size.Height, Topology.Size.Width);
+
+                extendedModellingPanel.Size = modellingGrid.Size;
+
                 ApplyTopologyModeling();
 
                 modellingGridView.DefaultCellStyle = new DataGridViewCellStyle
@@ -1508,6 +1511,9 @@ namespace AirportSimulationSystem
                   .Select(x => (ModellingFlightDTO)x)
                   .OrderBy(x => DateTime.Parse(x.Time))
                   .ToArray();
+
+                var firstFlight = (modellingGridView.DataSource as ICollection<ModellingFlightDTO>).FirstOrDefault();
+                modellingTime.Value = DateTime.Parse(firstFlight.Time).AddMinutes(-5);
                 modellingGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 modellingGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
@@ -1720,9 +1726,7 @@ namespace AirportSimulationSystem
             }
 
             PlanePath.AddRange(pathFromRunwayToHangar);
-
-
-
+              
             var allRoads = new List<Tuple<int, int>>();
             allRoads.AddRange(pathFromRunwayToHangar);
             allRoads.AddRange(pathFromPassengerTerminalToGarage);
@@ -1864,7 +1868,9 @@ namespace AirportSimulationSystem
         }
          
         private void startButton_Click(object sender, EventArgs e)
-        { 
+        {
+            ApplyRoads(new List<Tuple<int, int>>());
+            extendedModellingPanel.Controls.AddRange(Grass.ToArray());
             if (ItemCounter.AirportBuilding < 1
                 && ItemCounter.CargoTerminal < 1
                 && ItemCounter.PassengerTerminal < 1
@@ -1902,7 +1908,7 @@ namespace AirportSimulationSystem
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             timeScale = trackBar1.Value;
-            timer1.Interval = 1000 / trackBar1.Value;
+            timer1.Interval = trackBar1.Value == 0 ? 0 : 1000 / trackBar1.Value;
             label3.Text = string.Format("{0}x", trackBar1.Value);
         }
 
