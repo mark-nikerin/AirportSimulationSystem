@@ -29,9 +29,12 @@ namespace AirportSimulationSystem
         private static ICityService _cityService;
         private static IFlightService _flightService;
 
-        private static List<Tuple<int, int>> PlanePath;
-        private static List<Tuple<int, int>> BusPath;
-        private static List<Tuple<int, int>> TrackPath;
+        private static List<Tuple<int, int>> BusPath = new List<Tuple<int, int>>();
+        private static List<Tuple<int, int>> TrackPath = new List<Tuple<int, int>>();
+        private static List<Tuple<int, int>> PlanePath = new List<Tuple<int, int>>();
+
+        private static List<PictureBox> Grass = new List<PictureBox>();
+
         private int currentPositionPlane = 0;
         private int currentPositionBus = 0;
         private int currentPositionTrack = 0;
@@ -111,7 +114,8 @@ namespace AirportSimulationSystem
             extendedPanel.AllowDrop = true;
             groupBox1.AllowDrop = true;
 
-            timer1.Interval = 75;
+            timer1.Interval = 1000;
+            timer2.Interval = 100;
             trackBar1.Value = 1;
         }
 
@@ -1411,12 +1415,12 @@ namespace AirportSimulationSystem
             else if (modellingGrid.ColumnCount < modellingGrid.RowCount)
             {
                 ItemSizes.Runway.Width = modellingGrid.ColumnCount - 1;
-            }  
+            }
 
             foreach (var item in Topology.Items)
             {
                 PictureBox pb = new PictureBox(); 
-                pb.BackColor = Color.WhiteSmoke;
+                pb.BackColor = Color.White;
                 pb.BorderStyle = BorderStyle.FixedSingle;
 
                 var X = item.Coordinates.X;
@@ -1465,20 +1469,19 @@ namespace AirportSimulationSystem
 
         private void ApplyRoads(List<Tuple<int, int>> roadPathes)
         {
-            var itemsCells = createclosed();
+            var itemsCells = CreateClosed();
             for (int i = 0; i < Topology.Size.Width; i++)
             {
                 for (int j = 0; j < Topology.Size.Height; j++)
                 {
                     var currentCell = new Tuple<int, int>(i, j);
                     if (!roadPathes.Contains(currentCell) && !itemsCells.Contains(currentCell))
-                    {
-
+                    { 
                         var pathPB = new PictureBox();
-                        pathPB.BackColor = Color.LightGreen;
+                        pathPB.BackColor = Color.DarkSeaGreen;
                         pathPB.Location = new Point(i * TopologyCellWidth + 1, j * TopologyCellHeight + 1);
-                        pathPB.Size = new Size(TopologyCellWidth, TopologyCellHeight);
-                        extendedModellingPanel.Controls.Add(pathPB);
+                        pathPB.Size = new Size(TopologyCellWidth - 1, TopologyCellHeight - 1);
+                        Grass.Add(pathPB);
                     }
                 }
             }
@@ -1495,33 +1498,6 @@ namespace AirportSimulationSystem
                 CreateModellingGrid(Topology.Size.Height, Topology.Size.Width);
                 ApplyTopologyModeling();
 
-                var positionsForTrack = takesPerimeterItemTrack();
-                var positionsForBus = takesPerimeterItemBus();
-                var positionsForPlane= takesPerimeterItemPlane();
-
-                var trackStart = positionsForTrack[0];
-                var trackEnd = positionsForTrack[1];
-
-                var busStart = positionsForBus[0];
-                var busEnd = positionsForBus[1];
-
-                var planeStart = positionsForPlane[0];
-                var planeEnd = positionsForPlane[1];
-
-
-                Plane = new Plane(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(planeStart.Item1 * TopologyCellWidth + 1, planeEnd.Item2 * TopologyCellHeight + 1));
-                PlanePath = findpath(planeStart, planeEnd);
-
-                BusPath = findpath(busStart, busEnd);
-                Bus = new Bus(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(busStart.Item1 * TopologyCellWidth + 1, busStart.Item2 * TopologyCellHeight + 1));
-
-                TrackPath = findpath(trackStart, trackEnd);
-                Track = new Track(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(trackStart.Item1 * TopologyCellWidth + 1, trackStart.Item2 * TopologyCellHeight + 1));
-
-                var allRoads = PlanePath.Union(TrackPath).Union(BusPath).ToList();
-
-                ApplyRoads(allRoads);
-
                 modellingGridView.DefaultCellStyle = new DataGridViewCellStyle
                 {
                     WrapMode = DataGridViewTriState.True
@@ -1535,16 +1511,231 @@ namespace AirportSimulationSystem
                 modellingGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 modellingGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
-        }
+        } 
 
-        private static Tuple<int, int> takestartpointPlane()
+        private void MakeDeparturePaths()
         {
-            Tuple<int, int> start = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.X, Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.Y - 1);
+            var positionsForTrack = takesPerimeterItemTrack();
+            var positionsForBus = takesPerimeterItemBus();
+            var positionsForPlane = takesPerimeterItemPlane();
 
-            return start;
+            var garageTrackPosition = positionsForTrack[0];
+            var cargoTerminalPosition = positionsForTrack[1];
+
+            var garageBusPosition = positionsForBus[0];
+            var passengerTerminalPosition = positionsForBus[1];
+
+            var hangarPosition = positionsForPlane[0];
+            var runwayPosition = positionsForPlane[1];
+
+            var nearPlaneBusPosition = TakeBest(garageBusPosition, runwayPosition);
+            var nearPlaneTrackPosition = TakeBest(garageTrackPosition, runwayPosition);
+
+            Plane = new Plane(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(hangarPosition.Item1 * TopologyCellWidth + 1, runwayPosition.Item2 * TopologyCellHeight + 1));
+            Bus = new Bus(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(garageBusPosition.Item1 * TopologyCellWidth + 1, garageBusPosition.Item2 * TopologyCellHeight + 1));
+            Track = new Track(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(garageTrackPosition.Item1 * TopologyCellWidth + 1, garageTrackPosition.Item2 * TopologyCellHeight + 1));
+
+            var pathFromHangarToRunway = FindPath(hangarPosition, runwayPosition);
+            var pathFromGarageToPassengerTerminal = FindPath(garageBusPosition, passengerTerminalPosition);
+            var pathFromGarageToCargoTerminal = FindPath(garageTrackPosition, cargoTerminalPosition);
+            var pathFromCargoTerminalToRunway = FindPath(cargoTerminalPosition, nearPlaneTrackPosition);
+            var pathFromPassengerTerminalToRunway = FindPath(passengerTerminalPosition, nearPlaneBusPosition);
+            var pathFromRunwayToGarageBus = FindPath(runwayPosition, garageBusPosition);
+            var pathFromRunwayToGarageTrack = FindPath(runwayPosition, garageTrackPosition);
+
+            BusPath.AddRange(pathFromGarageToPassengerTerminal);
+            for (int i = 0; i <= 10; i++)
+            {
+                BusPath.Add(pathFromGarageToPassengerTerminal.Last());
+            } 
+            BusPath.AddRange(pathFromPassengerTerminalToRunway);
+            for (int i = 0; i <= 10; i++)
+            {
+                BusPath.Add(pathFromPassengerTerminalToRunway.Last());
+            }
+            pathFromPassengerTerminalToRunway.Reverse();
+            BusPath.AddRange(pathFromPassengerTerminalToRunway);
+            for (int i = 0; i <= 10; i++)
+            {
+                BusPath.Add(pathFromPassengerTerminalToRunway.Last());
+            }
+            pathFromPassengerTerminalToRunway.Reverse();
+            BusPath.AddRange(pathFromPassengerTerminalToRunway);
+            for (int i = 0; i <= 10; i++)
+            {
+                BusPath.Add(pathFromPassengerTerminalToRunway.Last());
+            }
+            BusPath.AddRange(pathFromRunwayToGarageBus);
+
+            #region TrackPath
+
+            TrackPath.AddRange(pathFromGarageToCargoTerminal);
+            for (int i = 0; i <= 10; i++)
+            {
+                TrackPath.Add(pathFromGarageToCargoTerminal.Last());
+            }
+            TrackPath.AddRange(pathFromCargoTerminalToRunway);
+            for (int i = 0; i <= 10; i++)
+            {
+                TrackPath.Add(pathFromCargoTerminalToRunway.Last());
+            }
+            pathFromCargoTerminalToRunway.Reverse();
+            TrackPath.AddRange(pathFromCargoTerminalToRunway);
+            for (int i = 0; i <= 10; i++)
+            {
+                TrackPath.Add(pathFromCargoTerminalToRunway.Last());
+            }
+            pathFromCargoTerminalToRunway.Reverse();
+            TrackPath.AddRange(pathFromCargoTerminalToRunway);
+            for (int i = 0; i <= 10; i++)
+            {
+                TrackPath.Add(pathFromCargoTerminalToRunway.Last());
+            }
+            TrackPath.AddRange(pathFromRunwayToGarageTrack); 
+
+            #endregion
+
+            PlanePath.AddRange(pathFromHangarToRunway);
+            for (int i = 0; i <= Math.Min(TrackPath.Count, BusPath.Count); i++)
+            {
+                PlanePath.Add(pathFromHangarToRunway.Last());
+            }
+            var vpp = Topology.Items.Where(x => x.Type == TopologyItemType.Runway).First();
+            var startVPP = pathFromHangarToRunway.Last();
+            for (int i = vpp.Coordinates.X + vpp.Size.Width; i >= vpp.Coordinates.X - 1; i--)
+            {
+                PlanePath.Add(new Tuple<int, int>(i, startVPP.Item2));
+            } 
+
+            var allRoads = new List<Tuple<int, int>>();
+            allRoads.AddRange(pathFromHangarToRunway);
+            allRoads.AddRange(pathFromPassengerTerminalToRunway);
+            allRoads.AddRange(pathFromCargoTerminalToRunway);
+            allRoads.AddRange(pathFromGarageToCargoTerminal);
+            allRoads.AddRange(pathFromGarageToPassengerTerminal);
+            allRoads.AddRange(pathFromRunwayToGarageBus);
+            allRoads.AddRange(pathFromRunwayToGarageTrack);
+
+            ApplyRoads(allRoads);
+        }
+        
+        private void MakeArrivalPaths()
+        {
+            var positionsForTrack = takesPerimeterItemTrack();
+            var positionsForBus = takesPerimeterItemBus();
+            var positionsForPlane = takesPerimeterItemPlane();
+
+            var garageTrackPosition = positionsForTrack[0];
+            var cargoTerminalPosition = positionsForTrack[1];
+
+            var garageBusPosition = positionsForBus[0];
+            var passengerTerminalPosition = positionsForBus[1];
+
+            var hangarPosition = positionsForPlane[0];
+            var runwayPosition = positionsForPlane[1];
+
+            var nearPlaneBusPosition = TakeBest(garageBusPosition, runwayPosition);
+            var nearPlaneTrackPosition = TakeBest(garageTrackPosition, runwayPosition);
+
+            Plane = new Plane(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(hangarPosition.Item1 * TopologyCellWidth + 1, runwayPosition.Item2 * TopologyCellHeight + 1));
+            Bus = new Bus(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(garageBusPosition.Item1 * TopologyCellWidth + 1, garageBusPosition.Item2 * TopologyCellHeight + 1));
+            Track = new Track(new Size(TopologyCellWidth - 1, TopologyCellHeight - 1), new Point(garageTrackPosition.Item1 * TopologyCellWidth + 1, garageTrackPosition.Item2 * TopologyCellHeight + 1));
+
+            var pathFromRunwayToHangar = FindPath(runwayPosition, hangarPosition);
+            var pathFromPassengerTerminalToGarage = FindPath(passengerTerminalPosition, garageBusPosition);
+            var pathFromCargoTerminalToGarage = FindPath(cargoTerminalPosition, garageTrackPosition);
+            var pathFromRunwayToCargoTerminal = FindPath(nearPlaneTrackPosition, cargoTerminalPosition);
+            var pathFromRunwayToPassengerTerminal = FindPath(nearPlaneBusPosition, passengerTerminalPosition);
+            var pathFromGarageBusToRunway = FindPath(garageBusPosition, nearPlaneBusPosition);
+            var pathFromGarageTrackToRunway = FindPath(garageTrackPosition, nearPlaneTrackPosition);
+             
+            var vpp = Topology.Items.Where(x => x.Type == TopologyItemType.Runway).First();
+            var startVPP = vpp.Coordinates.Y + 1;
+            for (int i = vpp.Coordinates.X; i <= vpp.Coordinates.X + vpp.Size.Width; i++)
+            {
+                PlanePath.Add(new Tuple<int, int>(i, startVPP));
+            }
+
+            for (int i = 0; i <= PlanePath.Count; i++)
+            {
+                BusPath.Add(pathFromGarageBusToRunway.First());
+            }
+            BusPath.AddRange(pathFromGarageBusToRunway);
+            for (int i = 0; i <= 10; i++)
+            {
+                BusPath.Add(pathFromGarageBusToRunway.Last());
+            }
+            BusPath.AddRange(pathFromRunwayToPassengerTerminal);
+            for (int i = 0; i <= 10; i++)
+            {
+                BusPath.Add(pathFromRunwayToPassengerTerminal.Last());
+            }
+            pathFromRunwayToPassengerTerminal.Reverse();
+            BusPath.AddRange(pathFromRunwayToPassengerTerminal);
+            for (int i = 0; i <= 10; i++)
+            {
+                BusPath.Add(pathFromRunwayToPassengerTerminal.Last());
+            }
+            pathFromRunwayToPassengerTerminal.Reverse();
+            BusPath.AddRange(pathFromRunwayToPassengerTerminal);
+            for (int i = 0; i <= 10; i++)
+            {
+                BusPath.Add(pathFromRunwayToPassengerTerminal.Last());
+            }
+            BusPath.AddRange(pathFromPassengerTerminalToGarage);
+
+            #region TrackPath
+            for (int i = 0; i <= PlanePath.Count; i++)
+            {
+                TrackPath.Add(pathFromGarageTrackToRunway.First());
+            }
+            TrackPath.AddRange(pathFromGarageTrackToRunway);
+            for (int i = 0; i <= 10; i++)
+            {
+                TrackPath.Add(pathFromGarageTrackToRunway.Last());
+            }
+            TrackPath.AddRange(pathFromRunwayToCargoTerminal);
+            for (int i = 0; i <= 10; i++)
+            {
+                TrackPath.Add(pathFromRunwayToCargoTerminal.Last());
+            }
+            pathFromRunwayToCargoTerminal.Reverse();
+            TrackPath.AddRange(pathFromRunwayToCargoTerminal);
+            for (int i = 0; i <= 10; i++)
+            {
+                TrackPath.Add(pathFromRunwayToCargoTerminal.Last());
+            }
+            pathFromRunwayToCargoTerminal.Reverse();
+            TrackPath.AddRange(pathFromRunwayToCargoTerminal);
+            for (int i = 0; i <= 10; i++)
+            {
+                TrackPath.Add(pathFromRunwayToCargoTerminal.Last());
+            }
+            TrackPath.AddRange(pathFromCargoTerminalToGarage);
+            #endregion
+
+            for (int i = 0; i <= Math.Min(TrackPath.Count, BusPath.Count); i++)
+            {
+                PlanePath.Add(pathFromRunwayToHangar.First());
+            }
+
+            PlanePath.AddRange(pathFromRunwayToHangar);
+
+
+
+            var allRoads = new List<Tuple<int, int>>();
+            allRoads.AddRange(pathFromRunwayToHangar);
+            allRoads.AddRange(pathFromPassengerTerminalToGarage);
+            allRoads.AddRange(pathFromCargoTerminalToGarage);
+            allRoads.AddRange(pathFromRunwayToCargoTerminal);
+            allRoads.AddRange(pathFromRunwayToPassengerTerminal);
+            allRoads.AddRange(pathFromGarageBusToRunway);
+            allRoads.AddRange(pathFromGarageTrackToRunway);
+
+            ApplyRoads(allRoads);
         }
 
-        private static List<Tuple<int, int>> createclosed()
+        private static List<Tuple<int, int>> CreateClosed()
         {
             List<Tuple<int, int>> closedlist = new List<Tuple<int, int>>();
             foreach (var item in Topology.Items)
@@ -1565,16 +1756,16 @@ namespace AirportSimulationSystem
             return Math.Abs(current.Item1 - goal.Item1) + Math.Abs(current.Item2 - goal.Item2);
         }
 
-        private static List<Tuple<int, int>> findpath(Tuple<int, int> start, Tuple<int, int> goal)
+        private static List<Tuple<int, int>> FindPath(Tuple<int, int> start, Tuple<int, int> goal)
         {
             List<Tuple<int, int>> pathlist = new List<Tuple<int, int>>(); 
-            List<Tuple<int, int>> closedlist = createclosed();
+            List<Tuple<int, int>> closedlist = CreateClosed();
             Tuple<int, int> current = start;
             pathlist.Add(current);
             bool yee = false;
             while (yee == false)
             {
-                Tuple<int, int> next = getNext(current, goal, closedlist); 
+                Tuple<int, int> next = GetNext(current, goal, closedlist); 
                 pathlist.Add(next);
                 current = next;
                 if (current.Item1 == goal.Item1 & current.Item2 == goal.Item2)
@@ -1586,9 +1777,9 @@ namespace AirportSimulationSystem
             return pathlist;
         }
 
-        private static Tuple<int, int> getNext(Tuple<int, int> current, Tuple<int, int> goal, List<Tuple<int, int>> closedlist)
+        private static Tuple<int, int> GetNext(Tuple<int, int> current, Tuple<int, int> goal, List<Tuple<int, int>> closedlist)
         {
-            List<Tuple<int, int>> neighbourslist = getneighbours(current, closedlist);
+            List<Tuple<int, int>> neighbourslist = GetNeighbours(current, closedlist);
             int currentcost = 100;
             foreach (var neighbours in neighbourslist)
             {
@@ -1602,7 +1793,7 @@ namespace AirportSimulationSystem
             return current;
         }
 
-        private static List<Tuple<int, int>> getneighbours(Tuple<int, int> current, List<Tuple<int, int>> closedlist)
+        private static List<Tuple<int, int>> GetNeighbours(Tuple<int, int> current, List<Tuple<int, int>> closedlist)
         {
             var result = new List<Tuple<int, int>>();
 
@@ -1642,7 +1833,7 @@ namespace AirportSimulationSystem
             return result;
         }
 
-        private static List<Tuple<int, int>> getneighboursPlane(Tuple<int, int> current, List<Tuple<int, int>> closedlist)
+        private static List<Tuple<int, int>> GetNeighboursPlane(Tuple<int, int> current, List<Tuple<int, int>> closedlist)
         {
             var result = new List<Tuple<int, int>>();
 
@@ -1671,48 +1862,9 @@ namespace AirportSimulationSystem
             Debug.Write(Application.StartupPath);
             Help.ShowHelp(this, Application.StartupPath + @"\Resources\info.chm");
         }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            modellingTime.Value = modellingTime.Value.AddMinutes(timeScale);
-            modellingTime.Refresh();
-
-            var flights = (ICollection<ModellingFlightDTO>)modellingGridView.DataSource;
-
-            modellingGridView.DataSource = flights
-                .Where(x => DateTime.Parse(x.Time).Hour > modellingTime.Value.Hour
-                || DateTime.Parse(x.Time).Hour == modellingTime.Value.Hour && DateTime.Parse(x.Time).Minute > modellingTime.Value.Minute)
-                .ToArray();
-
-            if (currentPositionPlane < PlanePath.Count)
-            {
-                Plane.MoveTo(new Point(PlanePath[currentPositionPlane].Item1 * TopologyCellWidth + 1, PlanePath[currentPositionPlane].Item2 * TopologyCellHeight + 1));
-                Plane.Model.Refresh();
-                currentPositionPlane++;
-            }
-
-            if (currentPositionBus < BusPath.Count)
-            {
-                Bus.MoveTo(new Point(BusPath[currentPositionBus].Item1 * TopologyCellWidth + 1, BusPath[currentPositionBus].Item2 * TopologyCellHeight + 1));
-                Bus.Model.Refresh();
-                currentPositionBus++;
-            }
-
-            if (currentPositionTrack < TrackPath.Count)
-            {
-                Track.MoveTo(new Point(TrackPath[currentPositionTrack].Item1 * TopologyCellWidth + 1, TrackPath[currentPositionTrack].Item2 * TopologyCellHeight + 1));
-                Track.Model.Refresh();
-                currentPositionTrack++;
-            }
-
-
-        }
-
+         
         private void startButton_Click(object sender, EventArgs e)
-        {
-            currentPositionBus = 0;
-            currentPositionPlane = 0;
-            currentPositionTrack = 0;
+        { 
             if (ItemCounter.AirportBuilding < 1
                 && ItemCounter.CargoTerminal < 1
                 && ItemCounter.PassengerTerminal < 1
@@ -1724,24 +1876,17 @@ namespace AirportSimulationSystem
                 {
                     startButton.Text = "СТАРТ";
                     timer1.Stop();
+                    timer2.Stop();
                     trackBar1.Value = 1;
                     timeScale = trackBar1.Value;
-                    label3.Text = string.Format("{0}x", trackBar1.Value);
-
-
-
-                    extendedModellingPanel.Controls.Remove(Plane.Model);
-                    extendedModellingPanel.Controls.Remove(Track.Model);
-                    extendedModellingPanel.Controls.Remove(Bus.Model);
+                    label3.Text = string.Format("{0}x", trackBar1.Value); 
                 }
                 else
-                {
+                {  
+                    timer1.Interval = 1000 / trackBar1.Value;
+ 
                     timer1.Start();
-                    startButton.Text = "СТОП";
-
-                    extendedModellingPanel.Controls.Add(Plane.Model);
-                    extendedModellingPanel.Controls.Add(Track.Model);
-                    extendedModellingPanel.Controls.Add(Bus.Model);
+                    startButton.Text = "СТОП";  
                 }
             }
             else
@@ -1757,6 +1902,7 @@ namespace AirportSimulationSystem
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             timeScale = trackBar1.Value;
+            timer1.Interval = 1000 / trackBar1.Value;
             label3.Text = string.Format("{0}x", trackBar1.Value);
         }
 
@@ -1776,10 +1922,9 @@ namespace AirportSimulationSystem
          
         private static List<Tuple<int, int>> takesPerimeterItemPlane()
         { 
-            // model Controls["Airport"]
             List<Tuple<int, int>> closedlist, midllist_1, midlist_2, start_end_list, end_list, start_list;
             Tuple<int, int> start_runway, end_runway, current, best_start, best_end;
-            closedlist = createclosed();
+            closedlist = CreateClosed();
             start_runway = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.Hangar).FirstOrDefault().Coordinates.X, Topology.Items.Where(x => x.Type == TopologyItemType.Hangar).FirstOrDefault().Coordinates.Y);
             end_runway = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.X, Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Coordinates.Y);
 
@@ -1789,7 +1934,7 @@ namespace AirportSimulationSystem
                 for (int j = start_runway.Item2; j < start_runway.Item2 + Topology.Items.Where(x => x.Type == TopologyItemType.Hangar).FirstOrDefault().Size.Height; j++)
                 {
                     current = new Tuple<int, int>(i, j);
-                    midllist_1 = getneighbours(current, closedlist);
+                    midllist_1 = GetNeighbours(current, closedlist);
                     foreach (var neighbors in midllist_1)
                     {
                         if (!start_list.Contains(neighbors))
@@ -1807,7 +1952,7 @@ namespace AirportSimulationSystem
                 for (int l = end_runway.Item2; l < end_runway.Item2 + Topology.Items.Where(x => x.Type == TopologyItemType.Runway).FirstOrDefault().Size.Height; l++)
                 {
                     current = new Tuple<int, int>(k, l);
-                    midlist_2 = getneighboursPlane(current, closedlist);
+                    midlist_2 = GetNeighboursPlane(current, closedlist);
                     foreach (var neighbors in midlist_2)
                     {
                         if (!end_list.Contains(neighbors))
@@ -1818,6 +1963,7 @@ namespace AirportSimulationSystem
                     }
                 }
             }
+            
             best_start = new Tuple<int, int>(0, 0);
             best_end = new Tuple<int, int>(0, 0);
             int best_cost = 100;
@@ -1849,7 +1995,7 @@ namespace AirportSimulationSystem
 
             List<Tuple<int, int>> closedlist, midllist_1, midlist_2, start_end_list, end_list, start_list;
             Tuple<int, int> start_runway, end_runway, current, best_start, best_end;
-            closedlist = createclosed();
+            closedlist = CreateClosed();
             start_runway = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.Garage).FirstOrDefault().Coordinates.X, Topology.Items.Where(x => x.Type == TopologyItemType.Garage).FirstOrDefault().Coordinates.Y);
             end_runway = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.PassengerTerminal).FirstOrDefault().Coordinates.X, Topology.Items.Where(x => x.Type == TopologyItemType.PassengerTerminal).FirstOrDefault().Coordinates.Y);
 
@@ -1859,7 +2005,7 @@ namespace AirportSimulationSystem
                 for (int j = start_runway.Item2; j < start_runway.Item2 + Topology.Items.Where(x => x.Type == TopologyItemType.Garage).FirstOrDefault().Size.Height; j++)
                 {
                     current = new Tuple<int, int>(i, j);
-                    midllist_1 = getneighbours(current, closedlist);
+                    midllist_1 = GetNeighbours(current, closedlist);
                     foreach (var neighbors in midllist_1)
                     {
                         if (!start_list.Contains(neighbors))
@@ -1877,7 +2023,7 @@ namespace AirportSimulationSystem
                 for (int l = end_runway.Item2; l < end_runway.Item2 + Topology.Items.Where(x => x.Type == TopologyItemType.PassengerTerminal).FirstOrDefault().Size.Height; l++)
                 {
                     current = new Tuple<int, int>(k, l);
-                    midlist_2 = getneighbours(current, closedlist);
+                    midlist_2 = GetNeighbours(current, closedlist);
                     foreach (var neighbors in midlist_2)
                     {
                         if (!end_list.Contains(neighbors))
@@ -1919,7 +2065,7 @@ namespace AirportSimulationSystem
 
             List<Tuple<int, int>> closedlist, midllist_1, midlist_2, start_end_list, end_list, start_list;
             Tuple<int, int> start_runway, end_runway, current, best_start, best_end;
-            closedlist = createclosed();
+            closedlist = CreateClosed();
             start_runway = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.Garage).FirstOrDefault().Coordinates.X, Topology.Items.Where(x => x.Type == TopologyItemType.Garage).FirstOrDefault().Coordinates.Y);
             end_runway = new Tuple<int, int>(Topology.Items.Where(x => x.Type == TopologyItemType.CargoTerminal).FirstOrDefault().Coordinates.X, Topology.Items.Where(x => x.Type == TopologyItemType.CargoTerminal).FirstOrDefault().Coordinates.Y);
 
@@ -1929,7 +2075,7 @@ namespace AirportSimulationSystem
                 for (int j = start_runway.Item2; j < start_runway.Item2 + Topology.Items.Where(x => x.Type == TopologyItemType.Garage).FirstOrDefault().Size.Height; j++)
                 {
                     current = new Tuple<int, int>(i, j);
-                    midllist_1 = getneighbours(current, closedlist);
+                    midllist_1 = GetNeighbours(current, closedlist);
                     foreach (var neighbors in midllist_1)
                     {
                         if (!start_list.Contains(neighbors))
@@ -1947,7 +2093,7 @@ namespace AirportSimulationSystem
                 for (int l = end_runway.Item2; l < end_runway.Item2 + Topology.Items.Where(x => x.Type == TopologyItemType.CargoTerminal).FirstOrDefault().Size.Height; l++)
                 {
                     current = new Tuple<int, int>(k, l);
-                    midlist_2 = getneighbours(current, closedlist);
+                    midlist_2 = GetNeighbours(current, closedlist);
                     foreach (var neighbors in midlist_2)
                     {
                         if (!end_list.Contains(neighbors))
@@ -1982,7 +2128,134 @@ namespace AirportSimulationSystem
 
 
             return start_end_list;
-        } 
-      
+        }
+
+        private static Tuple<int, int> TakeBest(Tuple<int, int> start, Tuple<int, int> end)
+        {
+            List<Tuple<int, int>> closedlist, neighbourslist;
+            Tuple<int, int> best_end;
+            closedlist = CreateClosed();
+            neighbourslist = GetNeighbours(end, closedlist);
+
+            best_end = new Tuple<int, int>(0, 0);
+            int best_cost = 100;
+            int current_cost;
+            foreach (var neighbours in neighbourslist)
+            {
+                current_cost = getheuristicpathlength(start, neighbours);
+                if (current_cost < best_cost)
+                {
+                    best_cost = current_cost;
+                    best_end = neighbours;
+
+                }
+
+            }
+            return best_end;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            modellingTime.Value = modellingTime.Value.AddMinutes(timeScale);
+            modellingTime.Refresh();
+
+            var flights = (ICollection<ModellingFlightDTO>)modellingGridView.DataSource;
+
+            var pendingFlight = flights.FirstOrDefault();
+
+            if (pendingFlight != null && !timer2.Enabled)
+            {
+
+                var diff = DateTime.Parse(pendingFlight.Time).Hour * 60 + DateTime.Parse(pendingFlight.Time).Minute - modellingTime.Value.Hour * 60 - modellingTime.Value.Minute;
+                if (pendingFlight.FlightType.Equals("Вылет", StringComparison.OrdinalIgnoreCase) 
+                    && diff <= 30 && diff >= 24)
+                {
+                    currentPositionTrack = 0;
+                    currentPositionBus = 0;
+                    currentPositionPlane = 0;
+                    TrackPath = new List<Tuple<int, int>>();
+                    BusPath = new List<Tuple<int, int>>();
+                    PlanePath = new List<Tuple<int, int>>();
+                    foreach (var pb in Grass)
+                    {
+                        extendedModellingPanel.Controls.Remove(pb);
+                    }
+                    Grass = new List<PictureBox>();
+                    MakeDeparturePaths();
+                    extendedModellingPanel.Controls.AddRange(Grass.ToArray());
+                    extendedModellingPanel.Controls.Add(Plane.Model);
+                    extendedModellingPanel.Controls.Add(Track.Model);
+                    extendedModellingPanel.Controls.Add(Bus.Model);
+                    Plane.Model.BringToFront();
+                    timer2.Interval = ((25 * timer1.Interval) / Math.Max(Math.Max(PlanePath.Count, BusPath.Count), TrackPath.Count)) / trackBar1.Value;
+                    timer2.Start();
+                }
+                if (pendingFlight.FlightType.Equals("Прибытие", StringComparison.OrdinalIgnoreCase) && diff <= 2 && diff >= 0)
+                {
+                    currentPositionTrack = 0;
+                    currentPositionBus = 0;
+                    currentPositionPlane = 0;
+                    TrackPath = new List<Tuple<int, int>>();
+                    BusPath = new List<Tuple<int, int>>();
+                    PlanePath = new List<Tuple<int, int>>(); 
+                    foreach (var pb in Grass)
+                    {
+                        extendedModellingPanel.Controls.Remove(pb);
+                    }
+                    Grass = new List<PictureBox>();
+                    MakeArrivalPaths();
+                    extendedModellingPanel.Controls.AddRange(Grass.ToArray()); 
+                    extendedModellingPanel.Controls.Add(Plane.Model);
+                    extendedModellingPanel.Controls.Add(Track.Model);
+                    extendedModellingPanel.Controls.Add(Bus.Model);
+                    Plane.Model.BringToFront();
+                    timer2.Interval = ((25 * timer1.Interval) / Math.Max(Math.Max(PlanePath.Count, BusPath.Count), TrackPath.Count)) / trackBar1.Value;
+                    timer2.Start();
+                }
+            }
+
+            modellingGridView.DataSource = flights
+                .Where(x => DateTime.Parse(x.Time).Hour > modellingTime.Value.Hour
+                || DateTime.Parse(x.Time).Hour == modellingTime.Value.Hour && DateTime.Parse(x.Time).Minute > modellingTime.Value.Minute)
+                .ToArray();
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if (currentPositionPlane < PlanePath.Count)
+            {
+                Plane.MoveTo(new Point(PlanePath[currentPositionPlane].Item1 * TopologyCellWidth + 1, PlanePath[currentPositionPlane].Item2 * TopologyCellHeight + 1));
+                Plane.Model.Refresh();
+                currentPositionPlane++;
+            }
+
+            if (currentPositionBus < BusPath.Count)
+            {
+                Bus.MoveTo(new Point(BusPath[currentPositionBus].Item1 * TopologyCellWidth + 1, BusPath[currentPositionBus].Item2 * TopologyCellHeight + 1));
+                Bus.Model.Refresh();
+                currentPositionBus++;
+            }
+
+            if (currentPositionTrack < TrackPath.Count)
+            {
+                Track.MoveTo(new Point(TrackPath[currentPositionTrack].Item1 * TopologyCellWidth + 1, TrackPath[currentPositionTrack].Item2 * TopologyCellHeight + 1));
+                Track.Model.Refresh();
+                currentPositionTrack++;
+            }
+
+            if (currentPositionTrack >= TrackPath.Count && currentPositionBus >= BusPath.Count && currentPositionPlane >= PlanePath.Count)
+            {
+                timer2.Stop();
+                extendedModellingPanel.Controls.Remove(Plane.Model);
+                extendedModellingPanel.Controls.Remove(Track.Model);
+                extendedModellingPanel.Controls.Remove(Bus.Model);
+                currentPositionTrack = 0;
+                currentPositionBus = 0;
+                currentPositionPlane = 0; 
+                TrackPath = new List<Tuple<int, int>>();
+                BusPath = new List<Tuple<int, int>>();
+                PlanePath = new List<Tuple<int, int>>();
+            }
+        }
     }
 }

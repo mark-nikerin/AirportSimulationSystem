@@ -16,6 +16,8 @@ namespace AirportSimulationSystem.Models.Modelling
             Model.SizeMode = PictureBoxSizeMode.Zoom;
             Model.Size = size;
             Model.Location = startPoint;
+            Model.Name = type;
+            Model.BackColor = Color.Transparent;
         }
 
         public void Rotate(float angle)

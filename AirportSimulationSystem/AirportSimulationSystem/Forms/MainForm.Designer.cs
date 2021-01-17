@@ -108,6 +108,7 @@ namespace AirportSimulationSystem
             this.plusHorButton = new System.Windows.Forms.Button();
             this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.MainTabControl.SuspendLayout();
             this.MainPage.SuspendLayout();
@@ -960,7 +961,7 @@ namespace AirportSimulationSystem
             // 
             this.extendedModellingPanel.AllowDrop = true;
             this.extendedModellingPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.extendedModellingPanel.BackColor = System.Drawing.Color.LightSlateGray;
+            this.extendedModellingPanel.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.extendedModellingPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.extendedModellingPanel.Location = new System.Drawing.Point(611, 32);
             this.extendedModellingPanel.Name = "extendedModellingPanel";
@@ -1137,6 +1138,10 @@ namespace AirportSimulationSystem
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // timer2
+            // 
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1255,5 +1260,6 @@ namespace AirportSimulationSystem
         private DataGridView modellingGridView;
         private Label ModellingScheduleLabel;
         private Timer timer1;
+        private Timer timer2;
     }
 }
